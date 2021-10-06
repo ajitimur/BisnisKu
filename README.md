@@ -80,3 +80,7 @@ _Ledger_
 >- User dan Ledger = One-to-Many
 >- Ledger dan Account = One-to-Many
 >- Ledger dan Transaction = One-to-One
+
+
+## Schema :
+- - ![Image info](./imgBuatMd/Schema-fix.png)
