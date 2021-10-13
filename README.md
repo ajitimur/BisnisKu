@@ -75,7 +75,7 @@ _Ledger_
 >- User dan Product = One-to-Many
 >- User dan Transaction = One-to-Many
 >- Costumer dan Transaction = One-to-Many
->- Product dan Transaction = Many-to-Many
+>- Product dan Transaction = One-to-Many
 >- Account dan Category = One-to-Many
 >- User dan Ledger = One-to-Many
 >- Ledger dan Account = One-to-Many
