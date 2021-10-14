@@ -15,7 +15,7 @@ class userController {
           const access_token = sign({
             id: foundUser.id,
             username: foundUser.username,
-            role: foundUser.role,
+            businessName: foundUser.businessName,
           });
           res.status(200).json({
             access_token,
