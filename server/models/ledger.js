@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    description: DataTypes.STRING,
     amount: {
       type: DataTypes.INTEGER,
       allowNull: false,

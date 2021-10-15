@@ -18,6 +18,9 @@ module.exports = {
         onUpdate: `Cascade`,
         onDelete: `Cascade`
       },
+      description: {
+        type: Sequelize.STRING
+      },
       transactionType: {
         allowNull: false,
         type: Sequelize.INTEGER

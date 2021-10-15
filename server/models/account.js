@@ -24,7 +24,6 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    description: DataTypes.STRING,
     CategoryId: {
       type: DataTypes.INTEGER,
       allowNull: false,
