@@ -119,6 +119,7 @@ class PenjualanController{
     const userId = req.user.id
     const customerId = customer.id
     
+    const t = await sequelize.transaction()
     try {
       const foundProduct = await Product.findByPk(productId)
 
