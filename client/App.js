@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NativeBaseProvider } from "native-base";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import {
   LoginScreen,
   RegisterScreen,
@@ -29,13 +28,10 @@ function MainTab() {
 }
 
 export default function App() {
-  const [isSignedIn, setIsSignedIn] = useState(false);
   async function checkToken() {
     try {
       const value = await AsyncStorage.getItem("access_token");
-      console.log(value);
       if (value) {
-        // setIsSignedIn(true);
         return true;
       } else {
         return false;
@@ -44,10 +40,6 @@ export default function App() {
       console.log(err);
     }
   }
-  useEffect(() => {
-    // checkToken(); // eslint-disable-next-line
-    console.log(isSignedIn);
-  }, []);
 
   return (
     <Provider store={store}>
@@ -77,7 +69,6 @@ export default function App() {
                   headerTitle: "",
                 }}
               />
-              {console.log("INI KALO FALSE SIGN IN NYAA")}
             </Stack.Navigator>
           ) : (
             <Stack.Navigator initialRouteName="MainTab">
@@ -88,7 +79,6 @@ export default function App() {
                   headerShown: false,
                 }}
               />
-              {console.log("<<<<<<<<<<<<<<<<<<<INI KALO TRUE>>>>>>>>")}
               <Stack.Screen
                 name="Login"
                 component={LoginScreen}
