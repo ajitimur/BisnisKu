@@ -25,7 +25,7 @@ export default function LainnyaScreen({ navigation }) {
               ],
             })
           )
-          AsyncStorage.clear()
+          AsyncStorage.removeItem("access_token")
         }}
       >
         Back To Login
