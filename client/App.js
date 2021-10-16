@@ -1,5 +1,9 @@
-import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import {
+  NavigationContainer,
+  CommonActions,
+  useNavigation,
+} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NativeBaseProvider } from "native-base";
@@ -11,6 +15,7 @@ import {
   PembelianScreen,
   LainnyaScreen,
 } from "./src/screens";
+import Mainnavigation from "./src/navigations/MainNavigation";
 import { Provider } from "react-redux";
 import { store } from "./src/store";
 
@@ -27,76 +32,68 @@ function MainTab() {
   );
 }
 
-export default function App() {
-  async function checkToken() {
+export default function App({ navigation }) {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const checkToken = async () => {
+    // const navigation = useNavigation();
     try {
       const value = await AsyncStorage.getItem("access_token");
+      console.log(value);
       if (value) {
+        console.log("true");
+        setIsSignedIn(true);
         return true;
-      } else {
-        return false;
       }
+      console.log("false");
+      setIsSignedIn(false);
+      return false;
     } catch (err) {
       console.log(err);
     }
-  }
+  };
+  const signScreen = () => (
+    <Stack.Navigator initialRouteName="Login">
+      {console.log("ini sign screen")}
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{
+          headerTransparent: true,
+          headerShadowVisible: false,
+          animation: "slide_from_right",
+          headerTitle: "",
+        }}
+      />
+    </Stack.Navigator>
+  );
+
+  const appScreen = () => (
+    <Stack.Navigator initialRouteName="MainTab">
+      {console.log("ini app screen")}
+      <Stack.Screen
+        name="MainTab"
+        component={MainTab}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
+
+  useEffect(() => {
+    console.log("???????????????????????");
+    checkToken();
+  }, []);
 
   return (
     <Provider store={store}>
       <NativeBaseProvider>
-        <NavigationContainer>
-          {!checkToken() ? (
-            <Stack.Navigator initialRouteName="Login">
-              <Stack.Screen
-                name="MainTab"
-                component={MainTab}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="Login"
-                component={LoginScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Register"
-                component={RegisterScreen}
-                options={{
-                  headerTransparent: true,
-                  headerShadowVisible: false,
-                  animation: "slide_from_right",
-                  headerTitle: "",
-                }}
-              />
-            </Stack.Navigator>
-          ) : (
-            <Stack.Navigator initialRouteName="MainTab">
-              <Stack.Screen
-                name="MainTab"
-                component={MainTab}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="Login"
-                component={LoginScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Register"
-                component={RegisterScreen}
-                options={{
-                  headerTransparent: true,
-                  headerShadowVisible: false,
-                  animation: "slide_from_right",
-                  headerTitle: "",
-                }}
-              />
-            </Stack.Navigator>
-          )}
-        </NavigationContainer>
+        <Mainnavigation />
       </NativeBaseProvider>
     </Provider>
   );
