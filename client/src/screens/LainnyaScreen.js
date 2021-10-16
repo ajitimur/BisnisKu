@@ -5,6 +5,7 @@ import {
   Text,
   Button
 } from 'native-base'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LainnyaScreen({ navigation }) {
   return (
@@ -15,14 +16,17 @@ export default function LainnyaScreen({ navigation }) {
     >
       <Text>Lainnya Screen</Text>
       <Button
-        onPress={() => navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [
-              { name: 'Login' }
-            ],
-          })
-        )}
+        onPress={() => {
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [
+                { name: 'Login' }
+              ],
+            })
+          )
+          AsyncStorage.clear()
+        }}
       >
         Back To Login
       </Button>
