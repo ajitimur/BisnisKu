@@ -1,4 +1,5 @@
 [
+<<<<<<< HEAD
   {
     "name": "Kas",
     "CategoryId": 1
@@ -40,3 +41,46 @@
     "CategoryId": 3
   }
 ]
+=======
+	{
+		"name": "Kas",
+		"CategoryId": 1
+	},
+	{
+		"name": "Bank",
+		"CategoryId": 1
+	},
+	{
+		"name": "Persediaan",
+		"CategoryId": 1
+	},
+	{
+		"name": "Piutang",
+		"CategoryId": 1
+	},
+	{
+		"name": "Hutang",
+		"CategoryId": 2
+	},
+	{
+		"name": "Modal",
+		"CategoryId": 3
+	},
+	{
+		"name": "Penjualan",
+		"CategoryId": 4
+	},
+	{
+		"name": "HPP",
+		"CategoryId": 5
+	},
+	{
+		"name": "Beban",
+		"CategoryId": 5
+	},
+	{
+		"name": "Laba/Rugi",
+		"CategoryId": 3
+	}
+]
+>>>>>>> Ketika-Costumer-melakukan-pembayaran-atas-Piutang-imammiko
