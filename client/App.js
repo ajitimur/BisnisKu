@@ -11,6 +11,7 @@ import {
   HomeScreen,
   ProdukScreen,
   LainnyaScreen,
+  TransaksiScreen
 } from "./src/screens";
 import { Provider } from "react-redux";
 import { store } from "./src/store";
@@ -89,6 +90,13 @@ export default function App() {
               <Stack.Screen
                 name="MainTab"
                 component={MainTab}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="Transaksi"
+                component={TransaksiScreen}
                 options={{
                   headerShown: false,
                 }}
