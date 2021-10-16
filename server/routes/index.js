@@ -4,10 +4,15 @@ const penjualanRouter = require("./penjualan");
 const productRouter = require("./product");
 const mainRouter = express.Router();
 const user = require("./user");
+const pembelian = require("./pembelian");
+const modal = require("./modal");
+const { adminAuthentication } = require(`../middlewares/authentication`);
 
-mainRouter.use("/users", user);
-mainRouter.use("/penjualan", penjualanRouter);
-mainRouter.use("/product", productRouter);
+
+mainRouter.use("/", user);
+mainRouter.use(adminAuthentication);
+mainRouter.use("/", modal);
+mainRouter.use("/", pembelian);
 
 mainRouter.use(errorHandler);
 
