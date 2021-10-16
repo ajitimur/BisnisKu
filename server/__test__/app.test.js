@@ -1,195 +1,183 @@
 const request = require("supertest");
 const app = require("../app");
-const { User, Post, sequelize, Category } = require("../models/index");
+const {
+	Account,
+	Category,
+	Customer,
+	Ledger,
+	Product,
+	Transaction,
+	User,
+	sequelize,
+} = require("../models/index");
 let access_token = "";
+
 const queryInterface = sequelize.getQueryInterface();
 
 beforeAll(async () => {
-	let arrayPost = [];
-	let post = {};
 	let UserData = {
-		username: "Test Seeder",
-		email: "testSeeder@gmail.com",
-		password: "1234567890",
-		role: "admin",
-		phoneNumber: "089533",
-		address: "kalidoni",
-	};
-	let categoryData = {
-		name: "alam",
+		username: "dian ardi",
+		email: "dian@gmail.com",
+		password: "123456",
+		phoneNumber: "0899566666",
+		businessName: "kelontong",
+		bankNumber: "6940050053",
+		address: "jalan abadi",
 	};
 	await User.create(UserData);
-
-	for (let i = 0; i < 25; i++) {
-		post.title = `title ${i + 1}`;
-		post.content = `content ${i + 1}`;
-		post.imgUrl =
-			"https://www.bayustudio.com/wp-content/uploads/2020/01/versus.jpg";
-		post.categoryId = 1;
-		post.authorId = 1;
-		post.fieldStatus = "active";
-		post.createdAt = new Date();
-		post.updatedAt = new Date();
-		arrayPost.push(post);
-	}
-
-	await queryInterface.bulkInsert(
-		"Categories",
-		[
-			{
-				name: "Traveller",
-				createdAt: new Date(),
-				updatedAt: new Date(),
-			},
-			{
-				name: "Techonology",
-				createdAt: new Date(),
-				updatedAt: new Date(),
-			},
-			{
-				name: "my Diary",
-				createdAt: new Date(),
-				updatedAt: new Date(),
-			},
-			{
-				name: "programming",
-				createdAt: new Date(),
-				updatedAt: new Date(),
-			},
-		],
-		{}
-	);
-	await queryInterface.bulkInsert("Posts", arrayPost, {});
+	// for (let i = 0; i < 25; i++) {
+	// 	post.title = `title ${i + 1}`;
+	// 	post.content = `content ${i + 1}`;
+	// 	post.imgUrl =
+	// 		"https://www.bayustudio.com/wp-content/uploads/2020/01/versus.jpg";
+	// 	post.categoryId = 1;
+	// 	post.authorId = 1;
+	// 	post.fieldStatus = "active";
+	// 	post.createdAt = new Date();
+	// 	post.updatedAt = new Date();
+	// 	arrayPost.push(post);
+	// }
+	// await queryInterface.bulkInsert(
+	// 	"Categories",
+	// 	[
+	// 		{
+	// 			name: "Traveller",
+	// 			createdAt: new Date(),
+	// 			updatedAt: new Date(),
+	// 		},
+	// 		{
+	// 			name: "Techonology",
+	// 			createdAt: new Date(),
+	// 			updatedAt: new Date(),
+	// 		},
+	// 		{
+	// 			name: "my Diary",
+	// 			createdAt: new Date(),
+	// 			updatedAt: new Date(),
+	// 		},
+	// 		{
+	// 			name: "programming",
+	// 			createdAt: new Date(),
+	// 			updatedAt: new Date(),
+	// 		},
+	// 	],
+	// 	{}
+	// );
+	// await queryInterface.bulkInsert("Posts", arrayPost, {});
 });
 
 afterAll(async () => {
-	await Post.destroy({
-		where: {},
-		truncate: true,
-		cascade: true,
-		restartIdentity: true,
-	});
-
-	await Category.destroy({
-		where: {},
-		truncate: true,
-		cascade: true,
-		restartIdentity: true,
-	});
 	await User.destroy({
 		where: {},
 		truncate: true,
 		cascade: true,
 		restartIdentity: true,
 	});
+	// await Post.destroy({
+	// 	where: {},
+	// 	truncate: true,
+	// 	cascade: true,
+	// 	restartIdentity: true,
+	// });
+	// await Category.destroy({
+	// 	where: {},
+	// 	truncate: true,
+	// 	cascade: true,
+	// 	restartIdentity: true,
+	// });
 });
 
-describe("register customer", () => {
+let user = {
+	username: "dian",
+	email: "dianDiadi@gmail.com",
+	password: "123456",
+	phoneNumber: "0899566666",
+	businessName: "kelontong",
+	bankNumber: "6940050053",
+	address: "jalan abadi",
+};
+describe("register User", () => {
 	test("Berhasil register", (done) => {
-		let registerParams = {
-			email: "satu@gmail.com",
-			password: "1234567890",
-		};
 		request(app)
-			.post("/customer/register")
-			.send(registerParams)
+			.post("/users/register")
+			.send(user)
 			.expect(201)
 			.then((resp) => {
-				expect(resp.body.email).toBe(registerParams.email);
-				expect(resp.body.id).toEqual(expect.any(Number));
+				expect(resp.body.message).toBe(
+					`User: ${user.username} Successfully created`
+				);
+
 				done();
 			})
 			.catch((err) => {
 				done(err);
 			});
 	});
-	test("Email tidak diberikan / tidak diinput", (done) => {
-		let registerParams = {
-			email: null,
-			password: "1234567890",
-		};
+
+	test("email register sama", (done) => {
+		let expectedResponse = ["username must be unique"];
 		request(app)
-			.post("/customer/register")
-			.send(registerParams)
+			.post("/users/register")
+			.send(user)
 			.expect(400)
 			.then((resp) => {
-				expect(resp.body.message).toContain("Email is required");
+				expect(resp.body).toEqual(expect.arrayContaining(expectedResponse));
+
 				done();
 			})
 			.catch((err) => {
 				done(err);
 			});
 	});
-	test("Password tidak diberikan / tidak diinput", (done) => {
-		let registerParams = {
-			email: "dua@gmail.com",
-			password: null,
+
+	test("Format email register tidak sesuai", (done) => {
+		let userEmailWrong = {
+			...user,
+			email: "emailSalah",
 		};
+		let expectedResponse = "Must be an email";
 		request(app)
-			.post("/customer/register")
-			.send(registerParams)
+			.post("/users/register")
+			.send(userEmailWrong)
 			.expect(400)
 			.then((resp) => {
-				expect(resp.body.message).toContain("password is required");
+				expect(resp.body).toContain(expectedResponse);
+
 				done();
 			})
 			.catch((err) => {
 				done(err);
 			});
 	});
-	test("Email diberikan string kosong", (done) => {
-		let registerParams = {
+
+	test("input Register diberikan string kosong / tidak diinput", (done) => {
+		registerParamsEmpty = {
+			username: "",
 			email: "",
-			password: "1234567890",
-		};
-		request(app)
-			.post("/customer/register")
-			.send(registerParams)
-			.expect(400)
-			.then((resp) => {
-				expect(resp.body.message).toContain(
-					"Email is Required",
-					"Email is not type  Required"
-				);
-
-				done();
-			})
-			.catch((err) => {
-				done(err);
-			});
-	});
-	test("Password diberikan string kosong", (done) => {
-		let registerParams = {
-			email: "tiga@gmail.com",
 			password: "",
+			phoneNumber: "",
+			businessName: "",
+			bankNumber: "",
+			address: "",
 		};
+		let expectedResponse = [
+			"Username is required",
+			"Email is required",
+			"Must be an email",
+			"Password is required",
+			"businessName is required",
+			"bankNumber is required",
+			"phoneNumber is required",
+			"address is required",
+		];
 		request(app)
-			.post("/customer/register")
-			.send(registerParams)
+			.post("/users/register")
+			.send(registerParamsEmpty)
 			.expect(400)
 			.then((resp) => {
-				expect(resp.body.message).toContain(
-					"password is required",
-					"length minimal 5"
-				);
-
-				done();
-			})
-			.catch((err) => {
-				done(err);
-			});
-	});
-	test("Format Email salah / invalid", (done) => {
-		let loginParams = {
-			email: "gmail.com",
-			password: "",
-		};
-		request(app)
-			.post("/customer/register")
-			.send(loginParams)
-			.expect(400)
-			.then((resp) => {
-				expect(resp.body.message).toContain("Email is not type  Required");
+				for (const expected of expectedResponse) {
+					expect(resp.body).toContain(expected);
+				}
 
 				done();
 			})
@@ -199,20 +187,22 @@ describe("register customer", () => {
 	});
 });
 
-describe("Login Customer,", () => {
+describe("Login User,", () => {
+	let loginParams = {
+		username: user.username,
+		password: user.password,
+	};
 	test("Berhasil login", (done) => {
-		let registerParams = {
-			email: "satu@gmail.com",
-			password: "1234567890",
-		};
 		request(app)
-			.post("/customer/login")
-			.send(registerParams)
+			.post("/users/login")
+			.send(loginParams)
 			.expect(200)
 			.then((resp) => {
 				expect(resp.body).toEqual(
 					expect.objectContaining({
 						access_token: expect.any(String),
+						statuscode: 200,
+						msg: "Login Succesful",
 					})
 				);
 				access_token = resp.body.access_token;
@@ -223,39 +213,66 @@ describe("Login Customer,", () => {
 				done(err);
 			});
 	});
+
 	test("Password Salah", (done) => {
-		let registerParams = {
-			email: "satu@gmail.com",
-			password: "123456789",
+		let passwordSalah = {
+			...loginParams,
+			password: "passwordSalah",
+		};
+
+		let exprectedResponse = {
+			msg: "username atau password salah",
 		};
 		request(app)
-			.post("/customer/login")
-			.send(registerParams)
+			.post("/users/login")
+			.send(passwordSalah)
 			.expect(401)
 			.then((resp) => {
-				expect(resp.body.message).toContain(
-					"Error login user not found atau password not matched"
-				);
+				expect(resp.body).toEqual(expect.objectContaining(exprectedResponse));
 				done();
 			})
 			.catch((err) => {
 				done(err);
 			});
 	});
-	test("Email yang di input tidak terdaftar di database", (done) => {
-		let registerParams = {
-			email: "notFound@gmail.com",
-			password: "123456789",
+
+	test("username Salah", (done) => {
+		let usernameWrong = {
+			...loginParams,
+			username: "wrongUsername",
+		};
+
+		let exprectedResponse = {
+			msg: "username atau password salah",
 		};
 		request(app)
-			.post("/customer/login")
-			.send(registerParams)
+			.post("/users/login")
+			.send(usernameWrong)
 			.expect(401)
 			.then((resp) => {
-				expect(resp.body.message).toBe(
-					"Error login user not found atau password not matched"
-				);
+				expect(resp.body).toEqual(expect.objectContaining(exprectedResponse));
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
 
+	test("username password kosong", (done) => {
+		let usernamePasswordEmpty = {
+			username: "",
+			password: "",
+		};
+
+		let exprectedResponse = {
+			msg: "username atau password salah",
+		};
+		request(app)
+			.post("/users/login")
+			.send(usernamePasswordEmpty)
+			.expect(401)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.objectContaining(exprectedResponse));
 				done();
 			})
 			.catch((err) => {
@@ -263,6 +280,7 @@ describe("Login Customer,", () => {
 			});
 	});
 });
+
 //NOTE QUERY LIST
 
 // describe("customer entitas utama", () => {
