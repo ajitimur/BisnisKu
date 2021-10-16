@@ -1,4 +1,5 @@
 const request = require("supertest");
+const { getAccount, accounts } = require("../helpers/dataAccounts");
 const app = require("../app");
 const {
 	Account,
@@ -16,7 +17,7 @@ const queryInterface = sequelize.getQueryInterface();
 
 beforeAll(async () => {
 	let UserData = {
-		username: "dian ardi",
+		username: "dianardian",
 		email: "dian@gmail.com",
 		password: "123456",
 		phoneNumber: "0899566666",
@@ -25,44 +26,43 @@ beforeAll(async () => {
 		address: "jalan abadi",
 	};
 	await User.create(UserData);
-	// for (let i = 0; i < 25; i++) {
-	// 	post.title = `title ${i + 1}`;
-	// 	post.content = `content ${i + 1}`;
-	// 	post.imgUrl =
-	// 		"https://www.bayustudio.com/wp-content/uploads/2020/01/versus.jpg";
-	// 	post.categoryId = 1;
-	// 	post.authorId = 1;
-	// 	post.fieldStatus = "active";
-	// 	post.createdAt = new Date();
-	// 	post.updatedAt = new Date();
-	// 	arrayPost.push(post);
-	// }
-	// await queryInterface.bulkInsert(
-	// 	"Categories",
-	// 	[
-	// 		{
-	// 			name: "Traveller",
-	// 			createdAt: new Date(),
-	// 			updatedAt: new Date(),
-	// 		},
-	// 		{
-	// 			name: "Techonology",
-	// 			createdAt: new Date(),
-	// 			updatedAt: new Date(),
-	// 		},
-	// 		{
-	// 			name: "my Diary",
-	// 			createdAt: new Date(),
-	// 			updatedAt: new Date(),
-	// 		},
-	// 		{
-	// 			name: "programming",
-	// 			createdAt: new Date(),
-	// 			updatedAt: new Date(),
-	// 		},
-	// 	],
-	// 	{}
-	// );
+
+	await queryInterface.bulkInsert(
+		"Products",
+		[
+			{
+				UserId: 1,
+				productName: "Pepsodent",
+				quantity: 15,
+				unit: "pcs",
+				basePrice: 5000,
+				sellPrice: 9000,
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			},
+			{
+				UserId: 1,
+				productName: "sampo clear",
+				quantity: 20,
+				unit: "pcs",
+				basePrice: 1000,
+				sellPrice: 2000,
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			},
+			{
+				UserId: 1,
+				productName: "Minyak Sayur",
+				quantity: 20,
+				unit: "liter",
+				basePrice: 4000,
+				sellPrice: 5000,
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			},
+		],
+		{}
+	);
 	// await queryInterface.bulkInsert("Posts", arrayPost, {});
 });
 
@@ -73,18 +73,6 @@ afterAll(async () => {
 		cascade: true,
 		restartIdentity: true,
 	});
-	// await Post.destroy({
-	// 	where: {},
-	// 	truncate: true,
-	// 	cascade: true,
-	// 	restartIdentity: true,
-	// });
-	// await Category.destroy({
-	// 	where: {},
-	// 	truncate: true,
-	// 	cascade: true,
-	// 	restartIdentity: true,
-	// });
 });
 
 let user = {
@@ -99,7 +87,7 @@ let user = {
 describe("register User", () => {
 	test("Berhasil register", (done) => {
 		request(app)
-			.post("/users/register")
+			.post("/user/register")
 			.send(user)
 			.expect(201)
 			.then((resp) => {
@@ -117,7 +105,7 @@ describe("register User", () => {
 	test("email register sama", (done) => {
 		let expectedResponse = ["username must be unique"];
 		request(app)
-			.post("/users/register")
+			.post("/user/register")
 			.send(user)
 			.expect(400)
 			.then((resp) => {
@@ -137,7 +125,7 @@ describe("register User", () => {
 		};
 		let expectedResponse = "Must be an email";
 		request(app)
-			.post("/users/register")
+			.post("/user/register")
 			.send(userEmailWrong)
 			.expect(400)
 			.then((resp) => {
@@ -171,7 +159,7 @@ describe("register User", () => {
 			"address is required",
 		];
 		request(app)
-			.post("/users/register")
+			.post("/user/register")
 			.send(registerParamsEmpty)
 			.expect(400)
 			.then((resp) => {
@@ -189,12 +177,12 @@ describe("register User", () => {
 
 describe("Login User,", () => {
 	let loginParams = {
-		username: user.username,
-		password: user.password,
+		username: "dianardian",
+		password: "123456",
 	};
 	test("Berhasil login", (done) => {
 		request(app)
-			.post("/users/login")
+			.post("/user/login")
 			.send(loginParams)
 			.expect(200)
 			.then((resp) => {
@@ -224,7 +212,7 @@ describe("Login User,", () => {
 			msg: "username atau password salah",
 		};
 		request(app)
-			.post("/users/login")
+			.post("/user/login")
 			.send(passwordSalah)
 			.expect(401)
 			.then((resp) => {
@@ -246,7 +234,7 @@ describe("Login User,", () => {
 			msg: "username atau password salah",
 		};
 		request(app)
-			.post("/users/login")
+			.post("/user/login")
 			.send(usernameWrong)
 			.expect(401)
 			.then((resp) => {
@@ -268,7 +256,7 @@ describe("Login User,", () => {
 			msg: "username atau password salah",
 		};
 		request(app)
-			.post("/users/login")
+			.post("/user/login")
 			.send(usernamePasswordEmpty)
 			.expect(401)
 			.then((resp) => {
@@ -283,251 +271,157 @@ describe("Login User,", () => {
 
 //NOTE QUERY LIST
 
-// describe("customer entitas utama", () => {
-// 	let page,
-// 		size,
-// 		author,
-// 		category = 0;
-// 	test("Berhasil mendapatkan Entitas Utama (dengan access_token) tanpa menggunakan query filter parameter", (done) => {
-// 		request(app)
-// 			.get("/customer")
-// 			.set("access_token", access_token)
-// 			.expect(200)
-// 			.then((resp) => {
-// 				expect(resp.body).toEqual(
-// 					expect.objectContaining({
-// 						totalItems: expect.any(Number),
-// 						posts: expect.any(Array),
-// 						totalPages: expect.any(Number),
-// 						currentPage: expect.any(Number),
-// 					})
-// 				);
+describe("product ", () => {
+	let idProduct = 0;
+	test("product all", (done) => {
+		request(app)
+			.get("/product/all")
+			.set("access_token", access_token)
+			.expect(200)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Array));
+				if (resp.body.length > 0) {
+					for (const iterator of resp.body) {
+						expect(iterator).toEqual(
+							expect.objectContaining({
+								UserId: expect.any(Number),
+								productName: expect.any(String),
+								quantity: expect.any(Number),
+								unit: expect.any(String),
+								basePrice: expect.any(Number),
+								sellPrice: expect.any(Number),
+							})
+						);
+						idProduct = iterator.id;
+					}
+				}
 
-// 				done();
-// 			})
-// 			.catch((err) => {
-// 				done(err);
-// 			});
-// 	});
-// 	test("Berhasil mendapatkan Entitas Utama (tanpa access_token) tanpa menggunakan query filter parameter", (done) => {
-// 		request(app)
-// 			.get("/customer")
-// 			.expect(200)
-// 			.then((resp) => {
-// 				expect(resp.body).toEqual(
-// 					expect.objectContaining({
-// 						totalItems: expect.any(Number),
-// 						posts: expect.any(Array),
-// 						totalPages: expect.any(Number),
-// 						currentPage: expect.any(Number),
-// 					})
-// 				);
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
 
-// 				done();
-// 			})
-// 			.catch((err) => {
-// 				done(err);
-// 			});
-// 	});
-// 	page = 0;
-// 	test("Berhasil mendapatkan Entitas Utama (dengan access_token) dengan 1 query filter parameter", (done) => {
-// 		request(app)
-// 			.get(`/customer?page=${page}`)
-// 			.set("access_token", access_token)
-// 			.expect(200)
-// 			.then((resp) => {
-// 				expect(resp.body).toEqual(
-// 					expect.objectContaining({
-// 						totalItems: expect.any(Number),
-// 						posts: expect.any(Array),
-// 						totalPages: expect.any(Number),
-// 						currentPage: page,
-// 					})
-// 				);
+	test("product id", (done) => {
+		request(app)
+			.get(`/product/${idProduct}`)
+			.set("access_token", access_token)
+			.expect(200)
+			.then((resp) => {
+				console.log(
+					"🚀 ~ file: app.test.js ~ line 324 ~ .then ~ resp",
+					resp.body
+				);
+				expect(resp.body).toEqual(expect.any(Object));
 
-// 				done();
-// 			})
-// 			.catch((err) => {
-// 				done(err);
-// 			});
-// 	});
-// 	test("Berhasil mendapatkan Entitas Utama (tanpa access_token) dengan 1 query filter parameter", (done) => {
-// 		request(app)
-// 			.get(`/customer?page=${page}`)
-// 			.expect(200)
-// 			.then((resp) => {
-// 				expect(resp.body).toEqual(
-// 					expect.objectContaining({
-// 						totalItems: expect.any(Number),
-// 						posts: expect.any(Array),
-// 						totalPages: expect.any(Number),
-// 						currentPage: page,
-// 					})
-// 				);
+				expect(resp.body).toEqual(
+					expect.objectContaining({
+						UserId: expect.any(Number),
+						productName: expect.any(String),
+						quantity: expect.any(Number),
+						unit: expect.any(String),
+						basePrice: expect.any(Number),
+						sellPrice: expect.any(Number),
+					})
+				);
 
-// 				done();
-// 			})
-// 			.catch((err) => {
-// 				done(err);
-// 			});
-// 	});
-// 	page = 0;
-// 	size = 10;
-// 	author = 1;
-// 	test("Berhasil mendapatkan  Entitas Utama (dengan access_token) dengan 3 query filter parameter", (done) => {
-// 		request(app)
-// 			.get(`/customer?page=${page}&size=${size}&author=${author}`)
-// 			.set("access_token", access_token)
-// 			.expect(200)
-// 			.then((resp) => {
-// 				expect(resp.body).toEqual(
-// 					expect.objectContaining({
-// 						totalItems: expect.any(Number),
-// 						posts: expect.any(Array),
-// 						totalPages: expect.any(Number),
-// 						currentPage: page,
-// 					})
-// 				);
-// 				expect(resp.body.posts.length).toBe(size);
-// 				resp.body.posts.forEach((el, index) => {
-// 					expect(resp.body.posts[index].authorId).toBe(author);
-// 				});
+				done();
+			})
+			.catch((err) => {
+				console.log("🚀 ~ file: app.test.js ~ line 346 ~ test ~ err", err);
 
-// 				done();
-// 			})
-// 			.catch((err) => {
-// 				done(err);
-// 			});
-// 	});
-// 	test("Berhasil mendapatkan  Entitas Utama (tanpa access_token) dengan 3 query filter parameter", (done) => {
-// 		request(app)
-// 			.get(`/customer?page=${page}&size=${size}&author=${author}`)
-// 			.expect(200)
-// 			.then((resp) => {
-// 				expect(resp.body).toEqual(
-// 					expect.objectContaining({
-// 						totalItems: expect.any(Number),
-// 						posts: expect.any(Array),
-// 						totalPages: expect.any(Number),
-// 						currentPage: page,
-// 					})
-// 				);
-// 				expect(resp.body.posts.length).toBe(size);
-// 				resp.body.posts.forEach((el, index) => {
-// 					expect(resp.body.posts[index].authorId).toBe(author);
-// 				});
+				done(err);
+			});
+	});
+});
+describe("modal ", () => {
+	test("modal cash", (done) => {
+		getAccount;
+		let modal = {
+			modal: 1000000,
+		};
 
-// 				done();
-// 			})
-// 			.catch((err) => {
-// 				done(err);
-// 			});
-// 	});
-// 	page = 0;
-// 	defaultSize = 5;
-// 	let getPostId = 0;
-// 	test("Berhasil mendapatkan  Entitas Utama serta panjang yang sesuai (dengan access_token) ketika memberikan page tertentu (cek paginationnya)", (done) => {
-// 		request(app)
-// 			.get(`/customer?page=${page}`)
-// 			.set("access_token", access_token)
-// 			.expect(200)
-// 			.then((resp) => {
-// 				expect(resp.body).toEqual(
-// 					expect.objectContaining({
-// 						totalItems: expect.any(Number),
-// 						posts: expect.any(Array),
-// 						totalPages: expect.any(Number),
-// 						currentPage: page,
-// 					})
-// 				);
-// 				expect(resp.body.posts.length).toBe(defaultSize);
-// 				getPostId = resp.body.posts[0].id;
+		request(app)
+			.post("/modal/cash")
+			.set("access_token", access_token)
+			.send(modal)
+			.expect(201)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Array));
 
-// 				done();
-// 			})
-// 			.catch((err) => {
-// 				done(err);
-// 			});
-// 	});
-// 	test("Berhasil mendapatkan  Entitas Utama serta panjang yang sesuai (tanpa access_token) ketika memberikan page tertentu (cek paginationnya)", (done) => {
-// 		request(app)
-// 			.get(`/customer?page=${page}`)
-// 			.expect(200)
-// 			.then((resp) => {
-// 				expect(resp.body).toEqual(
-// 					expect.objectContaining({
-// 						totalItems: expect.any(Number),
-// 						posts: expect.any(Array),
-// 						totalPages: expect.any(Number),
-// 						currentPage: page,
-// 					})
-// 				);
-// 				expect(resp.body.posts.length).toBe(defaultSize);
+				if (resp.body.length > 0) {
+					resp.body.forEach((element, index) => {
+						if (index == 0) {
+							expect(element).toEqual(
+								expect.objectContaining({
+									AccountId: expect.any(Number),
+									UserId: expect.any(Number),
+									transactionType: expect.any(String),
+								})
+							);
+							expect(element.AccountId).toBe(accounts.Kas);
+						} else if (index == 1) {
+							expect(element).toEqual(
+								expect.objectContaining({
+									AccountId: expect.any(Number),
+									UserId: expect.any(Number),
+									transactionType: expect.any(String),
+								})
+							);
+							expect(element.AccountId).toBe(accounts.Modal);
+						}
+					});
+				}
 
-// 				done();
-// 			})
-// 			.catch((err) => {
-// 				done(err);
-// 			});
-// 	});
-// 	test("Berhasil mendapatkan 1  Entitas Utama sesuai dengan params id yang diberikan", (done) => {
-// 		request(app)
-// 			.get(`/customer/${getPostId}`)
-// 			.expect(200)
-// 			.set("access_token", access_token)
-// 			.then((resp) => {
-// 				expect(resp.body).toEqual(
-// 					expect.objectContaining({
-// 						id: expect.any(Number),
-// 						title: expect.any(String),
-// 						content: expect.any(String),
-// 						imgUrl: expect.any(String),
-// 						categoryId: expect.any(Number),
-// 						authorId: expect.any(Number),
-// 					})
-// 				);
-// 				done();
-// 			})
-// 			.catch((err) => {
-// 				done(err);
-// 			});
-// 	});
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test("modal Bank", (done) => {
+		getAccount;
+		let modal = {
+			modal: 1000000,
+		};
 
-// 	test("Gagal mendapatkan Entitas Utama karena params id yang diberikan tidak ada di database / invalid", (done) => {
-// 		request(app)
-// 			.get(`/customer/-1`)
-// 			.expect(404)
-// 			.set("access_token", access_token)
-// 			.then((resp) => {
-// 				expect(resp.body.message).toContain("post not found");
-// 				done();
-// 			})
-// 			.catch((err) => {
-// 				done(err);
-// 			});
-// 	});
-// });
+		request(app)
+			.post("/modal/bank")
+			.set("access_token", access_token)
+			.send(modal)
+			.expect(201)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Array));
 
-// describe("Customer Bookmark ", () => {
-// 	test("Berhasil mendapatkan list bookmark / favorite sesuai dengan user yang login", (done) => {
-// 		request(app)
-// 			.get(`/bookmark`)
-// 			.set("access_token", access_token)
-// 			.expect(200)
-// 			.then((resp) => {
-// 				expect(resp.body).toEqual(
-// 					expect.objectContaining({
-// 						id: expect.any(Number),
-// 						email: expect.any(String),
-// 						password: expect.any(String),
-// 						role: expect.any(String),
-// 						UserPost: expect.any(Object),
-// 					})
-// 				);
-// 				done();
-// 			})
-// 			.catch((err) => {
-// 				done(err);
-// 			});
-// 	});
-// });
+				if (resp.body.length > 0) {
+					resp.body.forEach((element, index) => {
+						if (index == 0) {
+							expect(element).toEqual(
+								expect.objectContaining({
+									AccountId: expect.any(Number),
+									UserId: expect.any(Number),
+									transactionType: expect.any(String),
+								})
+							);
+							expect(element.AccountId).toBe(accounts.Kas);
+						} else if (index == 1) {
+							expect(element).toEqual(
+								expect.objectContaining({
+									AccountId: expect.any(Number),
+									UserId: expect.any(Number),
+									transactionType: expect.any(String),
+								})
+							);
+							expect(element.AccountId).toBe(accounts.Modal);
+						}
+					});
+				}
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+});

@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for server/routes/penjualan.js</title>
+    <title>Code coverage report for server/routes/pengeluaran.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">server/routes</a> penjualan.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">server/routes</a> pengeluaran.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -64,21 +64,24 @@
 <a name='L5'></a><a href='#L5'>5</a>
 <a name='L6'></a><a href='#L6'>6</a>
 <a name='L7'></a><a href='#L7'>7</a>
-<a name='L8'></a><a href='#L8'>8</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const express = require("express");
-const PenjualanController = require("../controllers/penjualanController");
-const penjualanRouter = express.Router();
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = require("express");
+const PengeluaranController = require("../controllers/pengeluaranController");
+const pengeluaranRouter = express.Router();
 &nbsp;
-penjualanRouter.post("/cash", PenjualanController.penjualanCash)
-penjualanRouter.post("/piutang", PenjualanController.penjualanPiutang)
+pengeluaranRouter.post(`/cash`, PengeluaranController.spendCash);
+pengeluaranRouter.post(`/bank`, PengeluaranController.spendBank);
 &nbsp;
-module.exports = penjualanRouter;</pre></td></tr></table></pre>
+module.exports = pengeluaranRouter;
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
