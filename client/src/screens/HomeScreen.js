@@ -336,7 +336,8 @@ export default function HomeScreen({ navigation }) {
             shadow={4}
             style={{
               paddingHorizontal: 20,
-              marginVertical: 20
+              marginTop: 20,
+              marginBottom: 95
             }}
           >
             <Heading
