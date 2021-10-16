@@ -9,7 +9,9 @@ const {
 	sequelize,
 } = require("../models/index");
 
-class BusinessLogicController {
+
+// ini bentar dulu nunggu gue tau balikan midtrans
+class PembayaranPiutangController {
 	static async debtList(req, res, next) {
 		try {
 			let id = 3; // user yang login di backend
@@ -35,10 +37,10 @@ class BusinessLogicController {
 	static async debtPayment(req, res, next) {
 		const t = await sequelize.transaction();
 		try {
-			let id = 3; // user yang login di backend,
-			// let id = req.user.id
+			// let id = 3; // user yang login di backend,
+			let id = req.user.id
 			let { TransactionId, amount } = req.body; // parameter ini di terima pada saat mobile id dari debt list, amount junlah dari list ledger atau disisendiri
-			console.log(TransactionId, amount);
+			// console.log(TransactionId, amount);
 
 			// menulis di transcation lunas
 
@@ -84,51 +86,8 @@ class BusinessLogicController {
 				.json({ message: error.message || "server error" });
 		}
 	}
-
-	static async spendCash(req, res, next) {
-		try {
-			let id = 3; // user yang login di backend,
-			// let id = req.user.id
-			let { amount } = req.body;
-			amount = +amount;
-			let findCash = await Ledger.findOne({
-				where: {
-					UserId: id,
-					AccountId: 11, //kas
-				},
-			});
-			let cash = +findCash.amount;
-			if (cash < amount) {
-				throw {
-					code: 400,
-					message: "not enough cash",
-				};
-			} else {
-				cash = cash - amount;
-			}
-			let spendCash = await Ledger.update(
-				{
-					amount: cash,
-				},
-				{
-					where: {
-						UserId: id,
-						AccountId: 11,
-					},
-					returning: true,
-				}
-			);
-			res.status(201).json({ message: spendCash });
-		} catch (error) {
-			// next(error);
-
-			res
-				.status(error.code || 501)
-				.json({ message: error.message || "server error" });
-		}
-	}
 }
 
 module.exports = {
-	BusinessLogicController,
+	PembayaranPiutangController,
 };
