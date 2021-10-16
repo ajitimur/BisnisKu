@@ -21,14 +21,18 @@ class PembelianController {
           UserId: UserId,
           transactionType: "Debet",
         },
-      });
+      },
+      { transaction: t }
+      );
       const kasKredit = await Ledger.findAll({
         where: {
           AccountId: 1,
           UserId: UserId,
-          transactionType: "Kredit",
+          transactionType: "Credit",
         },
-      });
+      },
+      { transaction: t }
+      );
 
       kasDebet.forEach((el) => {
         totalDebet += el.amount;
@@ -51,7 +55,7 @@ class PembelianController {
           UserId,
           sellPrice,
         },
-      });
+      }, { transaction: t });
       if (checkProduct[1]) {
         // cata di ledger
         const amount = basePrice * quantity;
@@ -64,10 +68,10 @@ class PembelianController {
           },
           {
             AccountId: 1, //kas
-            transactionType: "Kredit",
+            transactionType: "Credit",
             amount,
             UserId,
-          },
+          }
         ];
         await Ledger.bulkCreate(ledger, { transaction: t });
 
@@ -86,7 +90,7 @@ class PembelianController {
           },
           {
             AccountId: 1, //kas
-            transactionType: "Kredit",
+            transactionType: "Credit",
             amount,
             UserId,
           },
@@ -119,7 +123,7 @@ class PembelianController {
             productName,
           },
           returning: true,
-        });
+        }, { transaction: t });
         await t.commit();
 
         res.status(200).json(updateProductPrice);
@@ -161,7 +165,7 @@ class PembelianController {
           },
           {
             AccountId: 5, //kas
-            transactionType: "Kredit",
+            transactionType: "Credit",
             amount,
             UserId,
           },
@@ -183,7 +187,7 @@ class PembelianController {
           },
           {
             AccountId: 5, //kas
-            transactionType: "Kredit",
+            transactionType: "Credit",
             amount,
             UserId,
           },
