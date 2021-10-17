@@ -87,7 +87,7 @@ class PenjualanController{
         },
         {
           AccountId: 7, //Penjualan
-          transactionType: "Debet",
+          transactionType: "Credit",
           amount: product.amount,
           UserId: userId,
           TransactionId: transaction.id
@@ -116,7 +116,7 @@ class PenjualanController{
           },
           {
             AccountId: 7, //Penjualan
-            transactionType: "Debet",
+            transactionType: "Credit",
             amount: product.amount,
             UserId: userId,
             TransactionId: transaction.id
@@ -230,7 +230,7 @@ class PenjualanController{
           },
           {
             AccountId: 7, //Penjualan
-            transactionType: "Debet",
+            transactionType: "Credit",
             amount: product.amount,
             UserId: userId,
             TransactionId: transaction.id
