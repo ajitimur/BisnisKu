@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "server",
   "version": "1.0.0",
   "description": "",
@@ -24,33 +23,4 @@
     "nodemon": "^2.0.13",
     "sequelize-cli": "^6.2.0"
   }
-=======
-	"name": "server",
-	"version": "1.0.0",
-	"description": "",
-	"main": "app.js",
-	"scripts": {
-		"test": "npx jest --watchAll --detectOpenHandles --runInBand --forceExit --coverage",
-		"start": "nodemon bin/www.js"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"dependencies": {
-		"bcryptjs": "^2.4.3",
-		"cors": "^2.8.5",
-		"dotenv": "^10.0.0",
-		"express": "^4.17.1",
-		"jsonwebtoken": "^8.5.1",
-		"pg": "^8.7.1",
-		"sequelize": "^6.7.0",
-		"superjest": "^0.1.0"
-	},
-	"devDependencies": {
-		"jest": "^27.2.5",
-		"nodemon": "^2.0.13",
-		"sequelize-cli": "^5.0.0",
-		"supertest": "^6.1.6"
-	}
->>>>>>> d22c32a86a5d4ce56d151981a7afe69dcfa4563c
 }
