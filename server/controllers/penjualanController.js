@@ -8,38 +8,18 @@ const {
 
 class PenjualanController {
 	static async penjualanCash(req, res, next) {
-		const { customer, product } = req.body; //customer berisi object data customer, product object isi data product yg dijual
-		console.log(
-			"🚀 ~ file: penjualanController.js ~ line 12 ~ PenjualanController ~ penjualanCash ~ customer",
-			customer
-		);
-		console.log(
-			"🚀 ~ file: penjualanController.js ~ line 12 ~ PenjualanController ~ penjualanCash ~ product",
-			product
-		);
+		const { customer, product, category } = req.body; //customer berisi object data customer, product object isi data product yg dijual, //category ini customer bayarnya tf bank atau kas
 		const productId = product.id;
 		const userId = req.user.id;
-		const customerId = customer.id;
-		console.log(
-			"🚀 ~ file: penjualanController.js ~ line 9 ~ PenjualanController ~ penjualanCash ~ customerId",
-			customerId
-		);
+		let customerId = customer.id ? customer.id : null;
 
 		const t = await sequelize.transaction();
 		try {
 			const foundProduct = await Product.findByPk(productId);
-			console.log(
-				"🚀 ~ file: penjualanController.js ~ line 31 ~ PenjualanController ~ penjualanCash ~ foundProduct",
-				foundProduct
-			);
 
 			if (foundProduct) {
-				const oldQuantity = +foundProduct.quantity;
-				const newQuantity = +oldQuantity - +product.sellQuantity;
-				console.log(
-					"🚀 ~ file: penjualanController.js ~ line 35 ~ PenjualanController ~ penjualanCash ~ newQuantity",
-					newQuantity
-				);
+				const oldQuantity = foundProduct.quantity;
+				const newQuantity = oldQuantity - product.sellQuantity;
 
 				//Cek misal yg ngejual lebih dari stock yg ada
 				if (newQuantity < 0) {
@@ -96,10 +76,6 @@ class PenjualanController {
 						transaction: t,
 					}
 				);
-				console.log(
-					"🚀 ~ file: penjualanController.js ~ line 112 ~ PenjualanController ~ penjualanCash ~ product",
-					product
-				);
 
 				//Create Ledger
 				const ledger = [
@@ -130,6 +106,37 @@ class PenjualanController {
 					},
 				];
 
+				if (category === "bank") {
+					ledger = [
+						//assign new value, beda cuma kas di ganti jadi bank
+						{
+							AccountId: 2, //Bank
+							transactionType: "Debet",
+							amount: product.amount,
+							UserId: userId,
+						},
+						{
+							AccountId: 3, //Persediaan
+							transactionType: "Credit",
+							amount: foundProduct.basePrice * product.quantity,
+							UserId: userId,
+						},
+						{
+							AccountId: 8, //HPP
+							transactionType: "Debet",
+							amount: foundProduct.basePrice * product.quantity,
+							UserId: userId,
+						},
+						{
+							AccountId: 7, //Penjualan
+							transactionType: "Debet",
+							amount: product.amount,
+							UserId: userId,
+							TransactionId: transaction.id,
+						},
+					];
+				}
+
 				const result = await Ledger.bulkCreate(ledger, { transaction: t });
 
 				await t.commit();
@@ -143,10 +150,7 @@ class PenjualanController {
 				};
 			}
 		} catch (error) {
-			console.log(
-				"🚀 ~ file: penjualanController.js ~ line 134 ~ PenjualanController ~ penjualanCash ~ error",
-				error
-			);
+			// console.log(error);
 			await t.rollback();
 			next(error);
 		}
@@ -156,7 +160,7 @@ class PenjualanController {
 		const { customer, product } = req.body; //customer berisi object data customer, product object isi data product yg dijual
 		const productId = product.id;
 		const userId = req.user.id;
-		const customerId = customer.id;
+		let customerId = customer.id ? customer.id : null;
 
 		const t = await sequelize.transaction();
 		try {
@@ -233,13 +237,13 @@ class PenjualanController {
 					{
 						AccountId: 3, //Persediaan
 						transactionType: "Credit",
-						amount: foundProduct.basePrice * product.quantity,
+						amount: foundProduct.basePrice * product.sellQuantity,
 						UserId: userId,
 					},
 					{
 						AccountId: 8, //HPP
 						transactionType: "Debet",
-						amount: foundProduct.basePrice * product.quantity,
+						amount: foundProduct.basePrice * product.sellQuantity,
 						UserId: userId,
 					},
 					{
@@ -264,6 +268,7 @@ class PenjualanController {
 				};
 			}
 		} catch (error) {
+			console.log(error);
 			await t.rollback();
 			next(error);
 		}

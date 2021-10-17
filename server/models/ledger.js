@@ -53,13 +53,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     TransactionId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          msg: `TransactionId is required`
-        }
-      }
+      type: DataTypes.INTEGER
     },
   }, {
     sequelize,
