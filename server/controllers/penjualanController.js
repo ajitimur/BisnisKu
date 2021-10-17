@@ -28,10 +28,18 @@ class PenjualanController {
 		const t = await sequelize.transaction();
 		try {
 			const foundProduct = await Product.findByPk(productId);
+			console.log(
+				"🚀 ~ file: penjualanController.js ~ line 31 ~ PenjualanController ~ penjualanCash ~ foundProduct",
+				foundProduct
+			);
 
 			if (foundProduct) {
-				const oldQuantity = foundProduct.quantity;
-				const newQuantity = oldQuantity - product.sellQuantity;
+				const oldQuantity = +foundProduct.quantity;
+				const newQuantity = +oldQuantity - +product.sellQuantity;
+				console.log(
+					"🚀 ~ file: penjualanController.js ~ line 35 ~ PenjualanController ~ penjualanCash ~ newQuantity",
+					newQuantity
+				);
 
 				//Cek misal yg ngejual lebih dari stock yg ada
 				if (newQuantity < 0) {
@@ -88,6 +96,10 @@ class PenjualanController {
 						transaction: t,
 					}
 				);
+				console.log(
+					"🚀 ~ file: penjualanController.js ~ line 112 ~ PenjualanController ~ penjualanCash ~ product",
+					product
+				);
 
 				//Create Ledger
 				const ledger = [
@@ -100,13 +112,13 @@ class PenjualanController {
 					{
 						AccountId: 3, //Persediaan
 						transactionType: "Credit",
-						amount: foundProduct.basePrice * product.quantity,
+						amount: foundProduct.basePrice * product.sellQuantity,
 						UserId: userId,
 					},
 					{
 						AccountId: 8, //HPP
 						transactionType: "Debet",
-						amount: foundProduct.basePrice * product.quantity,
+						amount: foundProduct.basePrice * product.sellQuantity,
 						UserId: userId,
 					},
 					{
@@ -131,6 +143,10 @@ class PenjualanController {
 				};
 			}
 		} catch (error) {
+			console.log(
+				"🚀 ~ file: penjualanController.js ~ line 134 ~ PenjualanController ~ penjualanCash ~ error",
+				error
+			);
 			await t.rollback();
 			next(error);
 		}

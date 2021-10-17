@@ -425,3 +425,149 @@ describe("modal ", () => {
 			});
 	});
 });
+
+describe("pembellian cash ", () => {
+	test(" berhasil pembelian Cash dengan product yang sudah ada", (done) => {
+		getAccount;
+		let pembelian = {
+			productName: "Pepsodent",
+			quantity: 1,
+			unit: "pcs",
+			basePrice: 5000,
+			sellPrice: 9000,
+		};
+		request(app)
+			.post("/pembelian/cash")
+			.set("access_token", access_token)
+			.send(pembelian)
+			.expect(200)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Array));
+				expect(resp.body[0]).toBe(1);
+				expect(resp.body[1][0]).toEqual(
+					expect.objectContaining({
+						id: expect.any(Number),
+						UserId: expect.any(Number),
+						productName: expect.any(String),
+						quantity: expect.any(Number),
+						unit: expect.any(String),
+						basePrice: expect.any(Number),
+						sellPrice: expect.any(Number),
+					})
+				);
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test(" berhasil pembelian Cash dengan product yang belum ada atau product baru", (done) => {
+		getAccount;
+		let pembelian = {
+			productName: "closeUp",
+			quantity: 5,
+			unit: "pcs",
+			basePrice: 7000,
+			sellPrice: 11000,
+		};
+		request(app)
+			.post("/pembelian/cash")
+			.set("access_token", access_token)
+			.send(pembelian)
+			.expect(200)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Array));
+				expect(resp.body[1]).toBe(true);
+				expect(resp.body[0]).toEqual(
+					expect.objectContaining({
+						id: expect.any(Number),
+						UserId: expect.any(Number),
+						productName: expect.any(String),
+						quantity: expect.any(Number),
+						unit: expect.any(String),
+						basePrice: expect.any(Number),
+						sellPrice: expect.any(Number),
+					})
+				);
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+});
+
+describe("pembellian Hutang ", () => {
+	test(" berhasil pembelian Hutang dengan product yang sudah ada", (done) => {
+		getAccount;
+		let pembelian = {
+			productName: "Pepsodent",
+			quantity: 1,
+			unit: "pcs",
+			basePrice: 5000,
+			sellPrice: 9000,
+		};
+		request(app)
+			.post("/pembelian/hutang")
+			.set("access_token", access_token)
+			.send(pembelian)
+			.expect(200)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Array));
+				expect(resp.body[0]).toBe(1);
+				expect(resp.body[1][0]).toEqual(
+					expect.objectContaining({
+						id: expect.any(Number),
+						UserId: expect.any(Number),
+						productName: expect.any(String),
+						quantity: expect.any(Number),
+						unit: expect.any(String),
+						basePrice: expect.any(Number),
+						sellPrice: expect.any(Number),
+					})
+				);
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test(" berhasil pembelian Hutang dengan product yang belum ada atau product baru", (done) => {
+		getAccount;
+		let pembelian = {
+			productName: "colgate",
+			quantity: 6,
+			unit: "pcs",
+			basePrice: 8000,
+			sellPrice: 13000,
+		};
+		request(app)
+			.post("/pembelian/cash")
+			.set("access_token", access_token)
+			.send(pembelian)
+			.expect(200)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Array));
+				expect(resp.body[1]).toBe(true);
+				expect(resp.body[0]).toEqual(
+					expect.objectContaining({
+						id: expect.any(Number),
+						UserId: expect.any(Number),
+						productName: expect.any(String),
+						quantity: expect.any(Number),
+						unit: expect.any(String),
+						basePrice: expect.any(Number),
+						sellPrice: expect.any(Number),
+					})
+				);
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+});

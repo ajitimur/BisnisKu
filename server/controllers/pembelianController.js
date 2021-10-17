@@ -48,19 +48,16 @@ class PembelianController {
 				throw new Error("insufficient money");
 			}
 			//   res.status(200).json({ msg: balance - buyPrice });
-			const checkProduct = await Product.findOrCreate(
-				{
-					where: { productName },
-					defaults: {
-						quantity,
-						unit,
-						basePrice,
-						UserId,
-						sellPrice,
-					},
+			const checkProduct = await Product.findOrCreate({
+				where: { productName },
+				defaults: {
+					quantity,
+					unit,
+					basePrice,
+					UserId,
+					sellPrice,
 				},
-				{ transaction: t }
-			);
+			});
 			if (checkProduct[1]) {
 				// cata di ledger
 				const amount = basePrice * quantity;
@@ -88,13 +85,13 @@ class PembelianController {
 				const amount = basePrice * quantity;
 				const ledger = [
 					{
-						AccountId: 3, //persediaan
+						AccountId: accounts.Persediaan, //persediaan
 						transactionType: "Debet",
 						amount,
 						UserId,
 					},
 					{
-						AccountId: 1, //kas
+						AccountId: accounts.Kas, //kas
 						transactionType: "Credit",
 						amount,
 						UserId,
@@ -138,6 +135,10 @@ class PembelianController {
 				res.status(200).json(updateProductPrice);
 			}
 		} catch (err) {
+			console.log(
+				"🚀 ~ file: pembelianController.js ~ line 141 ~ PembelianController ~ pembelianCash ~ err",
+				err
+			);
 			await t.rollback();
 			console.log(err); //err.message -> "insufficient money" err.name -> Error
 			res.status(400).json(err.message);
@@ -167,13 +168,13 @@ class PembelianController {
 				const amount = basePrice * quantity;
 				const ledger = [
 					{
-						AccountId: 3, //persediaan
+						AccountId: accounts.Persediaan, //persediaan
 						transactionType: "Debet",
 						amount,
 						UserId,
 					},
 					{
-						AccountId: 5, //kas
+						AccountId: accounts.Persediaan, //kas
 						transactionType: "Credit",
 						amount,
 						UserId,
@@ -189,13 +190,13 @@ class PembelianController {
 				const amount = basePrice * quantity;
 				const ledger = [
 					{
-						AccountId: 3, //persediaan
+						AccountId: accounts.Persediaan, //persediaan
 						transactionType: "Debet",
 						amount,
 						UserId,
 					},
 					{
-						AccountId: 5, //kas
+						AccountId: accounts.Kas, //kas
 						transactionType: "Credit",
 						amount,
 						UserId,
