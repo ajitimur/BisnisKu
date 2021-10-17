@@ -46,8 +46,8 @@ export default function RegisterScreen({ navigation }) {
       const userRegister = await API({
         method: "POST",
         url: "/user/register",
-        data: userData,
-      });
+        data: userData
+      })
 
       console.log(userRegister);
 

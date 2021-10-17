@@ -2,7 +2,7 @@ const { Customer, Ledger, Product, Transaction, sequelize } = require("../models
 
 class PenjualanController{
   static async penjualanCash(req, res, next){
-    const { customer, product} = req.body //customer berisi object data customer, product object isi data product yg dijual
+    const { customer, product, category} = req.body //customer berisi object data customer, product object isi data product yg dijual, //category ini customer bayarnya tf bank atau kas
     const productId = product.id
     const userId = req.user.id
     const customerId = customer.id
@@ -93,6 +93,36 @@ class PenjualanController{
           TransactionId: transaction.id
         }
       ];
+
+      if(category === "bank"){
+        ledger = [  //assign new value, beda cuma kas di ganti jadi bank
+          {
+            AccountId: 2, //Bank
+            transactionType: "Debet",
+            amount: product.amount,
+            UserId: userId,
+          },
+          {
+            AccountId: 3, //Persediaan
+            transactionType: "Credit",
+            amount: foundProduct.basePrice * product.quantity,
+            UserId: userId,
+          },
+          {
+            AccountId: 8, //HPP
+            transactionType: "Debet",
+            amount: foundProduct.basePrice * product.quantity,
+            UserId: userId,
+          },
+          {
+            AccountId: 7, //Penjualan
+            transactionType: "Debet",
+            amount: product.amount,
+            UserId: userId,
+            TransactionId: transaction.id
+          }
+        ]
+      }
 
       const result = await Ledger.bulkCreate(ledger, {transaction: t})
 

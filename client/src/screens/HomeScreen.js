@@ -1,25 +1,30 @@
+import React, { useEffect, useState, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { StatusBar } from "expo-status-bar";
-import { CommonActions } from "@react-navigation/native";
-import { View, Text, Button } from "native-base";
-import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { changeLogStatus } from "../store/actions";
+import {
+  StatusBar,
+  Text,
+  Box,
+  View,
+  ScrollView
+} from "native-base";
+import {
+  StackNavigationBox,
+  FinancialStatementBox,
+  InformationBox
+} from "../components";
+
 
 export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
   const [userLogin, setUserLogin] = useState("");
-  const [token, setToken] = useState("");
 
   const getData = async () => {
     try {
       const userLogin = await AsyncStorage.getItem("user");
-      const acc_token = await AsyncStorage.getItem("access_token");
       if (userLogin) {
         setUserLogin(userLogin);
-      }
-      if (acc_token) {
-        setToken(acc_token);
       }
     } catch (error) {
       console.log(error);
@@ -31,35 +36,47 @@ export default function HomeScreen({ navigation }) {
   }, []);
 
   return (
-    <View>
-      <Text>Hello, {userLogin}</Text>
-      <Text>token, {token}</Text>
-      <Button
-        onPress={async () => {
-          try {
-            await AsyncStorage.removeItem("access_token");
-            await AsyncStorage.removeItem("user");
-            console.log("Logged out");
-            dispatch(changeLogStatus(false));
-            // navigation.dispatch(
-            //   CommonActions.reset({
-            //     index: 0,
-            //     routes: [{ name: "Login" }],
-            //   })
-            // );
-          } catch (err) {
-            console.log(err);
-          }
-        }}
-      ></Button>
-      <View>
-        <Button
-          onPress={() => {
-            navigation.navigate("Products");
-          }}
-        />
-      </View>
-      <StatusBar style="auto" />
-    </View>
+
+    <View
+      bg="muted.100"
+      h="100%"
+    >
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
+      <Box
+        safeAreaTop
+        bg="blue.400"
+      />
+      <ScrollView>
+        <Box
+          bg="blue.400"
+          roundedBottomLeft={70}
+          h={125}
+        >
+          <View
+            mx={30}
+            mt={11}
+          >
+            <Text
+              color="dark.200"
+              fontWeight="semibold"
+              fontSize="lg"
+            >
+              Hello, {userLogin}
+            </Text>
+          </View>
+        </Box>
+        <View mx={30}>
+          <StackNavigationBox />
+          <FinancialStatementBox />
+          <View>
+            <InformationBox />
+          </View>
+        </View >
+      </ScrollView>
+    </View >
   );
 }

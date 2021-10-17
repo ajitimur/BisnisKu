@@ -44,8 +44,9 @@ export default function LoginScreen({ navigation }) {
       const userLogin = await API({
         method: "POST",
         url: "/user/login",
-        data: userData,
-      });
+        data: userData
+      })
+
 
       if (userLogin) {
         await AsyncStorage.setItem("access_token", userLogin.data.access_token);
