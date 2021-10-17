@@ -2,10 +2,11 @@ const { Customer, Ledger, Product, Transaction, sequelize } = require("../models
 
 class PenjualanController{
   static async penjualanCash(req, res, next){
+    // console.log(req.body);
     const { customer, product} = req.body //customer berisi object data customer, product object isi data product yg dijual
     const productId = product.id
     const userId = req.user.id
-    const customerId = customer.id
+    let customerId = customer.id ? customer.id : null;
 
     const t = await sequelize.transaction()
     try {
@@ -76,13 +77,13 @@ class PenjualanController{
         {
           AccountId: 3, //Persediaan
           transactionType: "Credit",
-          amount: foundProduct.basePrice * product.quantity,
+          amount: foundProduct.basePrice * product.sellQuantity,
           UserId: userId,
         },
         {
           AccountId: 8, //HPP
           transactionType: "Debet",
-          amount: foundProduct.basePrice * product.quantity,
+          amount: foundProduct.basePrice * product.sellQuantity,
           UserId: userId,
         },
         {
@@ -94,6 +95,7 @@ class PenjualanController{
         }
       ];
 
+      // console.log(ledger, `<<<<<<`);
       const result = await Ledger.bulkCreate(ledger, {transaction: t})
 
       await t.commit();
@@ -108,6 +110,7 @@ class PenjualanController{
       }
       }
     } catch (error) {
+      // console.log(error);
       await t.rollback()
       next(error)
     }
@@ -117,7 +120,7 @@ class PenjualanController{
     const { customer, product} = req.body //customer berisi object data customer, product object isi data product yg dijual
     const productId = product.id
     const userId = req.user.id
-    const customerId = customer.id
+    let customerId = customer.id ? customer.id : null;
     
     const t = await sequelize.transaction()
     try {
@@ -188,13 +191,13 @@ class PenjualanController{
           {
             AccountId: 3, //Persediaan
             transactionType: "Credit",
-            amount: foundProduct.basePrice * product.quantity,
+            amount: foundProduct.basePrice * product.sellQuantity,
             UserId: userId,
           },
           {
             AccountId: 8, //HPP
             transactionType: "Debet",
-            amount: foundProduct.basePrice * product.quantity,
+            amount: foundProduct.basePrice * product.sellQuantity,
             UserId: userId,
           },
           {
@@ -219,6 +222,7 @@ class PenjualanController{
         }
       }
     } catch (error) {
+      console.log(error);
       await t.rollback()
       next(error)
     }

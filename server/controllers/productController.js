@@ -17,10 +17,11 @@ class ProductController{
   static async getOneProduct(req, res, next){
     const ProductId = req.params.id
     try {
-      const result = await Product.findOne({ where : { ProductId }})
+      const result = await Product.findOne({ where : { id: ProductId }})
 
       res.status(200).json(result)
     } catch (error) {
+      // console.log(error);
       next(error)
     }
   }
