@@ -11,6 +11,7 @@ const pengeluaranRouter = require("./pengeluaran");
 const reportRouter = require("./report");
 const pembayaranRouter = require("./pembayaran");
 const transactionRouter = require("./transaction");
+const customerRouter = require("./customer");
 
 
 mainRouter.use("/user", user);
@@ -23,6 +24,8 @@ mainRouter.use("/penjualan", penjualanRouter);
 mainRouter.use("/product", productRouter);
 mainRouter.use("/reports", reportRouter);
 mainRouter.use("/transaction", transactionRouter)
+
+mainRouter.use("/customer", customerRouter)
 
 mainRouter.use(errorHandler);
 
