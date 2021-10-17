@@ -9,12 +9,11 @@ const modal = require("./modal");
 const { adminAuthentication } = require(`../middlewares/authentication`);
 const pengeluaranRouter = require("./pengeluaran");
 
-
 mainRouter.use("/user", user);
 mainRouter.use(adminAuthentication);
 mainRouter.use("/modal", modal);
 mainRouter.use("/pembelian", pembelian);
-mainRouter.use("/pengeluaran", pengeluaranRouter)
+mainRouter.use("/pengeluaran", pengeluaranRouter);
 mainRouter.use("/penjualan", penjualanRouter);
 mainRouter.use("/product", productRouter);
 
