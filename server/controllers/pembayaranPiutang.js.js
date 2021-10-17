@@ -12,80 +12,85 @@ const {
 
 // ini bentar dulu nunggu gue tau balikan midtrans
 class PembayaranPiutangController {
-	static async debtList(req, res, next) {
+	static async sendInvoice(req, res, next) {
+    const id = req.params.id
+    const UserId = req.user.id
 		try {
-			let id = 3; // user yang login di backend
+      //find TransactionId ada apa ga
+      const findTransaction = await Transaction.findOne({
+        where: {
+          id,
+          UserId
+        },
+        include: [{model: Customer}]
+      })
 
-			// let id = req.user.id
-
-			let listData = await Ledger.findAll({
-				where: {
-					UserId: id,
-					AccountId: 14,
-				},
-			});
-
-			res.status(201).json(listData);
+      // console.log(findTransaction);
+      if(findTransaction){
+        //nerbitin invoice
+        const Xendit = require('xendit-node')
+        const x = new Xendit({
+            secretKey:'xnd_development_dHe58lZyBgLLnJYRH1O7CTukejaSIBAAkwl5IkKQbw5WBXyzHhVGPcMjdFju0y'
+        })
+  
+        const { Invoice } = x;
+        const invoiceSpecificOptions = {};
+        const i = new Invoice(invoiceSpecificOptions);
+  
+        const resp = await i.createInvoice({
+          externalID: `${id}`, // ini ganti TransactionId
+          amount: findTransaction.amount,
+          payerEmail: findTransaction.Customer.email,
+          shouldSendEmail: true,
+          customer: {
+            given_names: findTransaction.Customer.name,
+            email: findTransaction.Customer.email,
+            success_redirect_url: "http://localhost:5000/pembayaran/success",
+          }
+        });
+        // console.log(resp);
+  
+        res.status(200).json(resp)
+      } else {
+        throw {
+          name: `NOTFOUND`,
+          code: 404,
+          message: `Product does not exists`
+      }
+      }
 		} catch (error) {
+			// await t.rollback();
 			// next(error);
+      console.log(error);
 			res
 				.status(error.code || 501)
 				.json({ message: error.message || "server error" });
 		}
 	}
 
-	static async debtPayment(req, res, next) {
-		const t = await sequelize.transaction();
-		try {
-			// let id = 3; // user yang login di backend,
-			let id = req.user.id
-			let { TransactionId, amount } = req.body; // parameter ini di terima pada saat mobile id dari debt list, amount junlah dari list ledger atau disisendiri
-			// console.log(TransactionId, amount);
+  static async debtPayment(req, res, next){
+    const { external_id } = req.body
+    const TransactionId = external_id
+    console.log(`MASUK BOSSSSS`);
+    try {
+      await Transaction.update({
+        isPaid: true
+      },
+      {
+        where: {
+          id: TransactionId
+        }
+      })
 
-			// menulis di transcation lunas
-
-			let update = await Transaction.update(
-				{ isPaid: true },
-				{
-					where: {
-						id: TransactionId,
-					},
-				},
-				{ transaction: t }
-			);
-
-			//melihat kas tujuan untuk amount dari kas
-			let findKas = await Ledger.findOne({
-				where: {
-					UserId: id,
-					AccountId: 11, //kas
-				},
-			});
-			// menambah kas di kas ledger
-			// tidak memerlukan belongs to ladger di model transaction kalau tidak error
-			let addKas = await Ledger.update(
-				{
-					amount: +amount + +findKas.amount,
-				},
-				{
-					where: {
-						UserId: id,
-						AccountId: 11,
-					},
-					returning: true,
-				},
-				{ transaction: t }
-			);
-			await t.commit();
-			res.status(201).json({ message: addKas });
-		} catch (error) {
-			await t.rollback();
-			// next(error);
-			res
-				.status(error.code || 501)
-				.json({ message: error.message || "server error" });
-		}
-	}
+      res.status(200).json({
+        message: `Invoice ${TransactionId} Have Been Paid`
+      })
+      console.log("SUKSES BOSSSSSS");
+    } catch (error) {
+      console.log(error);
+      next(error)
+    }
+  }
 }
 
 module.exports = {

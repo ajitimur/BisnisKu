@@ -55,7 +55,7 @@ class PembelianController {
           UserId,
           sellPrice,
         },
-      }, { transaction: t });
+      });
       if (checkProduct[1]) {
         // cata di ledger
         const amount = basePrice * quantity;
