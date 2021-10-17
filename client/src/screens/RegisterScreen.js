@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import API from '../apis/API';
-import { CommonActions } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState } from "react";
+import API from "../apis/API";
+import { CommonActions } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Text,
   View,
@@ -10,11 +10,11 @@ import {
   FormControl,
   Input,
   Button,
-  ScrollView
-} from 'native-base';
+  ScrollView,
+} from "native-base";
 
 export default function RegisterScreen({ navigation }) {
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
   const [userData, setUserData] = useState({
     username: "",
     businessName: "",
@@ -22,8 +22,8 @@ export default function RegisterScreen({ navigation }) {
     phoneNumber: "",
     address: "",
     email: "",
-    password: ""
-  })
+    password: "",
+  });
 
   const {
     username,
@@ -32,15 +32,15 @@ export default function RegisterScreen({ navigation }) {
     phoneNumber,
     address,
     email,
-    password
-  } = userData
+    password,
+  } = userData;
 
   const handleRegister = (value, fieldName) => {
     setUserData({ ...userData, [fieldName]: value });
-  }
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
       const userRegister = await API({
@@ -57,16 +57,13 @@ export default function RegisterScreen({ navigation }) {
     } catch (error) {
       console.log(error.response.data);
     }
-  }
+  };
 
-  const handleClick = () => setShowPassword(!showPassword)
+  const handleClick = () => setShowPassword(!showPassword);
 
   return (
     <SafeAreaView>
-      <ScrollView
-        bg="blue.400"
-        h="100%"
-      >
+      <ScrollView bg="blue.400" h="100%">
         <View
           mt={24}
           mb={30}
@@ -74,20 +71,13 @@ export default function RegisterScreen({ navigation }) {
           alignItems="center"
           justifyContent="center"
         >
-          <Heading
-            color="dark.200"
-            size="lg"
-          >
+          <Heading color="dark.200" size="lg">
             Daftar{" "}
           </Heading>
-          <VStack
-            space={3}
-            mt="3"
-            w="70%"
-          >
+          <VStack space={3} mt="3" w="70%">
             <FormControl mt="1">
               <Input
-                onChangeText={value => handleRegister(value, "username")}
+                onChangeText={(value) => handleRegister(value, "username")}
                 value={username}
                 type="text"
                 height="10"
@@ -97,13 +87,13 @@ export default function RegisterScreen({ navigation }) {
                 bg="white"
                 _focus={{
                   borderColor: "darkBlue.600",
-                  borderWidth: '1.5px'
+                  borderWidth: "1.5px",
                 }}
               />
             </FormControl>
             <FormControl mt="1">
               <Input
-                onChangeText={value => handleRegister(value, "businessName")}
+                onChangeText={(value) => handleRegister(value, "businessName")}
                 value={businessName}
                 type="text"
                 height="10"
@@ -113,13 +103,13 @@ export default function RegisterScreen({ navigation }) {
                 bg="white"
                 _focus={{
                   borderColor: "darkBlue.600",
-                  borderWidth: '1.5px'
+                  borderWidth: "1.5px",
                 }}
               />
             </FormControl>
             <FormControl mt="1">
               <Input
-                onChangeText={value => handleRegister(value, "bankNumber")}
+                onChangeText={(value) => handleRegister(value, "bankNumber")}
                 value={bankNumber}
                 type="text"
                 height="10"
@@ -129,14 +119,14 @@ export default function RegisterScreen({ navigation }) {
                 bg="white"
                 _focus={{
                   borderColor: "darkBlue.600",
-                  borderWidth: '1.5px'
+                  borderWidth: "1.5px",
                 }}
                 keyboardType="numeric"
               />
             </FormControl>
             <FormControl mt="1">
               <Input
-                onChangeText={value => handleRegister(value, "phoneNumber")}
+                onChangeText={(value) => handleRegister(value, "phoneNumber")}
                 value={phoneNumber}
                 type="text"
                 height="10"
@@ -146,14 +136,14 @@ export default function RegisterScreen({ navigation }) {
                 bg="white"
                 _focus={{
                   borderColor: "darkBlue.600",
-                  borderWidth: '1.5px'
+                  borderWidth: "1.5px",
                 }}
                 keyboardType="numeric"
               />
             </FormControl>
             <FormControl mt="1">
               <Input
-                onChangeText={value => handleRegister(value, "address")}
+                onChangeText={(value) => handleRegister(value, "address")}
                 value={address}
                 type="text"
                 height="10"
@@ -163,13 +153,13 @@ export default function RegisterScreen({ navigation }) {
                 bg="white"
                 _focus={{
                   borderColor: "darkBlue.600",
-                  borderWidth: '1.5px'
+                  borderWidth: "1.5px",
                 }}
               />
             </FormControl>
             <FormControl mt="1">
               <Input
-                onChangeText={value => handleRegister(value, "email")}
+                onChangeText={(value) => handleRegister(value, "email")}
                 value={email}
                 type="email"
                 height="10"
@@ -179,14 +169,14 @@ export default function RegisterScreen({ navigation }) {
                 bg="white"
                 _focus={{
                   borderColor: "darkBlue.600",
-                  borderWidth: '1.5px'
+                  borderWidth: "1.5px",
                 }}
                 keyboardType="email-address"
               />
             </FormControl>
             <FormControl mt="1">
               <Input
-                onChangeText={value => handleRegister(value, "password")}
+                onChangeText={(value) => handleRegister(value, "password")}
                 value={password}
                 type={showPassword ? "text" : "password"}
                 overflow="visible"
@@ -194,7 +184,7 @@ export default function RegisterScreen({ navigation }) {
                   <Button
                     bg="#ffffff00"
                     _pressed={{
-                      bg: "#ffffff00"
+                      bg: "#ffffff00",
                     }}
                     rounded="md"
                     onPress={handleClick}
@@ -209,7 +199,7 @@ export default function RegisterScreen({ navigation }) {
                 bg="white"
                 _focus={{
                   borderColor: "darkBlue.600",
-                  borderWidth: '1.5px'
+                  borderWidth: "1.5px",
                 }}
               />
             </FormControl>
@@ -225,16 +215,11 @@ export default function RegisterScreen({ navigation }) {
                 w="100%"
                 mt="1"
                 bg="darkBlue.600"
-                _text={{ color: 'white' }}
+                _text={{ color: "white" }}
               >
                 Daftar
               </Button>
-              <View
-                position="absolute"
-                bottom={-10}
-                bg="blue.400"
-                px="1"
-              >
+              <View position="absolute" bottom={-10} bg="blue.400" px="1">
                 <Text>ATAU</Text>
               </View>
             </View>
@@ -243,7 +228,7 @@ export default function RegisterScreen({ navigation }) {
                 w="100%"
                 mt="4"
                 bg="darkBlue.600"
-                _text={{ color: 'white' }}
+                _text={{ color: "white" }}
               >
                 Social Login
               </Button>

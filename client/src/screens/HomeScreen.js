@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { changeLogStatus } from "../store/actions";
 import {
   StatusBar,
   Text,
@@ -13,7 +15,9 @@ import {
   InformationBox
 } from "../components";
 
+
 export default function HomeScreen({ navigation }) {
+  const dispatch = useDispatch();
   const [userLogin, setUserLogin] = useState("");
 
   const getData = async () => {
@@ -32,6 +36,7 @@ export default function HomeScreen({ navigation }) {
   }, []);
 
   return (
+
     <View
       bg="muted.100"
       h="100%"
