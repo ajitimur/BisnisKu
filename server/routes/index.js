@@ -21,7 +21,7 @@ mainRouter.use("/pengeluaran", pengeluaranRouter);
 mainRouter.use("/penjualan", penjualanRouter);
 mainRouter.use("/product", productRouter);
 mainRouter.use("/reports", reportRouter);
-mainRouter.use("/transaction", transactionRouter)
+mainRouter.use("/transaction", transactionRouter);
 
 mainRouter.use(errorHandler);
 

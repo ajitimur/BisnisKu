@@ -1,5 +1,5 @@
 const { Ledger, sequelize } = require("../models");
-
+const { getAccount, accounts } = require("../helpers/dataAccounts");
 class ModalController {
 	static async addModalCash(req, res, next) {
 		const { modal } = req.body;
@@ -8,13 +8,13 @@ class ModalController {
 		try {
 			const ledger = [
 				{
-					AccountId: 1, //Kas
+					AccountId: accounts.Kas, //Kas
 					transactionType: "Debet",
 					amount: modal,
 					UserId: userId,
 				},
 				{
-					AccountId: 6, //Modal
+					AccountId: accounts.Modal, //Modal
 					transactionType: "Credit",
 					amount: modal,
 					UserId: userId,
@@ -36,13 +36,13 @@ class ModalController {
 		try {
 			const ledger = [
 				{
-					AccountId: 2, //Bank
+					AccountId: accounts.Bank, //Bank
 					transactionType: "Debet",
 					amount: modal,
 					UserId: userId,
 				},
 				{
-					AccountId: 6, //Modal
+					AccountId: accounts.Modal, //Modal
 					transactionType: "Credit",
 					amount: modal,
 					UserId: userId,

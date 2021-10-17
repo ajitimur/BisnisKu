@@ -5,6 +5,7 @@ const {
 	Transaction,
 	sequelize,
 } = require("../models");
+const { getAccount, accounts } = require("../helpers/dataAccounts");
 
 class PenjualanController {
 	static async penjualanCash(req, res, next) {
@@ -62,6 +63,7 @@ class PenjualanController {
 				}
 
 				//Create new transaction
+
 				const transaction = await Transaction.create(
 					{
 						UserId: userId,
@@ -80,25 +82,25 @@ class PenjualanController {
 				//Create Ledger
 				const ledger = [
 					{
-						AccountId: 1, //Kas
+						AccountId: accounts.Kas, //Kas
 						transactionType: "Debet",
 						amount: product.amount,
 						UserId: userId,
 					},
 					{
-						AccountId: 3, //Persediaan
+						AccountId: accounts.Persediaan, //Persediaan
 						transactionType: "Credit",
 						amount: foundProduct.basePrice * product.sellQuantity,
 						UserId: userId,
 					},
 					{
-						AccountId: 8, //HPP
+						AccountId: accounts.HPP, //HPP
 						transactionType: "Debet",
 						amount: foundProduct.basePrice * product.sellQuantity,
 						UserId: userId,
 					},
 					{
-						AccountId: 7, //Penjualan
+						AccountId: accounts.Penjualan, //Penjualan
 						transactionType: "Debet",
 						amount: product.amount,
 						UserId: userId,
@@ -110,25 +112,25 @@ class PenjualanController {
 					ledger = [
 						//assign new value, beda cuma kas di ganti jadi bank
 						{
-							AccountId: 2, //Bank
+							AccountId: accounts.Bank, //Bank
 							transactionType: "Debet",
 							amount: product.amount,
 							UserId: userId,
 						},
 						{
-							AccountId: 3, //Persediaan
+							AccountId: accounts.Persediaan, //Persediaan
 							transactionType: "Credit",
 							amount: foundProduct.basePrice * product.quantity,
 							UserId: userId,
 						},
 						{
-							AccountId: 8, //HPP
+							AccountId: accounts.Hpp, //HPP
 							transactionType: "Debet",
 							amount: foundProduct.basePrice * product.quantity,
 							UserId: userId,
 						},
 						{
-							AccountId: 7, //Penjualan
+							AccountId: accounts.Penjualan, //Penjualan
 							transactionType: "Debet",
 							amount: product.amount,
 							UserId: userId,
@@ -229,25 +231,25 @@ class PenjualanController {
 				//Create Ledger
 				const ledger = [
 					{
-						AccountId: 4, //Piutang
+						AccountId: accounts.Piutang, //Piutang
 						transactionType: "Debet",
 						amount: product.amount,
 						UserId: userId,
 					},
 					{
-						AccountId: 3, //Persediaan
+						AccountId: accounts.Persediaan, //Persediaan
 						transactionType: "Credit",
 						amount: foundProduct.basePrice * product.sellQuantity,
 						UserId: userId,
 					},
 					{
-						AccountId: 8, //HPP
+						AccountId: accounts.HPP, //HPP
 						transactionType: "Debet",
 						amount: foundProduct.basePrice * product.sellQuantity,
 						UserId: userId,
 					},
 					{
-						AccountId: 7, //Penjualan
+						AccountId: accounts.Penjualan, //Penjualan
 						transactionType: "Debet",
 						amount: product.amount,
 						UserId: userId,

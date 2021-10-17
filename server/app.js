@@ -3,7 +3,6 @@ const express = require("express");
 const app = express();
 const router = require("./routes/index.js");
 const cors = require("cors");
-const { getAccount, category } = require("./helpers/dataAccounts");
 
 app.use(cors());
 app.use(express.json());

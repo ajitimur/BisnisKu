@@ -14,7 +14,7 @@ const {
 let access_token = "";
 
 const queryInterface = sequelize.getQueryInterface();
-
+//NOTE : DATA INSERT
 beforeAll(async () => {
 	let UserData = {
 		username: "dianardian",
@@ -63,7 +63,29 @@ beforeAll(async () => {
 		],
 		{}
 	);
-	// await queryInterface.bulkInsert("Posts", arrayPost, {});
+	await queryInterface.bulkInsert(
+		"Customers",
+		[
+			{
+				name: "Jasmin Rahmawati",
+				email: "reksa.rajata@gmail.co.id",
+				phoneNumber: "026 0949 884",
+				UserId: 1,
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			},
+			{
+				name: "Puji Hartati",
+				email: "mardhiyah.mursinin@oktaviani.co.id",
+				phoneNumber: "(+62) 368 3903 2888",
+				UserId: 1,
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			},
+		],
+		{}
+	);
+	//  await queryInterface.bulkInsert("Posts", arrayPost, {});
 });
 
 afterAll(async () => {
@@ -404,7 +426,7 @@ describe("modal ", () => {
 									transactionType: expect.any(String),
 								})
 							);
-							expect(element.AccountId).toBe(accounts.Kas);
+							expect(element.AccountId).toBe(accounts.Bank);
 						} else if (index == 1) {
 							expect(element).toEqual(
 								expect.objectContaining({
@@ -426,7 +448,7 @@ describe("modal ", () => {
 	});
 });
 
-describe("pembellian cash ", () => {
+describe("pembellian  ", () => {
 	test(" berhasil pembelian Cash dengan product yang sudah ada", (done) => {
 		getAccount;
 		let pembelian = {
@@ -561,6 +583,243 @@ describe("pembellian Hutang ", () => {
 						unit: expect.any(String),
 						basePrice: expect.any(Number),
 						sellPrice: expect.any(Number),
+					})
+				);
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+});
+
+describe("pembellian bank ", () => {
+	test(" berhasil pembelian bank dengan product yang sudah ada", (done) => {
+		getAccount;
+		let pembelian = {
+			productName: "Pepsodent",
+			quantity: 1,
+			unit: "pcs",
+			basePrice: 5000,
+			sellPrice: 9000,
+		};
+		request(app)
+			.post("/pembelian/bank")
+			.set("access_token", access_token)
+			.send(pembelian)
+			.expect(200)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Array));
+				expect(resp.body[0]).toBe(1);
+				expect(resp.body[1][0]).toEqual(
+					expect.objectContaining({
+						id: expect.any(Number),
+						UserId: expect.any(Number),
+						productName: expect.any(String),
+						quantity: expect.any(Number),
+						unit: expect.any(String),
+						basePrice: expect.any(Number),
+						sellPrice: expect.any(Number),
+					})
+				);
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test(" berhasil pembelian bank dengan product yang belum ada atau product baru", (done) => {
+		getAccount;
+		let pembelian = {
+			productName: "colgate white",
+			quantity: 6,
+			unit: "pcs",
+			basePrice: 8000,
+			sellPrice: 13000,
+		};
+		request(app)
+			.post("/pembelian/bank")
+			.set("access_token", access_token)
+			.send(pembelian)
+			.expect(200)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Array));
+				expect(resp.body[1]).toBe(true);
+				expect(resp.body[0]).toEqual(
+					expect.objectContaining({
+						id: expect.any(Number),
+						UserId: expect.any(Number),
+						productName: expect.any(String),
+						quantity: expect.any(Number),
+						unit: expect.any(String),
+						basePrice: expect.any(Number),
+						sellPrice: expect.any(Number),
+					})
+				);
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+});
+
+//TODO penjualan
+describe("penjualan  ", () => {
+	test(" penjualan berhasil menggunakan kas ", (done) => {
+		getAccount;
+		let penjualan = {
+			customer: {
+				id: 1,
+				name: "Jasmin Rahmawati",
+				email: "reksa.rajata@gmail.co.id",
+				phoneNumber: "026 0949 884",
+			},
+			product: {
+				id: 1,
+				productName: "Pepsodent",
+				sellQuantity: 1,
+				amount: 9000,
+			},
+		};
+		request(app)
+			.post("/penjualan/cash")
+			.set("access_token", access_token)
+			.send(penjualan)
+			.expect(201)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Array));
+				resp.body.forEach((element, index) => {
+					expect(element).toEqual(
+						expect.objectContaining({
+							id: expect.any(Number),
+							AccountId: expect.any(Number),
+							transactionType: expect.any(String),
+							amount: expect.any(Number),
+							UserId: expect.any(Number),
+						})
+					);
+				});
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test(" penjualan berhasil menggunakan Piutang ", (done) => {
+		getAccount;
+		let penjualan = {
+			customer: {
+				id: 1,
+				name: "Jasmin Rahmawati",
+				email: "reksa.rajata@gmail.co.id",
+				phoneNumber: "026 0949 884",
+			},
+			product: {
+				id: 1,
+				productName: "Pepsodent",
+				sellQuantity: 1,
+				amount: 9000,
+				dueDate: new Date(),
+			},
+		};
+		request(app)
+			.post("/penjualan/Piutang")
+			.set("access_token", access_token)
+			.send(penjualan)
+			.expect(201)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Array));
+				resp.body.forEach((element, index) => {
+					expect(element).toEqual(
+						expect.objectContaining({
+							id: expect.any(Number),
+							AccountId: expect.any(Number),
+							transactionType: expect.any(String),
+							amount: expect.any(Number),
+							UserId: expect.any(Number),
+						})
+					);
+				});
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+});
+
+describe(" pengeluaran  ", () => {
+	test(" pengeluaran berhasil menggunakan Cash ", (done) => {
+		getAccount;
+		let pengeluaran = {
+			amount: 100000,
+			description: "listrik",
+		};
+		let exprectedResponse = {
+			message: "transaction created",
+		};
+		request(app)
+			.post("/pengeluaran/cash")
+			.set("access_token", access_token)
+			.send(pengeluaran)
+			.expect(200)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body).toEqual(expect.objectContaining(exprectedResponse));
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test(" pengeluaran berhasil menggunakan Bank ", (done) => {
+		getAccount;
+		let pengeluaran = {
+			amount: 100000,
+			description: "listrik",
+		};
+		let exprectedResponse = {
+			message: "transaction created",
+		};
+		request(app)
+			.post("/pengeluaran/cash")
+			.set("access_token", access_token)
+			.send(pengeluaran)
+			.expect(200)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body).toEqual(expect.objectContaining(exprectedResponse));
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+});
+
+describe(" report  ", () => {
+	test(" berashasil menerima reports laba atau rugi", (done) => {
+		getAccount;
+		request(app)
+			.get("/reports/labaRugi")
+			.set("access_token", access_token)
+			.expect(200)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body).toEqual(
+					expect.objectContaining({
+						balancePenjualan: expect.any(Number),
+						balanceHpp: expect.any(Number),
+						balanceBeban: expect.any(Number),
+						balanceLabaRugi: expect.any(Number),
 					})
 				);
 
