@@ -1,15 +1,11 @@
 import React from "react";
-import {
-  HomeScreen,
-  ProdukScreen,
-  LainnyaScreen,
-  TransaksiScreen,
-} from "../screens";
+import { HomeScreen, LainnyaScreen, TransaksiScreen } from "../screens";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome5";
 import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Productscreen from "../screens/ProductScreen";
+import AddNewProduct from "../screens/AddNewProduct";
 
 const Mainapp = () => {
   const Tab = createBottomTabNavigator();
@@ -66,6 +62,13 @@ const Mainapp = () => {
       <Stack.Screen
         name="Transaksi"
         component={TransaksiScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="TambahProduk"
+        component={AddNewProduct}
         options={{
           headerShown: false,
         }}
