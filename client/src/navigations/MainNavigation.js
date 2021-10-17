@@ -15,6 +15,7 @@ const Mainnavigation = () => {
   const checkToken = async () => {
     try {
       const value = await AsyncStorage.getItem("access_token");
+      console.log(value);
       if (value) {
         dispatch(changeLogStatus(true));
       } else {

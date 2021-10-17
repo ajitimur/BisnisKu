@@ -1,12 +1,6 @@
 import React from "react";
-import {
-  FlatList,
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
-import { Box } from "native-base";
+import { FlatList, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Box, StatusBar } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { alignContent } from "styled-system";
 
@@ -42,8 +36,13 @@ const Productscreen = () => {
     );
   }
   return (
-    <SafeAreaView style={styles.container}>
-      <Box safeAreaTop bg="blue.400" roundedBottomLeft={70} h={125} />
+    <View bg="muted.100" h="100%" style={styles.container}>
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
+      <Box safeAreaTop bg="blue.400" roundedBottomLeft={40} h={175} />
       <View style={styles.scrollArea}>
         <FlatList
           horizontal={false}
@@ -78,7 +77,7 @@ const Productscreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
