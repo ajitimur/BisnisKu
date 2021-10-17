@@ -12,9 +12,11 @@ const reportRouter = require("./report");
 const pembayaranRouter = require("./pembayaran");
 const transactionRouter = require("./transaction");
 const customerRouter = require("./customer");
+const xenditRouter = require("./xendit");
 
 
 mainRouter.use("/user", user);
+mainRouter.use("/xendit", xenditRouter)
 mainRouter.use(adminAuthentication);
 mainRouter.use("/pembayaran", pembayaranRouter);
 mainRouter.use("/modal", modal);
