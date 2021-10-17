@@ -3,7 +3,7 @@ import {
   Box,
   Center,
   View,
-  Button
+  ScrollView
 } from 'native-base';
 import {
   Dimensions,

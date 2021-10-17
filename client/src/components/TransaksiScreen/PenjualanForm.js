@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 import {
   Text,
   View,
@@ -8,101 +9,132 @@ import {
   Input,
   Button,
   ScrollView,
+  Select,
+  CheckIcon,
+  Radio,
+  Icon
 } from "native-base";
 
 export default function PenjualanForm() {
+  let [produk, setProduk] = useState("")
+  let [customer, setCustomer] = useState("")
+
   return (
     <>
-      <View
-        p="4"
-        bg="white"
-        roundedBottom="2xl"
-        shadow={4}
-        mx={30}
-      >
-        <FormControl >
-          <Input
-            type="text"
-            height="12"
-            size="md"
-            rounded="md"
-            placeholder="Lorem ipsum"
-            bg="white"
-            _focus={{
-              borderColor: "darkBlue.600",
-              borderWidth: "1.5px",
-            }}
-          />
-        </FormControl>
-        <FormControl mt="3">
-          <Input
-            type="text"
-            height="12"
-            size="md"
-            rounded="md"
-            placeholder="Lorem ipsum"
-            bg="white"
-            _focus={{
-              borderColor: "darkBlue.600",
-              borderWidth: "1.5px",
-            }}
-          />
-        </FormControl>
-        <FormControl mt="3">
-          <Input
-            type="text"
-            height="12"
-            size="md"
-            rounded="md"
-            placeholder="Lorem ipsum"
-            bg="white"
-            _focus={{
-              borderColor: "darkBlue.600",
-              borderWidth: "1.5px",
-            }}
-          />
-        </FormControl>
-        <FormControl mt="3">
-          <Input
-            type="text"
-            height="12"
-            size="md"
-            rounded="md"
-            placeholder="Lorem ipsum"
-            bg="white"
-            _focus={{
-              borderColor: "darkBlue.600",
-              borderWidth: "1.5px",
-            }}
-          />
-        </FormControl>
-      </View>
-      <View
-        flex={1}
-        justifyContent="flex-end"
-        alignItems="center"
-      >
-        <Box
-          h={60}
-          bg="blue.400"
-          w="100%"
+      <ScrollView>
+        <View
+          p="4"
+          bg="white"
+          roundedBottom="2xl"
+          shadow={4}
+          mx={30}
+          mb={30}
         >
-          <Button
-            bg="darkBlue.600"
-            mx={75}
-            rounded="full"
-            p="3"
-            _text={{
-              "fontWeight": "bold",
-              "fontSize": "md"
-            }}
-            top={-20}
-            shadow={4}
+          <FormControl>
+            <FormControl.Label _text={{ fontSize: 16 }}>Produk</FormControl.Label>
+            <Select
+              selectedValue={produk}
+              minWidth="90%"
+              accessibilityLabel="Choose Service"
+              placeholder="Pilih produk"
+              _selectedItem={{
+                _text: {
+                  color: "blue.400"
+                },
+                endIcon: <CheckIcon size="5" />,
+              }}
+              mt={1}
+              onValueChange={(itemValue) => setProduk(itemValue)}
+            >
+              <Select.Item label="UX Research" value="ux" />
+              <Select.Item label="Web Development" value="web" />
+              <Button bg="darkBlue.600">Tambah Produk</Button>
+            </Select>
+          </FormControl>
+          <FormControl mt="3">
+            <FormControl.Label _text={{ fontSize: 16 }}>Customer</FormControl.Label>
+            <Select
+              selectedValue={customer}
+              minWidth="90%"
+              accessibilityLabel="Choose Service"
+              placeholder="Pilih customer"
+              _selectedItem={{
+                _text: {
+                  color: "blue.400"
+                },
+                endIcon: <CheckIcon size="5" />,
+              }}
+              mt={1}
+              onValueChange={(itemValue) => setCustomer(itemValue)}
+            >
+              <Select.Item label="UX Research" value="ux" />
+              <Select.Item label="Web Development" value="web" />
+              <Button bg="darkBlue.600">Tambah Customer</Button>
+            </Select>
+          </FormControl>
+          <View
+            flexDirection="row"
+            justifyContent="space-between"
+            alignItems="center"
+            mt="2"
           >
-            Simpan Transaksi
-          </Button>
-        </Box>
-      </View>
+            <Text
+              fontSize={16}
+            >Pembayaran :{" "}</Text>
+            <Radio.Group
+              size="lg"
+              name="exampleGroup"
+              accessibilityLabel="pick a choice"
+              flexDirection="row"
+            >
+              <Radio
+                _text={{
+                  mx: 2,
+                }}
+                colorScheme="green"
+                value="1"
+                icon={<Icon as={<MaterialCommunityIcons name="bank" />} />}
+                my={1}
+              >
+                Bank
+              </Radio>
+              <Radio
+                _text={{
+                  mx: 2,
+                }}
+                size="md"
+                colorScheme="green"
+                value="2"
+                icon={<Icon as={<MaterialCommunityIcons name="cash" />} />}
+                my={1}
+              >
+                Tunai
+              </Radio>
+            </Radio.Group>
+          </View>
+        </View>
+      </ScrollView>
+      <Box
+        h={60}
+        bg="blue.400"
+        w="100%"
+        position="relative"
+      >
+        <Button
+          bg="darkBlue.600"
+          mx={75}
+          rounded="full"
+          p="3"
+          _text={{
+            "fontWeight": "bold",
+            "fontSize": "md"
+          }}
+          top={-20}
+          shadow={4}
+        >
+          Simpan Transaksi
+        </Button>
+      </Box>
     </>
   )
 }
