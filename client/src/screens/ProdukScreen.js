@@ -5,7 +5,7 @@ import {
 } from "native-base";
 import React from "react";
 
-export default function PembelianScreen() {
+export default function ProdukScreen() {
   return (
     <View>
       <Text>Pembelian Screen</Text>
