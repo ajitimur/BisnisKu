@@ -51,12 +51,6 @@ export default function LoginScreen({ navigation }) {
         await AsyncStorage.setItem("access_token", userLogin.data.access_token);
         await AsyncStorage.setItem("user", username);
         dispatch(changeLogStatus(true));
-        // navigation.dispatch(
-        //   CommonActions.reset({
-        //     index: 0,
-        //     routes: [{ name: "MainTab" }],
-        //   })
-        // );
       }
     } catch (error) {
       if (error) {

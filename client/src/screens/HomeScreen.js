@@ -52,6 +52,13 @@ export default function HomeScreen({ navigation }) {
           }
         }}
       ></Button>
+      <View>
+        <Button
+          onPress={() => {
+            navigation.navigate("Products");
+          }}
+        />
+      </View>
       <StatusBar style="auto" />
     </View>
   );

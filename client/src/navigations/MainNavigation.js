@@ -13,25 +13,18 @@ const Mainnavigation = () => {
     return state.logStatus;
   });
   const checkToken = async () => {
-    // const navigation = useNavigation();
     try {
       const value = await AsyncStorage.getItem("access_token");
-      //   console.log(value);
       if (value) {
-        // console.log("true");
         dispatch(changeLogStatus(true));
-        // setIsLoggedIn(true);
-        // return true;
       } else {
         dispatch(changeLogStatus(false));
-        // setIsLoggedIn(false);
       }
     } catch (err) {
       console.log(err);
     }
   };
   useEffect(() => {
-    //   console.log("???????????????????????");
     checkToken();
   }, []);
   return (
