@@ -36,7 +36,7 @@ class ModalController {
     try {
       const ledger = [
         {
-          AccountId: 2, //Kas
+          AccountId: 2, //Bank
           transactionType: "Debet",
           amount: modal,
           UserId: userId,
