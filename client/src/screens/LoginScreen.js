@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native';
 import { CommonActions } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import API from '../apis/API';
 import {
   Text,
   Box,
@@ -12,11 +14,61 @@ import {
   Input,
   Button,
   Image,
+  Alert,
+  HStack,
+  IconButton,
+  CloseIcon
 } from 'native-base';
+import axios from 'axios';
 
 export default function LoginScreen({ navigation }) {
-  const [show, setShow] = React.useState(false)
-  const handleClick = () => setShow(!show)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showAlert, setShowAlert] = useState(false)
+  const [userData, setUserData] = useState({
+    username: '',
+    password: '',
+  })
+
+  const { username, password } = userData
+
+  const handleLogin = (value, fieldName) => {
+    setUserData({ ...userData, [fieldName]: value });
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    try {
+      const userLogin = await API({
+        method: "POST",
+        url: "/user/login",
+        data: userData
+      })
+
+      if (userLogin) {
+        await AsyncStorage.setItem("access_token", userLogin.data.access_token)
+        await AsyncStorage.setItem("user", username)
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [
+              { name: 'MainTab' }
+            ],
+          })
+        )
+      }
+    } catch (error) {
+      if (error) {
+        setShowAlert(!showAlert)
+        setUserData({
+          username: "",
+          password: ""
+        })
+      }
+    }
+  }
+
+  const handleClick = () => setShowPassword(!showPassword)
 
   return (
     <SafeAreaView>
@@ -71,11 +123,13 @@ export default function LoginScreen({ navigation }) {
             >
               <FormControl>
                 <Input
-                  type="email"
+                  onChangeText={value => handleLogin(value, "username")}
+                  value={username}
+                  type="text"
                   height="10"
                   size="md"
                   rounded="md"
-                  placeholder="Email"
+                  placeholder="Username"
                   bg="white"
                   _focus={{
                     borderColor: "darkBlue.600",
@@ -85,7 +139,9 @@ export default function LoginScreen({ navigation }) {
               </FormControl>
               <FormControl mt="2">
                 <Input
-                  type={show ? "text" : "password"}
+                  onChangeText={value => handleLogin(value, "password")}
+                  value={password}
+                  type={showPassword ? "text" : "password"}
                   overflow="visible"
                   InputRightElement={
                     <Button
@@ -96,7 +152,7 @@ export default function LoginScreen({ navigation }) {
                       rounded="md"
                       onPress={handleClick}
                     >
-                      {show ? "Hide " : "Show "}
+                      {showPassword ? "Hide " : "Show "}
                     </Button>
                   }
                   height="10"
@@ -110,6 +166,45 @@ export default function LoginScreen({ navigation }) {
                   }}
                 />
               </FormControl>
+              {
+                showAlert ? (
+                  <Alert
+                    w="100%"
+                    h="12"
+                    status="error"
+                    mt="1"
+                  >
+                    <VStack space={1} flexShrink={1} w="100%">
+                      <HStack
+                        flexShrink={1}
+                        space={2}
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
+                        <HStack
+                          flexShrink={1}
+                          space={2}
+                          alignItems="center"
+                        >
+                          <Text
+                            fontSize="sm"
+                            fontWeight="medium"
+                          >
+                            Username / password salah!
+                          </Text>
+                        </HStack>
+                        <IconButton
+                          variant="unstyled"
+                          icon={<CloseIcon size="3" color="danger.600" />}
+                          onPress={() => setShowAlert(false)}
+                        />
+                      </HStack>
+                    </VStack>
+                  </Alert>
+                ) : (
+                  null
+                )
+              }
               <View
                 border={2}
                 pb="7"
@@ -118,18 +213,11 @@ export default function LoginScreen({ navigation }) {
                 alignItems="center"
               >
                 <Button
+                  onPress={handleSubmit}
                   w="100%"
                   mt="2"
                   bg="darkBlue.600"
                   _text={{ color: 'white' }}
-                  onPress={() => navigation.dispatch(
-                    CommonActions.reset({
-                      index: 0,
-                      routes: [
-                        { name: 'MainTab' }
-                      ],
-                    })
-                  )}
                 >
                   Masuk
                 </Button>

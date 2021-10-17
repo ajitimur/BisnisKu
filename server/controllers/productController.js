@@ -7,8 +7,21 @@ class ProductController{
       const result = await Product.findAll({
         where: { UserId }
       })
+
+      res.status(200).json(result)
     } catch (error) {
-      next()
+      next(error)
+    }
+  }
+
+  static async getOneProduct(req, res, next){
+    const ProductId = req.params.id
+    try {
+      const result = await Product.findOne({ where : { id: ProductId }})
+
+      res.status(200).json(result)
+    } catch (error) {
+      next(error)
     }
   }
 }
