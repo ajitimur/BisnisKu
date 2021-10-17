@@ -32,22 +32,10 @@ export default function StackNavigationBox() {
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
       >
-        <Modal.Content bg="blue.400">
+        <Modal.Content>
           <Modal.CloseButton />
           <Modal.Header>Tambah Modal</Modal.Header>
           <AddModal />
-          <Modal.Footer bg="blue.400">
-            <Button
-              w="100%"
-              bg="darkBlue.600"
-              _text={{ color: 'white' }}
-              onPress={() => {
-                setModalVisible(false)
-              }}
-            >
-              Save
-            </Button>
-          </Modal.Footer>
         </Modal.Content>
       </Modal>
 
