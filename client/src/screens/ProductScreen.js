@@ -4,7 +4,7 @@ import { View, Box, StatusBar } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { alignContent } from "styled-system";
 
-const Productscreen = () => {
+const Productscreen = ({ navigation }) => {
   function renderProduct(item, index) {
     return (
       <TouchableOpacity
@@ -28,6 +28,7 @@ const Productscreen = () => {
           index % 2 == 0 ? { marginRight: 20 } : { marginLeft: 15 },
         ]}
         onPress={() => {
+          navigation.navigate("Transaksi");
           console.log("ini di pencet");
         }}
       >
@@ -43,6 +44,14 @@ const Productscreen = () => {
         barStyle="dark-content"
       />
       <Box safeAreaTop bg="blue.400" roundedBottomLeft={40} h={175} />
+      <TouchableOpacity
+        style={styles.buttonAdd}
+        onPress={() => {
+          navigation.navigate("TambahProduk");
+        }}
+      >
+        <Text style={{ color: "white", marginLeft: 10 }}>Tambah Produk</Text>
+      </TouchableOpacity>
       <View style={styles.scrollArea}>
         <FlatList
           horizontal={false}
@@ -67,13 +76,13 @@ const Productscreen = () => {
       <View style={styles.rect2}>
         <View style={styles.button5Row}>
           <TouchableOpacity style={styles.button3}>
-            <Text style={{ color: "white", marginLeft: 18 }}>filter</Text>
+            <Text style={{ color: "white", marginLeft: 14 }}>filter 1</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button3}>
-            <Text style={{ color: "white", marginLeft: 18 }}>filter</Text>
+            <Text style={{ color: "white", marginLeft: 14 }}>filter 2</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button3}>
-            <Text style={{ color: "white", marginLeft: 18 }}>filter</Text>
+            <Text style={{ color: "white", marginLeft: 14 }}>filter 3</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -97,7 +106,7 @@ const styles = StyleSheet.create({
     height: 506,
     backgroundColor: "rgba(255,255,255,1)",
     borderRadius: 5,
-    marginTop: 80,
+    marginTop: 40,
     marginLeft: 30,
   },
   button2: {
@@ -138,22 +147,37 @@ const styles = StyleSheet.create({
   },
   rect2: {
     width: 330,
-    height: 51,
+    height: 100,
     borderRadius: 10,
-    backgroundColor: "#E6E6E6",
+    backgroundColor: "white",
     flexDirection: "row",
-    marginTop: -571,
+    marginTop: -620,
     marginLeft: 30,
+    shadowColor: "rgba(0,0,0,1)",
+    shadowOffset: {
+      width: 3,
+      height: 3,
+    },
+    elevation: 5,
+    shadowOpacity: 0.5,
+    shadowRadius: 0,
   },
   button3: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 6,
     width: 66,
     height: 24,
-    backgroundColor: "#000",
+    backgroundColor: "#5A7081",
     borderRadius: 15,
     flex: 0.2,
     justifyContent: "center",
     alignContent: "center",
-    // marginLeft: 36,
   },
   button5Row: {
     height: 24,
@@ -161,9 +185,29 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-evenly",
     alignContent: "center",
-    // marginRight: 25,
-    // marginLeft: 25,
     marginTop: 13,
+  },
+  buttonAdd: {
+    zIndex: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+
+    elevation: 6,
+    position: "absolute",
+    width: 120,
+    height: 35,
+    backgroundColor: "#3C78A5",
+    borderRadius: 8,
+    flex: 0.2,
+    justifyContent: "center",
+    alignContent: "center",
+    top: 150,
+    left: 130,
   },
 });
 
