@@ -41,7 +41,7 @@ export default function LoginScreen({ navigation }) {
     try {
       const userLogin = await API({
         method: "POST",
-        url: "/login",
+        url: "/user/login",
         data: userData
       })
 
