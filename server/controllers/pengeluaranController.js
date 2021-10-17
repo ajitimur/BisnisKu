@@ -14,9 +14,9 @@ class PengeluaranController{
     const t = await sequelize.transaction();
     let totalDebet = 0;
     let totalKredit = 0;
-
+    
 		try {
-			const kasDebet = await Ledger.findAll({
+      const kasDebet = await Ledger.findAll({
         where: {
           AccountId: 1,
           UserId: UserId,
@@ -34,7 +34,8 @@ class PengeluaranController{
       },
       { transaction: t }
       );
-
+      // console.log(kasDebet,`<<<<< Debet` , kasKredit, `<<<<< Kredit`);
+      
       kasDebet.forEach((el) => {
         totalDebet += el.amount;
       });
@@ -42,8 +43,10 @@ class PengeluaranController{
         totalKredit += el.amount;
       });
 
+      // console.log(totalDebet, totalKredit, `=======`);
+
       const balance = totalDebet - totalKredit;
-      if (balance - buyPrice < 0) {
+      if (balance - amount < 0) {
         throw new Error("insufficient money");
       }
 
@@ -70,6 +73,7 @@ class PengeluaranController{
       res.status(200).json({ message: "transaction created"})
 		} catch (error) {
       await t.rollback();
+      // console.log(error);
 			next(error);
 		}
 	}
@@ -110,7 +114,7 @@ class PengeluaranController{
       });
 
       const balance = totalDebet - totalKredit;
-      if (balance - buyPrice < 0) {
+      if (balance - amount < 0) {
         throw new Error("insufficient money");
       }
 
