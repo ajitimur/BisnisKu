@@ -6,7 +6,7 @@ import {
   TransaksiScreen,
 } from "../screens";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome5";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Productscreen from "../screens/ProductScreen";
@@ -48,7 +48,7 @@ const Mainapp = () => {
         })}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Produk" component={ProdukScreen} />
+        <Tab.Screen name="Produk" component={Productscreen} />
         <Tab.Screen name="Lainnya" component={LainnyaScreen} />
       </Tab.Navigator>
     );
@@ -59,13 +59,6 @@ const Mainapp = () => {
       <Stack.Screen
         name="MainTab"
         component={MainTab}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="Products"
-        component={Productscreen}
         options={{
           headerShown: false,
         }}
