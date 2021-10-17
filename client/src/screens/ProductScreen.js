@@ -28,7 +28,7 @@ const Productscreen = ({ navigation }) => {
           index % 2 == 0 ? { marginRight: 20 } : { marginLeft: 15 },
         ]}
         onPress={() => {
-          navigation.navigate("Transaksi");
+          navigation.navigate("BeliProduk");
           console.log("ini di pencet");
         }}
       >
@@ -44,46 +44,48 @@ const Productscreen = ({ navigation }) => {
         barStyle="dark-content"
       />
       <Box safeAreaTop bg="blue.400" roundedBottomLeft={40} h={175} />
-      <TouchableOpacity
-        style={styles.buttonAdd}
-        onPress={() => {
-          navigation.navigate("TambahProduk");
-        }}
-      >
-        <Text style={{ color: "white", marginLeft: 10 }}>Tambah Produk</Text>
-      </TouchableOpacity>
-      <View style={styles.scrollArea}>
-        <FlatList
-          horizontal={false}
-          showsVerticalScrollIndicator={false}
-          numColumns={2}
-          data={[
-            { id: 1, name: "produk satu" },
-            { id: 2, name: "produk dua" },
-            { id: 3, name: "produk tiga" },
-            { id: 4, name: "produk tiga" },
-            { id: 5, name: "produk tiga" },
-            { id: 12, name: "produk satu" },
-            { id: 22, name: "produk dua" },
-            { id: 32, name: "produk tiga" },
-            { id: 42, name: "produk tiga" },
-            { id: 52, name: "produk tiga" },
-          ]}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item, index }) => renderProduct(item, index)}
-        ></FlatList>
-      </View>
-      <View style={styles.rect2}>
-        <View style={styles.button5Row}>
-          <TouchableOpacity style={styles.button3}>
-            <Text style={{ color: "white", marginLeft: 14 }}>filter 1</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button3}>
-            <Text style={{ color: "white", marginLeft: 14 }}>filter 2</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button3}>
-            <Text style={{ color: "white", marginLeft: 14 }}>filter 3</Text>
-          </TouchableOpacity>
+      <View style={{ flex: 1, alignItems: "center" }}>
+        <TouchableOpacity
+          style={styles.buttonAdd}
+          onPress={() => {
+            navigation.navigate("TambahProduk");
+          }}
+        >
+          <Text style={{ color: "white", marginLeft: 10 }}>Tambah Produk</Text>
+        </TouchableOpacity>
+        <View style={styles.scrollArea}>
+          <FlatList
+            horizontal={false}
+            showsVerticalScrollIndicator={false}
+            numColumns={2}
+            data={[
+              { id: 1, name: "produk satu" },
+              { id: 2, name: "produk dua" },
+              { id: 3, name: "produk tiga" },
+              { id: 4, name: "produk tiga" },
+              { id: 5, name: "produk tiga" },
+              { id: 12, name: "produk satu" },
+              { id: 22, name: "produk dua" },
+              { id: 32, name: "produk tiga" },
+              { id: 42, name: "produk tiga" },
+              { id: 52, name: "produk tiga" },
+            ]}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item, index }) => renderProduct(item, index)}
+          ></FlatList>
+        </View>
+        <View style={styles.rect2}>
+          <View style={styles.button5Row}>
+            <TouchableOpacity style={styles.button3}>
+              <Text style={{ color: "white", marginLeft: 14 }}>filter 1</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button3}>
+              <Text style={{ color: "white", marginLeft: 14 }}>filter 2</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button3}>
+              <Text style={{ color: "white", marginLeft: 14 }}>filter 3</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </View>
@@ -93,6 +95,7 @@ const Productscreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // alignItems: "center",
   },
   rect: {
     width: 630,
@@ -103,11 +106,10 @@ const styles = StyleSheet.create({
   },
   scrollArea: {
     width: 330,
-    height: 506,
-    backgroundColor: "rgba(255,255,255,1)",
+    height: 600,
+    // backgroundColor: "#E6E6E6",
     borderRadius: 5,
     marginTop: 40,
-    marginLeft: 30,
   },
   button2: {
     width: 145,
@@ -151,8 +153,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "white",
     flexDirection: "row",
-    marginTop: -620,
-    marginLeft: 30,
+    marginTop: -720,
     shadowColor: "rgba(0,0,0,1)",
     shadowOffset: {
       width: 3,
@@ -196,18 +197,17 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
-
     elevation: 6,
     position: "absolute",
     width: 120,
     height: 35,
-    backgroundColor: "#3C78A5",
-    borderRadius: 8,
+    backgroundColor: "#60a5fa",
+    borderRadius: 12,
     flex: 0.2,
     justifyContent: "center",
     alignContent: "center",
-    top: 150,
-    left: 130,
+    top: -30,
+    left: 140,
   },
 });
 

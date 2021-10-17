@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Input, Stack, FormControl, StatusBar, Box, Button } from "native-base";
 import { View, StyleSheet, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { marginRight } from "styled-system";
 
 const Addnewproduct = () => {
   const [productData, setProductData] = useState({
@@ -46,6 +44,7 @@ const Addnewproduct = () => {
                 p={2}
                 placeholder="20"
                 style={styles.formInput}
+                keyboardType="numeric"
               />
             </Stack>
             <Stack>
@@ -66,6 +65,7 @@ const Addnewproduct = () => {
                 p={2}
                 placeholder="20.000"
                 style={styles.formInput}
+                keyboardType="numeric"
               />
             </Stack>
             <Stack>
@@ -76,6 +76,7 @@ const Addnewproduct = () => {
                 p={2}
                 placeholder="30.000"
                 style={styles.formInput}
+                keyboardType="numeric"
               />
             </Stack>
           </Stack>
@@ -87,7 +88,7 @@ const Addnewproduct = () => {
           }}
           w="100%"
           mt="2"
-          bg="darkBlue.600"
+          bg="blue.400"
           _text={{ color: "white" }}
         >
           Tambah
