@@ -8,6 +8,7 @@ const pembelian = require("./pembelian");
 const modal = require("./modal");
 const { adminAuthentication } = require(`../middlewares/authentication`);
 const pengeluaranRouter = require("./pengeluaran");
+const reportRouter = require("./report");
 
 
 mainRouter.use("/user", user);
@@ -17,6 +18,7 @@ mainRouter.use("/pembelian", pembelian);
 mainRouter.use("/pengeluaran", pengeluaranRouter)
 mainRouter.use("/penjualan", penjualanRouter);
 mainRouter.use("/product", productRouter);
+mainRouter.use("/reports", reportRouter);
 
 mainRouter.use(errorHandler);
 
