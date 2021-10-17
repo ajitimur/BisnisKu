@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import { useNavigation } from '@react-navigation/native';
 import {
   Text,
   Box,
@@ -10,10 +11,12 @@ import {
 } from "native-base";
 import { AddModal } from '../'
 
-export default function StackNavigationBox({ navigation }) {
+export default function StackNavigationBox() {
   const produkIcon = require("../../assets/img/produk-icon.png")
   const transaksiIcon = require("../../assets/img/transaksi-icon.png")
   const modalIcon = require("../../assets/img/modal-icon.png")
+
+  const navigation = useNavigation()
 
   const [modalVisible, setModalVisible] = useState(false)
   const initialRef = useRef(null)
@@ -115,7 +118,7 @@ export default function StackNavigationBox({ navigation }) {
           </Text>
         </View>
         <Link
-          onPress={() => navigation.navigate("Transaksi")}
+          onPress={() => navigation.push("Transaksi")}
         >
           <View alignItems="center">
             <Image

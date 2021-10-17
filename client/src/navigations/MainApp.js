@@ -1,7 +1,6 @@
 import React from "react";
 import {
   HomeScreen,
-  ProdukScreen,
   LainnyaScreen,
   TransaksiScreen,
 } from "../screens";
@@ -67,7 +66,10 @@ const Mainapp = () => {
         name="Transaksi"
         component={TransaksiScreen}
         options={{
-          headerShown: false,
+          headerTransparent: true,
+          headerShadowVisible: false,
+          animation: "slide_from_right",
+          headerTitle: "Tambah Transaksi",
         }}
       />
     </Stack.Navigator>
