@@ -1,6 +1,7 @@
 const request = require("supertest");
 const { getAccount, accounts } = require("../helpers/dataAccounts");
 const app = require("../app");
+
 const {
 	Account,
 	Category,
@@ -15,6 +16,9 @@ let access_token = "";
 
 const queryInterface = sequelize.getQueryInterface();
 //NOTE : DATA INSERT
+
+beforeEach(() => {});
+
 beforeAll(async () => {
 	let UserData = {
 		username: "dianardian",
@@ -343,6 +347,23 @@ describe("product ", () => {
 						sellPrice: expect.any(Number),
 					})
 				);
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+
+	test("product handle error", (done) => {
+		// Product.findAll = jest.fn().mockRejectedValue("Error");
+
+		request(app)
+			.get("/product/all")
+			.set("access_token", access_token)
+			.expect(500)
+			.then((resp) => {
+				expect(res.body.err).toBe("Error");
 
 				done();
 			})
