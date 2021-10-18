@@ -1,7 +1,6 @@
 import React from "react";
 import {
   HomeScreen,
-  ProdukScreen,
   LainnyaScreen,
   TransaksiScreen,
 } from "../screens";
@@ -10,6 +9,8 @@ import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Productscreen from "../screens/ProductScreen";
+import AddNewProduct from "../screens/AddNewProduct";
+import Beliproduk from "../screens/BeliProduk";
 
 const Mainapp = () => {
   const Tab = createBottomTabNavigator();
@@ -66,6 +67,23 @@ const Mainapp = () => {
       <Stack.Screen
         name="Transaksi"
         component={TransaksiScreen}
+        options={{
+          headerTransparent: true,
+          headerShadowVisible: false,
+          animation: "slide_from_right",
+          headerTitle: "Tambah Transaksi",
+        }}
+      />
+      <Stack.Screen
+        name="TambahProduk"
+        component={AddNewProduct}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="BeliProduk"
+        component={Beliproduk}
         options={{
           headerShown: false,
         }}

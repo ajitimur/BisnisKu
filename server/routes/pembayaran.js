@@ -3,6 +3,6 @@ const { PembayaranPiutangController } = require("../controllers/pembayaranPiutan
 const pembayaranRouter = express.Router();
 
 pembayaranRouter.post("/:id", PembayaranPiutangController.sendInvoice) //TransactionId
-pembayaranRouter.post("/success", PembayaranPiutangController.debtPayment)
+// pembayaranRouter.post("/success", PembayaranPiutangController.debtPayment)
 
 module.exports = pembayaranRouter
