@@ -5,3 +5,5 @@ export { default as InformationBox } from "./HomeScreen/InformationBox"
 
 export { default as PenjualanForm } from "./TransaksiScreen/PenjualanForm"
 export { default as PengeluaranForm } from "./TransaksiScreen/PengeluaranForm"
+export { default as AddCustomer } from "./TransaksiScreen/AddCustomer"
+export { default as AddProduk } from "./TransaksiScreen/AddProduk"

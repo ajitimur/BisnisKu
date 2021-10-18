@@ -1,26 +1,59 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 import {
   Text,
   View,
-  Heading,
   Box,
   FormControl,
-  Input,
   Button,
   ScrollView,
   Select,
   CheckIcon,
   Radio,
-  Icon
+  Icon,
+  Modal,
 } from "native-base";
+import { AddCustomer, AddProduk } from '../';
 
 export default function PenjualanForm() {
   let [produk, setProduk] = useState("")
   let [customer, setCustomer] = useState("")
 
+  const [addCustomerVisible, setAddCustomerVisible] = useState(false)
+  const [addProdukVisible, setAddProdukVisible] = useState(false)
+  const initialRef = useRef(null)
+  const finalRef = useRef(null)
+
   return (
     <>
+      <Modal
+        isOpen={addProdukVisible}
+        onClose={() => setAddProdukVisible(false)}
+        size="lg"
+        animationPreset="slide"
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+      >
+        <Modal.Content>
+          <Modal.CloseButton />
+          <Modal.Header>Tambah Produk</Modal.Header>
+          <AddProduk />
+        </Modal.Content>
+      </Modal>
+      <Modal
+        isOpen={addCustomerVisible}
+        onClose={() => setAddCustomerVisible(false)}
+        size="lg"
+        animationPreset="slide"
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+      >
+        <Modal.Content>
+          <Modal.CloseButton />
+          <Modal.Header>Tambah Customer</Modal.Header>
+          <AddCustomer />
+        </Modal.Content>
+      </Modal>
       <ScrollView>
         <View
           p="4"
@@ -48,7 +81,14 @@ export default function PenjualanForm() {
             >
               <Select.Item label="UX Research" value="ux" />
               <Select.Item label="Web Development" value="web" />
-              <Button bg="darkBlue.600">Tambah Produk</Button>
+              <Button
+                bg="darkBlue.600"
+                onPress={() => {
+                  setAddProdukVisible(!addProdukVisible)
+                }}
+              >
+                Tambah Produk
+              </Button>
             </Select>
           </FormControl>
           <FormControl mt="3">
@@ -69,7 +109,14 @@ export default function PenjualanForm() {
             >
               <Select.Item label="UX Research" value="ux" />
               <Select.Item label="Web Development" value="web" />
-              <Button bg="darkBlue.600">Tambah Customer</Button>
+              <Button
+                bg="darkBlue.600"
+                onPress={() => {
+                  setAddCustomerVisible(!addCustomerVisible)
+                }}
+              >
+                Tambah Customer
+              </Button>
             </Select>
           </FormControl>
           <View

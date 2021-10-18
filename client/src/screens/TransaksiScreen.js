@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import {
   Box,
-  Center,
   View,
-  ScrollView
 } from 'native-base';
 import {
   Dimensions,

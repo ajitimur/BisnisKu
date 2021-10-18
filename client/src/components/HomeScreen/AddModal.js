@@ -13,7 +13,6 @@ import {
 
 export default function AddModal() {
   const initialRef = useRef(null)
-  const [value, setValue] = useState("")
   return (
     <>
       <Modal.Body bg="white">
