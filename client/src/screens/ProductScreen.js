@@ -1,8 +1,6 @@
 import React from "react";
 import { FlatList, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { View, Box, StatusBar } from "native-base";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { alignContent } from "styled-system";
 
 const Productscreen = ({ navigation }) => {
   function renderProduct(item, index) {
@@ -23,7 +21,6 @@ const Productscreen = ({ navigation }) => {
             shadowRadius: 0,
             borderRadius: 15,
             marginBottom: 10,
-            // marginLeft: 31,
           },
           index % 2 == 0 ? { marginRight: 20 } : { marginLeft: 15 },
         ]}
@@ -95,7 +92,6 @@ const Productscreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: "center",
   },
   rect: {
     width: 630,
@@ -106,8 +102,7 @@ const styles = StyleSheet.create({
   },
   scrollArea: {
     width: 330,
-    height: 600,
-    // backgroundColor: "#E6E6E6",
+    height: 500,
     borderRadius: 5,
     marginTop: 40,
   },
@@ -153,7 +148,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "white",
     flexDirection: "row",
-    marginTop: -720,
+    marginTop: -620,
     shadowColor: "rgba(0,0,0,1)",
     shadowOffset: {
       width: 3,
