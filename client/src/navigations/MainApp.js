@@ -1,5 +1,9 @@
 import React from "react";
-import { HomeScreen, LainnyaScreen, TransaksiScreen } from "../screens";
+import {
+  HomeScreen,
+  LainnyaScreen,
+  TransaksiScreen,
+} from "../screens";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome5";
 import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -64,7 +68,10 @@ const Mainapp = () => {
         name="Transaksi"
         component={TransaksiScreen}
         options={{
-          headerShown: false,
+          headerTransparent: true,
+          headerShadowVisible: false,
+          animation: "slide_from_right",
+          headerTitle: "Tambah Transaksi",
         }}
       />
       <Stack.Screen
