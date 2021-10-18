@@ -5,12 +5,13 @@ class ReportController{
   static async labaRugi(req, res, next){
     const UserId = req.user.id
     const { startDate, endDate } = req.body //filter date dari client
-    const totalPenjualanDebet = 0
-    const totalPenjualanCredit = 0
-    const totalHppDebet = 0
-    const totalHppCredit = 0
-    const totalBebanDebet = 0
-    const totalBebanCredit = 0
+    // console.log(new Date(startDate), new Date(endDate));
+    let totalPenjualanDebet = 0
+    let totalPenjualanCredit = 0
+    let totalHppDebet = 0
+    let totalHppCredit = 0
+    let totalBebanDebet = 0
+    let totalBebanCredit = 0
     const t = await sequelize.transaction();
     
     try {
@@ -47,6 +48,7 @@ class ReportController{
       penjualanCredit.forEach((el) => {
         totalPenjualanCredit += el.amount;
       });
+      console.log(penjualanDebet, `<<<debet`, penjualanCredit, `<<<credit`);
       const balancePenjualan = totalPenjualanCredit - totalPenjualanDebet;
       // End of cari Balance Penjualan
       // Cari saldo HPP
@@ -130,6 +132,7 @@ class ReportController{
       await t.commit();
       res.status(200).json(result)
     } catch (error) {
+      console.log(error);
       await t.rollback()
       next(error)
     }
