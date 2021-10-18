@@ -331,10 +331,6 @@ describe("product ", () => {
 			.set("access_token", access_token)
 			.expect(200)
 			.then((resp) => {
-				console.log(
-					"🚀 ~ file: app.test.js ~ line 324 ~ .then ~ resp",
-					resp.body
-				);
 				expect(resp.body).toEqual(expect.any(Object));
 
 				expect(resp.body).toEqual(
@@ -351,8 +347,6 @@ describe("product ", () => {
 				done();
 			})
 			.catch((err) => {
-				console.log("🚀 ~ file: app.test.js ~ line 346 ~ test ~ err", err);
-
 				done(err);
 			});
 	});
@@ -440,6 +434,50 @@ describe("modal ", () => {
 					});
 				}
 
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test("modal Bank input invalid", (done) => {
+		getAccount;
+		let modal = {
+			modal: "",
+		};
+		const expectedResponse = {
+			message: "invalid input",
+		};
+		request(app)
+			.post("/modal/bank")
+			.set("access_token", access_token)
+			.send(modal)
+			.expect(400)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body).toEqual(expect.objectContaining(expectedResponse));
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test("modal cash input invalid", (done) => {
+		getAccount;
+		let modal = {
+			modal: "",
+		};
+		const expectedResponse = {
+			message: "invalid input",
+		};
+		request(app)
+			.post("/modal/cash")
+			.set("access_token", access_token)
+			.send(modal)
+			.expect(400)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body).toEqual(expect.objectContaining(expectedResponse));
 				done();
 			})
 			.catch((err) => {
@@ -797,6 +835,98 @@ describe(" pengeluaran  ", () => {
 				expect(resp.body).toEqual(expect.any(Object));
 				expect(resp.body).toEqual(expect.objectContaining(exprectedResponse));
 
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test("Pengeluaran cash input invalid", (done) => {
+		getAccount;
+		let modal = {
+			amount: "",
+			description: "",
+		};
+		const expectedResponse = {
+			message: "invalid input",
+		};
+		request(app)
+			.post("/pengeluaran/cash")
+			.set("access_token", access_token)
+			.send(modal)
+			.expect(400)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body).toEqual(expect.objectContaining(expectedResponse));
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test("Pengeluaran Bank input invalid", (done) => {
+		getAccount;
+		let modal = {
+			amount: "",
+			description: "",
+		};
+		const expectedResponse = {
+			message: "invalid input",
+		};
+		request(app)
+			.post("/pengeluaran/bank")
+			.set("access_token", access_token)
+			.send(modal)
+			.expect(400)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body).toEqual(expect.objectContaining(expectedResponse));
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test("Pengeluaran Bank insufficient money", (done) => {
+		getAccount;
+		let modal = {
+			amount: 100000000,
+			description: "",
+		};
+		const expectedResponse = {
+			message: "insufficient money",
+		};
+		request(app)
+			.post("/pengeluaran/bank")
+			.set("access_token", access_token)
+			.send(modal)
+			.expect(400)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body).toEqual(expect.objectContaining(expectedResponse));
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test("Pengeluaran Cash insufficient money", (done) => {
+		getAccount;
+		let modal = {
+			amount: 100000000,
+			description: "",
+		};
+		const expectedResponse = {
+			message: "insufficient money",
+		};
+		request(app)
+			.post("/pengeluaran/cash")
+			.set("access_token", access_token)
+			.send(modal)
+			.expect(400)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body).toEqual(expect.objectContaining(expectedResponse));
 				done();
 			})
 			.catch((err) => {

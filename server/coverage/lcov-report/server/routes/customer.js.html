@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for server/routes/pembayaran.js</title>
+    <title>Code coverage report for server/routes/customer.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">server/routes</a> pembayaran.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">server/routes</a> customer.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -63,22 +63,19 @@
 <a name='L4'></a><a href='#L4'>4</a>
 <a name='L5'></a><a href='#L5'>5</a>
 <a name='L6'></a><a href='#L6'>6</a>
-<a name='L7'></a><a href='#L7'>7</a>
-<a name='L8'></a><a href='#L8'>8</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L7'></a><a href='#L7'>7</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const express = require("express");
-const { PembayaranPiutangController } = require("../controllers/pembayaranPiutang.js");
-const pembayaranRouter = express.Router();
+const CustomerController = require("../controllers/customerController");
+const customerRouter = express.Router();
 &nbsp;
-pembayaranRouter.post("/:id", PembayaranPiutangController.sendInvoice) //TransactionId
-// pembayaranRouter.post("/success", PembayaranPiutangController.debtPayment)
+customerRouter.get("/", CustomerController.findAll)
 &nbsp;
-module.exports = pembayaranRouter</pre></td></tr></table></pre>
+module.exports = customerRouter</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
