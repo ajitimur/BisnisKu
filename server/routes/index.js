@@ -14,18 +14,17 @@ const transactionRouter = require("./transaction");
 const customerRouter = require("./customer");
 const xenditRouter = require("./xendit");
 
-
 mainRouter.use("/user", user);
 mainRouter.use("/xendit", xenditRouter)
 mainRouter.use(adminAuthentication);
 mainRouter.use("/pembayaran", pembayaranRouter);
 mainRouter.use("/modal", modal);
 mainRouter.use("/pembelian", pembelian);
-mainRouter.use("/pengeluaran", pengeluaranRouter)
+mainRouter.use("/pengeluaran", pengeluaranRouter);
 mainRouter.use("/penjualan", penjualanRouter);
 mainRouter.use("/product", productRouter);
 mainRouter.use("/reports", reportRouter);
-mainRouter.use("/transaction", transactionRouter)
+mainRouter.use("/transaction", transactionRouter);
 
 mainRouter.use("/customer", customerRouter)
 

@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -144,8 +144,7 @@
 <a name='L85'></a><a href='#L85'>85</a>
 <a name='L86'></a><a href='#L86'>86</a>
 <a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a>
-<a name='L89'></a><a href='#L89'>89</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L88'></a><a href='#L88'>88</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -158,12 +157,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -236,90 +234,89 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) =&gt; {
-	class Transaction extends Model {
-		/**
-		 * Helper method for defining associations.
-		 * This method is not a part of Sequelize lifecycle.
-		 * The `models/index` file will call this method automatically.
-		 */
-		static associate(models) {
-			// define association here
-			Transaction.belongsTo(models.User);
-			Transaction.belongsTo(models.Product);
-		}
-	}
-	Transaction.init(
-		{
-			UserId: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
-				validate: {
-					notEmpty: {
-						msg: `UserId is required`,
-					},
-				},
-			},
-			CustomerId: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
-				validate: {
-					notEmpty: {
-						msg: `CustomerId is required`,
-					},
-				},
-			},
-			ProductId: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
-				validate: {
-					notEmpty: {
-						msg: `ProductId is required`,
-					},
-				},
-			},
-			quantity: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
-				validate: {
-					notEmpty: {
-						msg: `quantity is required`,
-					},
-				},
-			},
-			amount: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
-				validate: {
-					notEmpty: {
-						msg: `amount is required`,
-					},
-				},
-			},
-			dueDate: {
-				type: DataTypes.DATE,
-				allowNull: false,
-				validate: {
-					notEmpty: {
-						msg: `dueDate is required`,
-					},
-				},
-			},
-			isPaid: {
-				type: DataTypes.BOOLEAN,
-				allowNull: false,
-				validate: {
-					notEmpty: {
-						msg: `isPaid is required`,
-					},
-				},
-			},
-		},
-		{
-			sequelize,
-			modelName: "Transaction",
-		}
-	);
-	return Transaction;
+  class Transaction extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+      Transaction.belongsTo(models.User)
+      Transaction.belongsTo(models.Product)
+      Transaction.belongsTo(models.Customer)
+      // Transaction.belongsTo(models.Ledger)
+    }
+  };
+  Transaction.init({
+    UserId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: `UserId is required`
+        }
+      }
+    },
+    CustomerId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: `CustomerId is required`
+        }
+      }
+    },
+    ProductId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: `ProductId is required`
+        }
+      }
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: `quantity is required`
+        }
+      }
+    },
+    amount: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: `amount is required`
+        }
+      }
+    },
+    dueDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: `dueDate is required`
+        }
+      }
+    },
+    isPaid: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: `isPaid is required`
+        }
+      }
+    },
+  }, {
+    sequelize,
+    modelName: 'Transaction',
+  });
+  return Transaction;
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -328,7 +325,7 @@ module.exports = (sequelize, DataTypes) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Oct 16 2021 13:51:46 GMT+0700 (Western Indonesia Time)
+                at Mon Oct 18 2021 00:07:52 GMT+0700 (Western Indonesia Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

@@ -1,5 +1,13 @@
-const { Customer, Ledger, Product, Transaction, sequelize, Sequelize } = require("../models");
+const {
+	Customer,
+	Ledger,
+	Product,
+	Transaction,
+	sequelize,
+	Sequelize,
+} = require("../models");
 const Op = Sequelize.Op;
+const { getAccount, accounts } = require("../helpers/dataAccounts");
 
 class ReportController{
   static async labaRugi(req, res, next){
@@ -122,12 +130,13 @@ class ReportController{
       const balanceBeban = totalBebanDebet - totalBebanCredit;
       const balanceLabaRugi = balancePenjualan - balanceHpp - balanceBeban
 
-      const result = {
-        balancePenjualan,
-        balanceHpp,
-        balanceBeban,
-        balanceLabaRugi
-      }
+			const result = {
+				balancePenjualan,
+				balanceHpp,
+				balanceBeban,
+				balanceLabaRugi,
+			};
+
 
       await t.commit();
       res.status(200).json(result)
@@ -138,17 +147,14 @@ class ReportController{
     }
   }
 
-  static async neracaSaldo(req, res, next){
-    //sek bingung
-    const UserId = req.user.id
-    const { startDate, endDate } = req.body //filter date dari client
-    const t = await sequelize.transaction();
-    try {
-      
-    } catch (error) {
-      
-    }
-  }
+	static async neracaSaldo(req, res, next) {
+		//sek bingung
+		const UserId = req.user.id;
+		const { startDate, endDate } = req.body; //filter date dari client
+		const t = await sequelize.transaction();
+		try {
+		} catch (error) {}
+	}
 }
 
-module.exports = ReportController
+module.exports = ReportController;
