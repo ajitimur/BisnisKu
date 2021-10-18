@@ -21,11 +21,12 @@ class ModalController {
 				},
 			];
 			const result = await Ledger.bulkCreate(ledger, { transaction: t });
+
 			await t.commit();
 			res.status(201).json(result);
 		} catch (err) {
 			await t.rollback();
-			console.log(err);
+			next(err);
 		}
 	}
 
@@ -53,7 +54,7 @@ class ModalController {
 			res.status(201).json(result);
 		} catch (err) {
 			await t.rollback();
-			console.log(err);
+			next(err);
 		}
 	}
 }

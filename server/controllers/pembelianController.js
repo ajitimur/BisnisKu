@@ -45,7 +45,10 @@ class PembelianController {
 
 			const balance = totalDebet - totalKredit;
 			if (balance - buyPrice < 0) {
-				throw new Error("insufficient money");
+				throw {
+					name: "PembelianError",
+					msg: "insufficient money",
+				};
 			}
 			//   res.status(200).json({ msg: balance - buyPrice });
 			const checkProduct = await Product.findOrCreate({
@@ -137,8 +140,9 @@ class PembelianController {
 			}
 		} catch (err) {
 			await t.rollback();
-			console.log(err); //err.message -> "insufficient money" err.name -> Error
-			res.status(400).json(err.message);
+			// console.log(err); //err.message -> "insufficient money" err.name -> Error
+			// res.json(err);
+			next(err);
 		}
 	}
 
@@ -180,7 +184,10 @@ class PembelianController {
 
 			const balance = totalDebet - totalKredit;
 			if (balance - buyPrice < 0) {
-				throw new Error("insufficient money");
+				throw {
+					name: "PembelianError",
+					msg: "insufficient money",
+				};
 			}
 			//   res.status(200).json({ msg: balance - buyPrice });
 			const checkProduct = await Product.findOrCreate({
@@ -272,8 +279,7 @@ class PembelianController {
 			}
 		} catch (err) {
 			await t.rollback();
-			console.log(err); //err.message -> "insufficient money" err.name -> Error
-			res.status(400).json(err.message);
+			next(err);
 		}
 	}
 
