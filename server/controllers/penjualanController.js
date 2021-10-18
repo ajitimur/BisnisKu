@@ -62,6 +62,7 @@ class PenjualanController {
 					customerId = newCustomer.id; //assign value id newCustomer
 				}
 
+
 				//Create new transaction
 
 				const transaction = await Transaction.create(
@@ -208,7 +209,6 @@ class PenjualanController {
 							transaction: t,
 						}
 					);
-
 					customerId = newCustomer.id; //assign value id newCustomer
 				}
 
