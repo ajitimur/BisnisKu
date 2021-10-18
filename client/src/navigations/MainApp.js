@@ -3,6 +3,7 @@ import {
   HomeScreen,
   LainnyaScreen,
   TransaksiScreen,
+  StatistikScreen
 } from "../screens";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome5";
 import { StyleSheet } from "react-native";
@@ -86,6 +87,16 @@ const Mainapp = () => {
         component={Beliproduk}
         options={{
           headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Statistik"
+        component={StatistikScreen}
+        options={{
+          headerTransparent: true,
+          headerShadowVisible: false,
+          animation: "slide_from_right",
+          headerTitle: "Statistik Keuangan",
         }}
       />
     </Stack.Navigator>
