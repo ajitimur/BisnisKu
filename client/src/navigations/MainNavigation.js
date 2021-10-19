@@ -18,7 +18,6 @@ const Mainnavigation = () => {
     try {
       setIsLoading(true);
       const value = await AsyncStorage.getItem("access_token");
-      // console.log(value);
 
       if (value) {
         dispatch(changeLogStatus(true));
