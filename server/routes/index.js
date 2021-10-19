@@ -15,7 +15,7 @@ const customerRouter = require("./customer");
 const xenditRouter = require("./xendit");
 
 mainRouter.use("/user", user);
-mainRouter.use("/xendit", xenditRouter)
+mainRouter.use("/xendit", xenditRouter);
 mainRouter.use(adminAuthentication);
 mainRouter.use("/pembayaran", pembayaranRouter);
 mainRouter.use("/modal", modal);
@@ -26,7 +26,7 @@ mainRouter.use("/product", productRouter);
 mainRouter.use("/reports", reportRouter);
 mainRouter.use("/transaction", transactionRouter);
 
-mainRouter.use("/customer", customerRouter)
+mainRouter.use("/customer", customerRouter);
 
 mainRouter.use(errorHandler);
 
