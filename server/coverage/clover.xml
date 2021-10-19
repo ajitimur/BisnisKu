@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1634639417789" clover="3.2.0">
-  <project timestamp="1634639417789" name="All files">
-    <metrics statements="618" coveredstatements="215" conditionals="69" coveredconditionals="8" methods="64" coveredmethods="20" elements="751" coveredelements="243" complexity="0" loc="618" ncloc="618" packages="6" files="36" classes="36"/>
+<coverage generated="1634642453192" clover="3.2.0">
+  <project timestamp="1634642453192" name="All files">
+    <metrics statements="623" coveredstatements="213" conditionals="68" coveredconditionals="6" methods="64" coveredmethods="20" elements="755" coveredelements="239" complexity="0" loc="623" ncloc="623" packages="6" files="36" classes="36"/>
     <package name="server">
       <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="app.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\app.js">
@@ -19,7 +19,7 @@
       </file>
     </package>
     <package name="server.controllers">
-      <metrics statements="402" coveredstatements="30" conditionals="48" coveredconditionals="0" methods="39" coveredmethods="0"/>
+      <metrics statements="404" coveredstatements="30" conditionals="50" coveredconditionals="0" methods="39" coveredmethods="0"/>
       <file name="customerController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\customerController.js">
         <metrics statements="13" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="10" count="1" type="stmt"/>
@@ -321,7 +321,7 @@
         <line num="280" count="1" type="stmt"/>
       </file>
       <file name="productController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\productController.js">
-        <metrics statements="12" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <metrics statements="14" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
@@ -331,9 +331,11 @@
         <line num="18" count="0" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
         <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="22" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="30" count="1" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
       </file>
       <file name="reportController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\reportController.js">
         <metrics statements="71" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="12" coveredmethods="0"/>
@@ -454,7 +456,7 @@
       </file>
     </package>
     <package name="server.helpers">
-      <metrics statements="21" coveredstatements="15" conditionals="2" coveredconditionals="1" methods="5" coveredmethods="2"/>
+      <metrics statements="21" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="2"/>
       <file name="bcrypt.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\helpers\bcrypt.js">
         <metrics statements="5" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
@@ -478,18 +480,18 @@
         <line num="22" count="1" type="stmt"/>
       </file>
       <file name="jwt.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\helpers\jwt.js">
-        <metrics statements="5" coveredstatements="3" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="0"/>
+        <metrics statements="5" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="2" count="1" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
       </file>
     </package>
     <package name="server.middlewares">
-      <metrics statements="30" coveredstatements="6" conditionals="8" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <metrics statements="35" coveredstatements="6" conditionals="9" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="authentication.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\middlewares\authentication.js">
-        <metrics statements="16" coveredstatements="4" conditionals="4" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="11" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -497,36 +499,41 @@
         <line num="5" count="0" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
-        <line num="10" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="11" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
         <line num="18" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="28" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
       </file>
       <file name="errorHandler.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\middlewares\errorHandler.js">
-        <metrics statements="14" coveredstatements="2" conditionals="4" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="24" coveredstatements="2" conditionals="9" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="6" count="0" type="cond" truecount="0" falsecount="9"/>
+        <line num="9" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
       </file>
     </package>
     <package name="server.models">
-      <metrics statements="60" coveredstatements="59" conditionals="11" coveredconditionals="7" methods="18" coveredmethods="18"/>
+      <metrics statements="58" coveredstatements="57" conditionals="9" coveredconditionals="6" methods="18" coveredmethods="18"/>
       <file name="account.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\models\account.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="4" count="1" type="stmt"/>
@@ -600,16 +607,14 @@
         <line num="86" count="1" type="stmt"/>
       </file>
       <file name="user.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\models\user.js">
-        <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="3"/>
+        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+        <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="92" count="1" type="stmt"/>
         <line num="93" count="1" type="stmt"/>
-        <line num="94" count="1" type="stmt"/>
-        <line num="95" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="96" count="1" type="stmt"/>
-        <line num="99" count="1" type="stmt"/>
+        <line num="95" count="1" type="stmt"/>
       </file>
     </package>
     <package name="server.routes">

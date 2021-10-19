@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">36.36% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/16</span>
+                <span class='fraction'>4/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">36.36% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/16</span>
+                <span class='fraction'>4/11</span>
             </div>
         
             
@@ -78,14 +78,7 @@
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
 <a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L22'></a><a href='#L22'>22</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -94,8 +87,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -105,40 +96,28 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { verify } = require(`../helpers/jwt`);
 const { User } = require(`../models`);
 const adminAuthentication = <span class="fstat-no" title="function not covered" >as</span>ync (req, res, next) =&gt; {
-  const token = <span class="cstat-no" title="statement not covered" >req.headers.access_token;</span>
-<span class="cstat-no" title="statement not covered" >  try {</span>
-    const payload = <span class="cstat-no" title="statement not covered" >verify(token);</span>
-    const checkUser = <span class="cstat-no" title="statement not covered" >await User.findOne({</span>
-      where: { id: payload.id, username: payload.username },
-    });
-<span class="cstat-no" title="statement not covered" >    if (!checkUser) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new Error(`UserNotFound`);</span>
-    }
-<span class="cstat-no" title="statement not covered" >    req.user = {</span>
-      id: checkUser.id,
-      username: checkUser.username,
-      businessName: checkUser.businessName,
-    };
-<span class="cstat-no" title="statement not covered" >    next();</span>
-  } catch (err) {
-<span class="cstat-no" title="statement not covered" >    console.log(err);</span>
-<span class="cstat-no" title="statement not covered" >    if (err.message === `UserNotFound`) {</span>
-<span class="cstat-no" title="statement not covered" >      next({ statuscode: 401, msg: `JWT is tampered ` });</span>
-    } else {
-<span class="cstat-no" title="statement not covered" >      next({ statuscode: 401, msg: `Invalid JWT` });</span>
-    }
-  }
+	const token = <span class="cstat-no" title="statement not covered" >req.headers.access_token;</span>
+<span class="cstat-no" title="statement not covered" >	try {</span>
+		const payload = <span class="cstat-no" title="statement not covered" >verify(token);</span>
+		const checkUser = <span class="cstat-no" title="statement not covered" >await User.findOne({</span>
+			where: { id: payload.id, username: payload.username },
+		});
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		req.user = {</span>
+			id: checkUser.id,
+			username: checkUser.username,
+			businessName: checkUser.businessName,
+		};
+<span class="cstat-no" title="statement not covered" >		next();</span>
+	} catch (err) {
+<span class="cstat-no" title="statement not covered" >		next({ name: "authentication", statuscode: 401, msg: `Invalid JWT` });</span>
+	}
 };
 module.exports = { adminAuthentication };
 &nbsp;</pre></td></tr></table></pre>
@@ -148,7 +127,7 @@ module.exports = { adminAuthentication };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Oct 19 2021 17:30:17 GMT+0700 (Western Indonesia Time)
+                at Tue Oct 19 2021 18:20:52 GMT+0700 (Western Indonesia Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
