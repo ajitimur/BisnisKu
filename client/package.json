@@ -1,7 +1,7 @@
 {
   "main": "./node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "adb reverse tcp:5000 tcp:5000 && expo start",
+    "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",

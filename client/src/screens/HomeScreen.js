@@ -46,7 +46,9 @@ export default function HomeScreen() {
         safeAreaTop
         bg="blue.400"
       />
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
         <Box
           bg="blue.400"
           roundedBottomLeft={70}
