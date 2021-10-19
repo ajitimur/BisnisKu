@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import {
   Input,
-  Stack,
   FormControl,
   StatusBar,
   Box,
   Button,
   Icon,
   Radio,
+  Text,
+  View,
+  ScrollView,
 } from "native-base";
-import { View, StyleSheet, ScrollView, Text } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { addNewProduct } from "../store/actions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -24,6 +25,7 @@ const Addnewproduct = ({ navigation }) => {
     basePrice: "",
     sellPrice: "",
   });
+
   const [pembayaran, setPembayaran] = useState(0);
   const [acc_token, setAcc_token] = useState("");
   async function getToken() {
@@ -43,128 +45,197 @@ const Addnewproduct = ({ navigation }) => {
   }
 
   return (
-    <View bg="muted.100" h="100%" style={{ flex: 1 }}>
+    <View
+      bg="muted.100"
+      h="100%"
+    >
       <StatusBar
         translucent
         backgroundColor="transparent"
         barStyle="dark-content"
       />
-      <Box safeAreaTop bg="blue.400" roundedBottomLeft={40} h={175} />
-      <ScrollView style={styles.formContainer}>
-        <FormControl>
-          <Stack space={5}>
-            <Stack>
-              <FormControl.Label>Name Produk</FormControl.Label>
-              <Input
-                onChangeText={(value) => formHandler(value, "productName")}
-                variant="underlined"
-                p={2}
-                placeholder="Produk"
-                style={styles.formInput}
-              />
-            </Stack>
-            <Stack>
-              <FormControl.Label>Quantitas</FormControl.Label>
-              <Input
-                onChangeText={(value) => formHandler(value, "quantity")}
-                variant="underlined"
-                p={2}
-                placeholder="20"
-                style={styles.formInput}
-                keyboardType="numeric"
-              />
-            </Stack>
-            <Stack>
-              <FormControl.Label>Unit</FormControl.Label>
-              <Input
-                onChangeText={(value) => formHandler(value, "unit")}
-                variant="underlined"
-                p={2}
-                placeholder="kg"
-                style={styles.formInput}
-              />
-            </Stack>
-            <Stack>
-              <FormControl.Label>Harga Satuan</FormControl.Label>
-              <Input
-                onChangeText={(value) => formHandler(value, "basePrice")}
-                variant="underlined"
-                p={2}
-                placeholder="20.000"
-                style={styles.formInput}
-                keyboardType="numeric"
-              />
-            </Stack>
-            <Stack>
-              <FormControl.Label>Harga Jual Satuan</FormControl.Label>
-              <Input
-                onChangeText={(value) => formHandler(value, "sellPrice")}
-                variant="underlined"
-                p={2}
-                placeholder="30.000"
-                style={styles.formInput}
-                keyboardType="numeric"
-              />
-            </Stack>
-            <Stack>
-              <View
-                flexDirection="row"
-                justifyContent="space-between"
-                alignItems="center"
-                mt="2"
+      <Box
+        safeAreaTop
+        bg="blue.400"
+      />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
+        <Box
+          bg="blue.400"
+          h={125}
+        />
+        <View
+          bg="white"
+          rounded="2xl"
+          alignItems="center"
+          shadow={4}
+          mx={30}
+          mb={30}
+          p="4"
+          style={{
+            marginTop: -67,
+          }}
+        >
+          <FormControl>
+            <FormControl.Label _text={{ fontSize: 16 }}>Nama Produk</FormControl.Label>
+            <Input
+              onChangeText={(value) => formHandler(value, "productName")}
+              type="text"
+              height="10"
+              size="md"
+              rounded="md"
+              placeholder="Nama produk"
+              bg="white"
+              _focus={{
+                borderColor: "darkBlue.600",
+                borderWidth: "1.5px",
+              }}
+            />
+          </FormControl>
+          <FormControl mt="3">
+            <FormControl.Label _text={{ fontSize: 16 }}>Kuantitas</FormControl.Label>
+            <Input
+              onChangeText={(value) => formHandler(value, "quantity")}
+              type="text"
+              height="10"
+              size="md"
+              rounded="md"
+              placeholder="Banyak produk"
+              keyboardType="numeric"
+              bg="white"
+              _focus={{
+                borderColor: "darkBlue.600",
+                borderWidth: "1.5px",
+              }}
+            />
+          </FormControl>
+          <FormControl mt="3">
+            <FormControl.Label _text={{ fontSize: 16 }}>Unit</FormControl.Label>
+            <Input
+              onChangeText={(value) => formHandler(value, "unit")}
+              type="text"
+              height="10"
+              size="md"
+              rounded="md"
+              placeholder="Contoh: kg, pcs, dsb."
+              bg="white"
+              _focus={{
+                borderColor: "darkBlue.600",
+                borderWidth: "1.5px",
+              }}
+            />
+          </FormControl>
+          <FormControl mt="3">
+            <FormControl.Label _text={{ fontSize: 16 }}>Harga Modal</FormControl.Label>
+            <Input
+              onChangeText={(value) => formHandler(value, "basePrice")}
+              type="text"
+              height="10"
+              size="md"
+              rounded="md"
+              placeholder="Harga beli / modal"
+              bg="white"
+              keyboardType="numeric"
+              _focus={{
+                borderColor: "darkBlue.600",
+                borderWidth: "1.5px",
+              }}
+            />
+          </FormControl>
+          <FormControl mt="3">
+            <FormControl.Label _text={{ fontSize: 16 }}>Harga Jual</FormControl.Label>
+            <Input
+              onChangeText={(value) => formHandler(value, "sellPrice")}
+              type="text"
+              height="10"
+              size="md"
+              rounded="md"
+              placeholder="Harga jual"
+              bg="white"
+              keyboardType="numeric"
+              _focus={{
+                borderColor: "darkBlue.600",
+                borderWidth: "1.5px",
+              }}
+            />
+          </FormControl>
+          <Text
+            fontSize={16}
+            mt="2"
+            alignItems="flex-start"
+          >
+            Pembayaran :{" "}
+          </Text>
+          <View
+            alignItems="center"
+          >
+            <Radio.Group
+              size="lg"
+              name="exampleGroup"
+              accessibilityLabel="pick a choice"
+              flexDirection="row"
+              value={pembayaran}
+              onChange={(nextValue) => {
+                setPembayaran(nextValue);
+              }}
+            >
+              <Radio
+                _text={{
+                  mx: 2,
+                }}
+                colorScheme="green"
+                value="1"
+                icon={<Icon as={<MaterialCommunityIcons name="bank" />} />}
+                my={1}
               >
-                {/* <Text fontSize={16}>Pembayaran : </Text> */}
-                <Radio.Group
-                  size="lg"
-                  name="exampleGroup"
-                  accessibilityLabel="pick a choice"
-                  flexDirection="row"
-                  value={pembayaran}
-                  onChange={(nextValue) => {
-                    setPembayaran(nextValue);
-                  }}
-                >
-                  <Radio
-                    _text={{
-                      mx: 2,
-                    }}
-                    colorScheme="green"
-                    value="1"
-                    icon={<Icon as={<MaterialCommunityIcons name="bank" />} />}
-                    my={1}
-                  >
-                    Bank
-                  </Radio>
-                  <Radio
-                    _text={{
-                      mx: 2,
-                    }}
-                    colorScheme="red"
-                    value="2"
-                    icon={<Icon as={<MaterialCommunityIcons name="cash" />} />}
-                    my={1}
-                  >
-                    Hutang
-                  </Radio>
-                  <Radio
-                    _text={{
-                      mx: 2,
-                    }}
-                    size="md"
-                    colorScheme="green"
-                    value="3"
-                    icon={<Icon as={<MaterialCommunityIcons name="cash" />} />}
-                    my={1}
-                  >
-                    Kas
-                  </Radio>
-                </Radio.Group>
-              </View>
-            </Stack>
-          </Stack>
-        </FormControl>
+                Bank
+              </Radio>
+              <Radio
+                _text={{
+                  mx: 2,
+                }}
+                size="md"
+                colorScheme="green"
+                value="2"
+                icon={<Icon as={<MaterialCommunityIcons name="cash" />} />}
+                my={1}
+              >
+                Tunai
+              </Radio>
+              <Radio
+                _text={{
+                  mx: 2,
+                }}
+                size="md"
+                colorScheme="red"
+                value="3"
+                icon={<Icon as={<MaterialCommunityIcons name="cash-remove" />} />}
+                my={1}
+              >
+                Hutang
+              </Radio>
+            </Radio.Group>
+          </View>
+        </View>
+      </ScrollView>
+      <Box
+        h={60}
+        bg="blue.400"
+        w="100%"
+        position="relative"
+      >
         <Button
-          style={{ marginTop: 30 }}
+          bg="darkBlue.600"
+          mx={75}
+          rounded="full"
+          p="3"
+          _text={{
+            "fontWeight": "bold",
+            "fontSize": "md"
+          }}
+          top={-20}
+          shadow={4}
           onPress={() => {
             if (pembayaran == 3) {
               dispatch(addNewProduct(acc_token, productData, "cash"));
@@ -175,43 +246,12 @@ const Addnewproduct = ({ navigation }) => {
             }
             navigation.goBack();
           }}
-          w="100%"
-          mt="2"
-          bg="blue.400"
-          _text={{ color: "white" }}
         >
-          Tambah
+          Tambah Produk
         </Button>
-      </ScrollView>
+      </Box>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  formContainer: {
-    flex: 1,
-    marginTop: 20,
-    marginLeft: 50,
-    marginRight: 50,
-    paddingLeft: 10,
-    paddingRight: 10,
-    backgroundColor: "#E6E6E6",
-    borderRadius: 15,
-    shadowColor: "rgba(0,0,0,1)",
-    shadowOffset: {
-      width: 3,
-      height: 3,
-    },
-    elevation: 5,
-    shadowOpacity: 0.5,
-    shadowRadius: 0,
-  },
-  formInput: {
-    borderColor: "black",
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderRadius: 5,
-  },
-});
 
 export default Addnewproduct;

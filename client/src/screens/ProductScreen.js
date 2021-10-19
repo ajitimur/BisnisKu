@@ -163,6 +163,7 @@ const Productscreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <Button
+            rounded="lg"
             bg="darkBlue.600"
             onPress={() => {
               navigation.navigate("TambahProduk");
