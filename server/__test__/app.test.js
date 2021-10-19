@@ -1445,7 +1445,24 @@ describe("transaction", () => {
       done(err);
     });
   })
+  
+  test("find paid", (done) => {
+    getAccount;
 
+    request(app)
+    .get("/transaction/paid")
+    .set("access_token", access_token)
+    .expect(200)
+    .then((resp) => {
+      expect(resp.body).toEqual(expect.any(Array))
+      
+      done();
+    })
+    .catch((err) => {
+      done(err);
+    });
+  })
+  
   test("find unpaid error", (done) => {
     getAccount;
     Transaction.findAll = jest.fn().mockRejectedValue('Error')
@@ -1464,22 +1481,6 @@ describe("transaction", () => {
     });
   })
 
-  test("find paid", (done) => {
-    getAccount;
-
-    request(app)
-    .get("/transaction/paid")
-    .set("access_token", access_token)
-    .expect(200)
-    .then((resp) => {
-      expect(resp.body).toEqual(expect.any(Array))
-      
-      done();
-    })
-    .catch((err) => {
-      done(err);
-    });
-  })
 
   test("find unpaid error", (done) => {
     getAccount;

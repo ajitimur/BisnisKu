@@ -147,13 +147,149 @@ class ReportController{
     }
   }
 
-	static async neracaSaldo(req, res, next) {
-		//sek bingung
+	static async getSaldo(req, res, next) {
 		const UserId = req.user.id;
-		const { startDate, endDate } = req.body; //filter date dari client
+    let totalKasDebet = 0;
+		let totalKasKredit = 0;
+    let totalBankDebet = 0;
+    let totalBankKredit = 0;
+    let totalPiutangDebet = 0;
+    let totalPiutangKredit = 0;
+    let totalHutangkDebet = 0;
+    let totalHutangkKredit = 0;
 		const t = await sequelize.transaction();
 		try {
-		} catch (error) {}
+      const kasDebet = await Ledger.findAll(
+				{
+					where: {
+						AccountId: accounts.Kas,
+						UserId: UserId,
+						transactionType: "Debet",
+					},
+				},
+				{ transaction: t }
+			);
+			const kasKredit = await Ledger.findAll(
+				{
+					where: {
+						AccountId: accounts.Kas,
+						UserId: UserId,
+						transactionType: "Credit",
+					},
+				},
+				{ transaction: t }
+			);
+
+			kasDebet.forEach((el) => {
+				totalKasDebet += el.amount;
+			});
+			kasKredit.forEach((el) => {
+				totalKasKredit += el.amount;
+			});
+
+			const balanceKas = totalKasDebet - totalKasKredit;
+
+      //Bank
+      const bankDebet = await Ledger.findAll(
+				{
+					where: {
+						AccountId: accounts.Bank,
+						UserId: UserId,
+						transactionType: "Debet",
+					},
+				},
+				{ transaction: t }
+			);
+			const bankKredit = await Ledger.findAll(
+				{
+					where: {
+						AccountId: accounts.Bank,
+						UserId: UserId,
+						transactionType: "Credit",
+					},
+				},
+				{ transaction: t }
+			);
+
+			bankDebet.forEach((el) => {
+				totalBankDebet += el.amount;
+			});
+			bankKredit.forEach((el) => {
+				totalBankKredit += el.amount;
+			});
+
+			const balanceBank = totalBankDebet - totalBankKredit;
+
+      //piutang
+      const piutangDebet = await Ledger.findAll(
+				{
+					where: {
+						AccountId: accounts.Piutang,
+						UserId: UserId,
+						transactionType: "Debet",
+					},
+				},
+				{ transaction: t }
+			);
+			const piutangKredit = await Ledger.findAll(
+				{
+					where: {
+						AccountId: accounts.Piutang,
+						UserId: UserId,
+						transactionType: "Credit",
+					},
+				},
+				{ transaction: t }
+			);
+
+			piutangDebet.forEach((el) => {
+				totalPiutangDebet += el.amount;
+			});
+			piutangKredit.forEach((el) => {
+				totalPiutangKredit += el.amount;
+			});
+
+			const balancePiutang = totalPiutangDebet - totalPiutangKredit;
+
+      //Hutang
+      const hutangDebet = await Ledger.findAll(
+				{
+					where: {
+						AccountId: accounts.Hutang,
+						UserId: UserId,
+						transactionType: "Debet",
+					},
+				},
+				{ transaction: t }
+			);
+			const hutangKredit = await Ledger.findAll(
+				{
+					where: {
+						AccountId: accounts.Hutang,
+						UserId: UserId,
+						transactionType: "Credit",
+					},
+				},
+				{ transaction: t }
+			);
+
+			hutangDebet.forEach((el) => {
+				totalHutangkDebet += el.amount;
+			});
+			hutangKredit.forEach((el) => {
+				totalHutangkKredit += el.amount;
+			});
+
+			const balanceHutang = totalHutangkKredit - totalHutangkDebet;
+
+      await t.commit();
+
+			res.status(200).json({balanceKas, balanceBank, balancePiutang, balanceHutang});
+		} catch (error) {
+      await t.rollback();
+      console.log(error);
+			next(error);
+    }
 	}
 }
 
