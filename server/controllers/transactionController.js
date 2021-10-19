@@ -17,7 +17,8 @@ class TransactionController{
         where: {
           UserId,
           isPaid: false
-        }
+        },
+        include: [{model: Customer}]
       })
 
       res.status(200).json(result)
@@ -33,7 +34,8 @@ class TransactionController{
         where: {
           UserId,
           isPaid: true
-        }
+        },
+        include: [{model: Customer}]
       })
 
       res.status(200).json(result)
