@@ -1661,14 +1661,14 @@ describe("pembayaran", () => {
 describe("Report", () => {
 	test("gagal report laba/rugi ", (done) => {
 		getAccount;
-		jest.spyOn(Ledger, "findAll").mockRejectedValue("Error");
+		jest.spyOn(sequelize, "query").mockRejectedValue("Error");
 		request(app)
 			.get("/reports/labaRugi")
 			.set("access_token", access_token)
-			.expect(500)
+			.expect(401)
 
 			.then((resp) => {
-				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body).toEqual(expect.any(Array));
 
 				done();
 			})
@@ -1688,10 +1688,9 @@ describe("Report", () => {
 				expect(resp.body).toEqual(expect.any(Object));
 				expect(resp.body).toEqual(
 					expect.objectContaining({
-						balancePenjualan: expect.any(Number),
-						balanceHpp: expect.any(Number),
-						balanceBeban: expect.any(Number),
-						balanceLabaRugi: expect.any(Number),
+						bebanBalance: expect.any(Array),
+						hppBalance: expect.any(Array),
+						penjualan: expect.any(Array),
 					})
 				);
 				done();
@@ -1712,9 +1711,7 @@ describe("Report", () => {
 				expect(resp.body).toEqual(expect.any(Object));
 				expect(resp.body).toEqual(
 					expect.objectContaining({
-						balanceKas: expect.any(Number),
 						balanceBank: expect.any(Number),
-						balancePiutang: expect.any(Number),
 						balanceHutang: expect.any(Number),
 					})
 				);
