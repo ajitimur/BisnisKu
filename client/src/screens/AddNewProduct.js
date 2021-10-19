@@ -57,13 +57,14 @@ const Addnewproduct = ({ navigation }) => {
       <Box
         safeAreaTop
         bg="blue.400"
+        h={75}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
       >
         <Box
           bg="blue.400"
-          h={125}
+          h={75}
           roundedBottomRight={70}
         />
         <View

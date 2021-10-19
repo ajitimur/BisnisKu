@@ -41,7 +41,7 @@ export default function PengeluaranForm() {
 
   return (
     <>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View
           p="4"
           bg="white"

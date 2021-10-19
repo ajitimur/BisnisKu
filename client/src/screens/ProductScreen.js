@@ -108,7 +108,15 @@ const Productscreen = ({ navigation }) => {
       <Box
         bg="blue.400"
         h={125}
-      />
+        alignItems="center"
+      >
+        <Heading
+          color="dark.200"
+          mt="2"
+        >
+          List Produk{"  "}
+        </Heading>
+      </Box>
       <View mx={30}>
         <Box
           mt={-75}

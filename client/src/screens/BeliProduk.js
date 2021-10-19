@@ -4,7 +4,6 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import {
   View,
   Input,
-  Stack,
   FormControl,
   StatusBar,
   Box,
@@ -44,11 +43,11 @@ const Beliproduk = ({ route }) => {
     }
   }
   const { id } = route.params;
-  // console.log(id);
+
   useEffect(() => {
     getToken();
   }, []);
-  // console.log(detail, "<<<<<");
+
   function formHandler(value, fieldName) {
     setProductData({ ...productData, [fieldName]: value });
   }

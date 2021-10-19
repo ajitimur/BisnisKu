@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1634642453192" clover="3.2.0">
-  <project timestamp="1634642453192" name="All files">
-    <metrics statements="623" coveredstatements="213" conditionals="68" coveredconditionals="6" methods="64" coveredmethods="20" elements="755" coveredelements="239" complexity="0" loc="623" ncloc="623" packages="6" files="36" classes="36"/>
+<coverage generated="1634655278851" clover="3.2.0">
+  <project timestamp="1634655278852" name="All files">
+    <metrics statements="625" coveredstatements="213" conditionals="64" coveredconditionals="6" methods="64" coveredmethods="20" elements="753" coveredelements="239" complexity="0" loc="625" ncloc="625" packages="6" files="36" classes="36"/>
     <package name="server">
       <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="app.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\app.js">
+      <file name="app.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\app.js">
         <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -19,8 +19,8 @@
       </file>
     </package>
     <package name="server.controllers">
-      <metrics statements="404" coveredstatements="30" conditionals="50" coveredconditionals="0" methods="39" coveredmethods="0"/>
-      <file name="customerController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\customerController.js">
+      <metrics statements="406" coveredstatements="30" conditionals="46" coveredconditionals="0" methods="39" coveredmethods="0"/>
+      <file name="customerController.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\controllers\customerController.js">
         <metrics statements="13" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="10" count="1" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
@@ -36,7 +36,7 @@
         <line num="36" count="0" type="stmt"/>
         <line num="41" count="1" type="stmt"/>
       </file>
-      <file name="modalController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\modalController.js">
+      <file name="modalController.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\controllers\modalController.js">
         <metrics statements="23" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -62,7 +62,7 @@
         <line num="57" count="0" type="stmt"/>
         <line num="62" count="1" type="stmt"/>
       </file>
-      <file name="pembayaranPiutang.js.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\pembayaranPiutang.js.js">
+      <file name="pembayaranPiutang.js.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\controllers\pembayaranPiutang.js.js">
         <metrics statements="30" coveredstatements="2" conditionals="6" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="10" count="1" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
@@ -95,7 +95,7 @@
         <line num="113" count="0" type="stmt"/>
         <line num="118" count="1" type="stmt"/>
       </file>
-      <file name="pembelianController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\pembelianController.js">
+      <file name="pembelianController.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\controllers\pembelianController.js">
         <metrics statements="117" coveredstatements="3" conditionals="16" coveredconditionals="0" methods="7" coveredmethods="0"/>
         <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
@@ -215,7 +215,7 @@
         <line num="385" count="0" type="stmt"/>
         <line num="389" count="1" type="stmt"/>
       </file>
-      <file name="pengeluaranController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\pengeluaranController.js">
+      <file name="pengeluaranController.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\controllers\pengeluaranController.js">
         <metrics statements="45" coveredstatements="3" conditionals="4" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
@@ -263,64 +263,66 @@
         <line num="153" count="0" type="stmt"/>
         <line num="158" count="1" type="stmt"/>
       </file>
-      <file name="penjualanController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\penjualanController.js">
-        <metrics statements="54" coveredstatements="3" conditionals="18" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <file name="penjualanController.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\controllers\penjualanController.js">
+        <metrics statements="56" coveredstatements="3" conditionals="14" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="15" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
         <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="21" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="26" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="24" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
         <line num="28" count="0" type="stmt"/>
-        <line num="36" count="0" type="stmt"/>
-        <line num="49" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="50" count="0" type="stmt"/>
-        <line num="62" count="0" type="stmt"/>
-        <line num="68" count="0" type="stmt"/>
-        <line num="84" count="0" type="stmt"/>
-        <line num="112" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="113" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="32" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="55" count="0" type="stmt"/>
+        <line num="71" count="0" type="stmt"/>
+        <line num="99" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="100" count="0" type="stmt"/>
+        <line num="130" count="0" type="stmt"/>
+        <line num="132" count="0" type="stmt"/>
+        <line num="133" count="0" type="stmt"/>
+        <line num="136" count="0" type="stmt"/>
         <line num="143" count="0" type="stmt"/>
+        <line num="144" count="0" type="stmt"/>
         <line num="145" count="0" type="stmt"/>
-        <line num="146" count="0" type="stmt"/>
-        <line num="149" count="0" type="stmt"/>
+        <line num="150" count="0" type="stmt"/>
+        <line num="151" count="0" type="stmt"/>
+        <line num="152" count="0" type="stmt"/>
+        <line num="153" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="155" count="0" type="stmt"/>
+        <line num="156" count="0" type="stmt"/>
         <line num="157" count="0" type="stmt"/>
-        <line num="158" count="0" type="stmt"/>
-        <line num="163" count="0" type="stmt"/>
-        <line num="164" count="0" type="stmt"/>
-        <line num="165" count="0" type="stmt"/>
-        <line num="166" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="168" count="0" type="stmt"/>
-        <line num="169" count="0" type="stmt"/>
-        <line num="170" count="0" type="stmt"/>
-        <line num="172" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="173" count="0" type="stmt"/>
+        <line num="159" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="160" count="0" type="stmt"/>
+        <line num="161" count="0" type="stmt"/>
+        <line num="164" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="166" count="0" type="stmt"/>
         <line num="174" count="0" type="stmt"/>
-        <line num="177" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="179" count="0" type="stmt"/>
-        <line num="187" count="0" type="stmt"/>
-        <line num="200" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="201" count="0" type="stmt"/>
-        <line num="212" count="0" type="stmt"/>
-        <line num="216" count="0" type="stmt"/>
-        <line num="232" count="0" type="stmt"/>
+        <line num="187" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="188" count="0" type="stmt"/>
+        <line num="199" count="0" type="stmt"/>
+        <line num="203" count="0" type="stmt"/>
+        <line num="219" count="0" type="stmt"/>
+        <line num="247" count="0" type="stmt"/>
+        <line num="249" count="0" type="stmt"/>
+        <line num="250" count="0" type="stmt"/>
+        <line num="253" count="0" type="stmt"/>
         <line num="260" count="0" type="stmt"/>
+        <line num="261" count="0" type="stmt"/>
         <line num="262" count="0" type="stmt"/>
-        <line num="263" count="0" type="stmt"/>
-        <line num="266" count="0" type="stmt"/>
-        <line num="273" count="0" type="stmt"/>
-        <line num="274" count="0" type="stmt"/>
-        <line num="275" count="0" type="stmt"/>
-        <line num="280" count="1" type="stmt"/>
+        <line num="267" count="1" type="stmt"/>
       </file>
-      <file name="productController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\productController.js">
+      <file name="productController.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\controllers\productController.js">
         <metrics statements="14" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
@@ -337,7 +339,7 @@
         <line num="30" count="0" type="stmt"/>
         <line num="35" count="1" type="stmt"/>
       </file>
-      <file name="reportController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\reportController.js">
+      <file name="reportController.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\controllers\reportController.js">
         <metrics statements="71" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="12" coveredmethods="0"/>
         <line num="8" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
@@ -411,7 +413,7 @@
         <line num="223" count="0" type="stmt"/>
         <line num="228" count="1" type="stmt"/>
       </file>
-      <file name="transactionController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\transactionController.js">
+      <file name="transactionController.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\controllers\transactionController.js">
         <metrics statements="12" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="10" count="1" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
@@ -426,7 +428,7 @@
         <line num="43" count="0" type="stmt"/>
         <line num="48" count="1" type="stmt"/>
       </file>
-      <file name="userController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\userController.js">
+      <file name="userController.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\controllers\userController.js">
         <metrics statements="25" coveredstatements="4" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -457,7 +459,7 @@
     </package>
     <package name="server.helpers">
       <metrics statements="21" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="2"/>
-      <file name="bcrypt.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\helpers\bcrypt.js">
+      <file name="bcrypt.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\helpers\bcrypt.js">
         <metrics statements="5" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -465,7 +467,7 @@
         <line num="8" count="0" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
       </file>
-      <file name="dataAccounts.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\helpers\dataAccounts.js">
+      <file name="dataAccounts.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\helpers\dataAccounts.js">
         <metrics statements="11" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -479,7 +481,7 @@
         <line num="18" count="1" type="stmt"/>
         <line num="22" count="1" type="stmt"/>
       </file>
-      <file name="jwt.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\helpers\jwt.js">
+      <file name="jwt.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\helpers\jwt.js">
         <metrics statements="5" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -490,7 +492,7 @@
     </package>
     <package name="server.middlewares">
       <metrics statements="35" coveredstatements="6" conditionals="9" coveredconditionals="0" methods="2" coveredmethods="0"/>
-      <file name="authentication.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\middlewares\authentication.js">
+      <file name="authentication.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\middlewares\authentication.js">
         <metrics statements="11" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -504,7 +506,7 @@
         <line num="18" count="0" type="stmt"/>
         <line num="21" count="1" type="stmt"/>
       </file>
-      <file name="errorHandler.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\middlewares\errorHandler.js">
+      <file name="errorHandler.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\middlewares\errorHandler.js">
         <metrics statements="24" coveredstatements="2" conditionals="9" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -534,7 +536,7 @@
     </package>
     <package name="server.models">
       <metrics statements="58" coveredstatements="57" conditionals="9" coveredconditionals="6" methods="18" coveredmethods="18"/>
-      <file name="account.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\models\account.js">
+      <file name="account.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\models\account.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
@@ -542,14 +544,14 @@
         <line num="17" count="1" type="stmt"/>
         <line num="40" count="1" type="stmt"/>
       </file>
-      <file name="category.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\models\category.js">
+      <file name="category.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\models\category.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
         <line num="30" count="1" type="stmt"/>
       </file>
-      <file name="customer.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\models\customer.js">
+      <file name="customer.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\models\customer.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
@@ -557,7 +559,7 @@
         <line num="17" count="1" type="stmt"/>
         <line num="58" count="1" type="stmt"/>
       </file>
-      <file name="index.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\models\index.js">
+      <file name="index.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\models\index.js">
         <metrics statements="20" coveredstatements="19" conditionals="9" coveredconditionals="6" methods="3" coveredmethods="3"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
@@ -580,7 +582,7 @@
         <line num="44" count="1" type="stmt"/>
         <line num="46" count="1" type="stmt"/>
       </file>
-      <file name="ledger.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\models\ledger.js">
+      <file name="ledger.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\models\ledger.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -588,7 +590,7 @@
         <line num="15" count="1" type="stmt"/>
         <line num="66" count="1" type="stmt"/>
       </file>
-      <file name="product.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\models\product.js">
+      <file name="product.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\models\product.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
@@ -596,7 +598,7 @@
         <line num="17" count="1" type="stmt"/>
         <line num="76" count="1" type="stmt"/>
       </file>
-      <file name="transaction.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\models\transaction.js">
+      <file name="transaction.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\models\transaction.js">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -606,7 +608,7 @@
         <line num="18" count="1" type="stmt"/>
         <line num="86" count="1" type="stmt"/>
       </file>
-      <file name="user.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\models\user.js">
+      <file name="user.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\models\user.js">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -619,7 +621,7 @@
     </package>
     <package name="server.routes">
       <metrics statements="95" coveredstatements="95" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="customer.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\routes\customer.js">
+      <file name="customer.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\routes\customer.js">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -628,7 +630,7 @@
         <line num="6" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
       </file>
-      <file name="index.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\routes\index.js">
+      <file name="index.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\routes\index.js">
         <metrics statements="29" coveredstatements="29" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -660,7 +662,7 @@
         <line num="31" count="1" type="stmt"/>
         <line num="33" count="1" type="stmt"/>
       </file>
-      <file name="modal.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\routes\modal.js">
+      <file name="modal.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\routes\modal.js">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -669,7 +671,7 @@
         <line num="6" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
       </file>
-      <file name="pembayaran.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\routes\pembayaran.js">
+      <file name="pembayaran.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\routes\pembayaran.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -677,7 +679,7 @@
         <line num="5" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
       </file>
-      <file name="pembelian.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\routes\pembelian.js">
+      <file name="pembelian.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\routes\pembelian.js">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -687,7 +689,7 @@
         <line num="7" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
       </file>
-      <file name="pengeluaran.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\routes\pengeluaran.js">
+      <file name="pengeluaran.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\routes\pengeluaran.js">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -696,7 +698,7 @@
         <line num="6" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
       </file>
-      <file name="penjualan.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\routes\penjualan.js">
+      <file name="penjualan.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\routes\penjualan.js">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -705,7 +707,7 @@
         <line num="6" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
       </file>
-      <file name="product.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\routes\product.js">
+      <file name="product.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\routes\product.js">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -714,7 +716,7 @@
         <line num="6" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
       </file>
-      <file name="report.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\routes\report.js">
+      <file name="report.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\routes\report.js">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -724,7 +726,7 @@
         <line num="7" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
       </file>
-      <file name="transaction.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\routes\transaction.js">
+      <file name="transaction.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\routes\transaction.js">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -733,7 +735,7 @@
         <line num="6" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
       </file>
-      <file name="user.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\routes\user.js">
+      <file name="user.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\routes\user.js">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -742,7 +744,7 @@
         <line num="6" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
       </file>
-      <file name="xendit.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\routes\xendit.js">
+      <file name="xendit.js" path="C:\Users\1\Hacktiv8\FinalProject\Final-Project-Team5\server\routes\xendit.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
