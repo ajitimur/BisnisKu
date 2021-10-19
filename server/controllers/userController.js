@@ -12,7 +12,7 @@ class userController {
 			if (foundUser) {
 				const match = await comparePassword(password, foundUser.password);
 				if (!match) {
-					throw new Error(`usernotfound`);
+					throw { name: "user", msg: `Email atau Password salah` };
 				} else {
 					const access_token = sign({
 						id: foundUser.id,
@@ -26,7 +26,7 @@ class userController {
 					});
 				}
 			} else {
-				throw new Error(`usernotfound`);
+				throw { name: "user", msg: `Email atau Password salah` };
 			}
 		} catch (err) {
 			console.log(err);

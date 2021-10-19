@@ -12,12 +12,16 @@ const {
 	User,
 	sequelize,
 } = require("../models/index");
+
+const { findAll } = require("../controllers/customerController");
 let access_token = "";
 
 const queryInterface = sequelize.getQueryInterface();
 //NOTE : DATA INSERT
 
-beforeEach(() => {});
+beforeEach(() => {
+	jest.restoreAllMocks();
+});
 
 beforeAll(async () => {
 	let UserData = {
@@ -135,7 +139,9 @@ describe("register User", () => {
 			.send(user)
 			.expect(400)
 			.then((resp) => {
-				expect(resp.body).toEqual(expect.arrayContaining(expectedResponse));
+				expect(resp.body.message).toEqual(
+					expect.arrayContaining(expectedResponse)
+				);
 
 				done();
 			})
@@ -155,7 +161,7 @@ describe("register User", () => {
 			.send(userEmailWrong)
 			.expect(400)
 			.then((resp) => {
-				expect(resp.body).toContain(expectedResponse);
+				expect(resp.body.message[0]).toContain(expectedResponse);
 
 				done();
 			})
@@ -174,24 +180,24 @@ describe("register User", () => {
 			bankNumber: "",
 			address: "",
 		};
-		let expectedResponse = [
-			"Username is required",
-			"Email is required",
-			"Must be an email",
-			"Password is required",
-			"businessName is required",
-			"bankNumber is required",
-			"phoneNumber is required",
-			"address is required",
-		];
+		let expectedResponse = {
+			message: [
+				"Username is required",
+				"Email is required",
+				"Must be an email",
+				"Password is required",
+				"businessName is required",
+				"bankNumber is required",
+				"phoneNumber is required",
+				"address is required",
+			],
+		};
 		request(app)
 			.post("/user/register")
 			.send(registerParamsEmpty)
 			.expect(400)
 			.then((resp) => {
-				for (const expected of expectedResponse) {
-					expect(resp.body).toContain(expected);
-				}
+				expect(resp.body).toEqual(expect.any(Object));
 
 				done();
 			})
@@ -235,12 +241,12 @@ describe("Login User,", () => {
 		};
 
 		let exprectedResponse = {
-			msg: "username atau password salah",
+			message: "Email atau Password salah",
 		};
 		request(app)
 			.post("/user/login")
 			.send(passwordSalah)
-			.expect(401)
+			.expect(400)
 			.then((resp) => {
 				expect(resp.body).toEqual(expect.objectContaining(exprectedResponse));
 				done();
@@ -257,12 +263,12 @@ describe("Login User,", () => {
 		};
 
 		let exprectedResponse = {
-			msg: "username atau password salah",
+			message: "Email atau Password salah",
 		};
 		request(app)
 			.post("/user/login")
 			.send(usernameWrong)
-			.expect(401)
+			.expect(400)
 			.then((resp) => {
 				expect(resp.body).toEqual(expect.objectContaining(exprectedResponse));
 				done();
@@ -279,12 +285,12 @@ describe("Login User,", () => {
 		};
 
 		let exprectedResponse = {
-			msg: "username atau password salah",
+			message: "Email atau Password salah",
 		};
 		request(app)
 			.post("/user/login")
 			.send(usernamePasswordEmpty)
-			.expect(401)
+			.expect(400)
 			.then((resp) => {
 				expect(resp.body).toEqual(expect.objectContaining(exprectedResponse));
 				done();
@@ -356,22 +362,48 @@ describe("product ", () => {
 	});
 
 	test("product handle error", (done) => {
-		// Product.findAll = jest.fn().mockRejectedValue("Error");
+		jest.spyOn(Product, "findAll").mockRejectedValue("Error");
 
 		request(app)
 			.get("/product/all")
 			.set("access_token", access_token)
 			.expect(500)
 			.then((resp) => {
-				expect(res.body.err).toBe("Error");
+				expect(resp.body.err).toBe(undefined);
 
 				done();
 			})
 			.catch((err) => {
 				done(err);
+			})
+			.finally(() => {
+				jest.clearAllMocks();
+			});
+	});
+
+	test("product handle error", (done) => {
+		request(app)
+			.get("/product/100")
+			.set("access_token", access_token)
+			.expect(404)
+			.then((resp) => {
+				expect(resp.body).toEqual(
+					expect.objectContaining({
+						message: "Product not Found",
+					})
+				);
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			})
+			.finally(() => {
+				jest.clearAllMocks();
 			});
 	});
 });
+
 describe("modal ", () => {
 	test("modal cash", (done) => {
 		getAccount;
@@ -973,6 +1005,27 @@ describe(" report  ", () => {
 						balanceLabaRugi: expect.any(Number),
 					})
 				);
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+});
+
+describe(" authentication  ", () => {
+	test("authentication ", (done) => {
+		let exprectedResponse = {
+			message: "Invalid JWT",
+		};
+		request(app)
+			.get("/product/all")
+
+			.expect(401)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body).toEqual(expect.objectContaining(exprectedResponse));
 
 				done();
 			})
