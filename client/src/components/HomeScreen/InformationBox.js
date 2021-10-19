@@ -61,7 +61,7 @@ export default function InformationBox() {
         }}
       >
         <Heading fontSize={17} py="3">
-          Lorem Ipsum Dolor Sit
+          Catat Customer Yang Hutang Dengan Anda!
         </Heading>
         <View
           flexDirection="row"
@@ -71,15 +71,13 @@ export default function InformationBox() {
           <View flexDirection="row">
             <FontAwesomeIcon name="check" color="green" />
             <Text ml="2" mt="-1" maxW={32}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-              nec
+              Selalu ingat terhadap cusomer yang hutang di toko anda!
             </Text>
           </View>
           <View flexDirection="row">
             <FontAwesomeIcon name="check" color="green" />
             <Text ml="2" mt="-1" maxW={32}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-              nec
+              Lakukan penagihan melalui Xendit!
             </Text>
           </View>
         </View>

@@ -5,7 +5,9 @@ import {
   SET_LEDGERS,
   GET_HUTANG,
   FETCH_LEDGERS,
-  FETCH_CUSTOMERS
+  FETCH_CUSTOMERS,
+  FETCH_INFO,
+  isLoading,
 } from "../keys";
 
 const initState = {
@@ -14,7 +16,9 @@ const initState = {
   detail: {},
   ledgers: [],
   hutang: [],
-  customers: []
+  customers: [],
+  info: {},
+  isLoading: false,
 };
 
 function reducer(state = initState, action) {
@@ -31,6 +35,10 @@ function reducer(state = initState, action) {
       return { ...state, hutang: action.payload };
     case FETCH_CUSTOMERS:
       return { ...state, customers: action.payload };
+    case FETCH_INFO:
+      return { ...state, info: action.payload };
+    case isLoading:
+      return { ...state, isLoading: action.payload };
     default:
       return state;
   }
