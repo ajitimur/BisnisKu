@@ -1,5 +1,6 @@
 import { FETCH_PRODUCTS, IS_LOGGED_IN, DETAIL_PRODUCT } from "../keys";
 import API from "../../apis/API";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function getProducts(data) {
   return {
@@ -21,9 +22,10 @@ export function detailProduct(data) {
 }
 
 // action async tembak ke server
-
-export function getAllProduct(token) {
+export function getAllProduct() {
   return async function (dispatch) {
+    const token = await AsyncStorage.getItem("access_token")
+
     try {
       const products_get = await API({
         method: "GET",
