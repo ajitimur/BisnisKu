@@ -110,32 +110,6 @@ export default function TransaksiScreen() {
           marginTop: -67,
         }}
       />
-      {/* <View
-        flex={1}
-        justifyContent="flex-end"
-        alignItems="center"
-      >
-        <Box
-          h={60}
-          bg="blue.400"
-          w="100%"
-        >
-          <Button
-            bg="darkBlue.600"
-            mx={75}
-            rounded="full"
-            p="3"
-            _text={{
-              "fontWeight": "bold",
-              "fontSize": "md"
-            }}
-            top={-20}
-            shadow={4}
-          >
-            Simpan Transaksi
-          </Button>
-        </Box>
-      </View> */}
     </>
   )
 }

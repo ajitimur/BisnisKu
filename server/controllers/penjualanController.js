@@ -1,280 +1,245 @@
 const {
-	Customer,
-	Ledger,
-	Product,
-	Transaction,
-	sequelize,
+  Customer,
+  Ledger,
+  Product,
+  Transaction,
+  sequelize,
 } = require("../models");
 const { getAccount, accounts } = require("../helpers/dataAccounts");
 
 class PenjualanController {
-	static async penjualanCash(req, res, next) {
-		const { customer, product, category } = req.body; //customer berisi object data customer, product object isi data product yg dijual, //category ini customer bayarnya tf bank atau kas
-		const productId = product.id;
-		const userId = req.user.id;
-		let customerId = customer.id ? customer.id : null;
+  static async penjualanCash(req, res, next) {
+    const { CustomerId, ProductId, quantity, category } = req.body; //customer berisi object data customer, product object isi data product yg dijual, //category ini customer bayarnya tf bank atau kas
+    const userId = req.user.id;
 
-		const t = await sequelize.transaction();
-		try {
-			const foundProduct = await Product.findByPk(productId);
+    const t = await sequelize.transaction();
+    try {
+      const foundProduct = await Product.findByPk(ProductId);
 
-			if (foundProduct) {
-				const oldQuantity = foundProduct.quantity;
-				const newQuantity = oldQuantity - product.sellQuantity;
+      if (foundProduct) {
+        const oldQuantity = foundProduct.quantity;
+        const newQuantity = oldQuantity - quantity;
 
-				//Cek misal yg ngejual lebih dari stock yg ada
-				if (newQuantity < 0) {
-					//Disini throw error
-					throw {
-						name: `Bad request`,
-						code: 400,
-						message: `Cannot sell more than available quantity`,
-					};
-				}
+        const amount = foundProduct.sellPrice * quantity
 
-				//Mengurangi quantity di table product
-				await Product.update(
-					{
-						quantity: newQuantity,
-					},
-					{
-						where: { id: productId },
-					},
-					{
-						transaction: t,
-					}
-				);
+        //Cek misal yg ngejual lebih dari stock yg ada
+        if (newQuantity < 0) {
+          //Disini throw error
+          throw {
+            name: `Bad request`,
+            code: 400,
+            message: `Cannot sell more than available quantity`,
+          };
+        }
 
-				//cek udah punya customerId apa belom, kalo belum create new customer
-				if (!customerId) {
-					const newCustomer = await Customer.create(
-						{
-							name: customer.name,
-							email: customer.email,
-							phoneNumber: customer.phoneNumber,
-							UserId: userId,
-						},
-						{
-							transaction: t,
-						}
-					);
+        //Mengurangi quantity di table product
+        await Product.update(
+          {
+            quantity: newQuantity,
+          },
+          {
+            where: { id: ProductId },
+          },
+          {
+            transaction: t,
+          }
+        );
 
-					customerId = newCustomer.id; //assign value id newCustomer
-				}
+        //Create new transaction
+        const transaction = await Transaction.create(
+          {
+            UserId: userId,
+            CustomerId,
+            ProductId,
+            quantity,
+            amount,
+            dueDate: new Date(),
+            isPaid: true,
+          },
+          {
+            transaction: t,
+          }
+        );
 
+        //Create Ledger
+        let ledger = [
+          {
+            AccountId: accounts.Kas, //Kas
+            transactionType: "Debet",
+            amount: amount,
+            UserId: userId,
+          },
+          {
+            AccountId: accounts.Persediaan, //Persediaan
+            transactionType: "Credit",
+            amount: foundProduct.basePrice * quantity,
+            UserId: userId,
+          },
+          {
+            AccountId: accounts.HPP, //HPP
+            transactionType: "Debet",
+            amount: foundProduct.basePrice * quantity,
+            UserId: userId,
+          },
+          {
+            AccountId: accounts.Penjualan, //Penjualan
+            transactionType: "Debet",
+            amount: amount,
+            UserId: userId,
+            TransactionId: transaction.id,
+          },
+        ];
 
-				//Create new transaction
+        if (category === "bank") {
+          console.log(accounts.Bank);
+          ledger = [
+            //assign new value, beda cuma kas di ganti jadi bank
+            {
+              AccountId: accounts.Bank, //Bank
+              transactionType: "Debet",
+              amount: amount,
+              UserId: userId,
+            },
+            {
+              AccountId: accounts.Persediaan, //Persediaan
+              transactionType: "Credit",
+              amount: foundProduct.basePrice * quantity,
+              UserId: userId,
+            },
+            {
+              AccountId: accounts.HPP, //HPP
+              transactionType: "Debet",
+              amount: foundProduct.basePrice * quantity,
+              UserId: userId,
+            },
+            {
+              AccountId: accounts.Penjualan, //Penjualan
+              transactionType: "Debet",
+              amount: amount,
+              UserId: userId,
+              TransactionId: transaction.id,
+            },
+          ];
+        }
 
-				const transaction = await Transaction.create(
-					{
-						UserId: userId,
-						CustomerId: customerId,
-						ProductId: productId,
-						quantity: product.sellQuantity,
-						amount: product.amount,
-						dueDate: new Date(),
-						isPaid: true,
-					},
-					{
-						transaction: t,
-					}
-				);
+        const result = await Ledger.bulkCreate(ledger, { transaction: t });
 
-				//Create Ledger
-				const ledger = [
-					{
-						AccountId: accounts.Kas, //Kas
-						transactionType: "Debet",
-						amount: product.amount,
-						UserId: userId,
-					},
-					{
-						AccountId: accounts.Persediaan, //Persediaan
-						transactionType: "Credit",
-						amount: foundProduct.basePrice * product.sellQuantity,
-						UserId: userId,
-					},
-					{
-						AccountId: accounts.HPP, //HPP
-						transactionType: "Debet",
-						amount: foundProduct.basePrice * product.sellQuantity,
-						UserId: userId,
-					},
-					{
-						AccountId: accounts.Penjualan, //Penjualan
-						transactionType: "Debet",
-						amount: product.amount,
-						UserId: userId,
-						TransactionId: transaction.id,
-					},
-				];
+        await t.commit();
+        res.status(201).json(result);
+      } else {
+        //Throw error not found
+        throw {
+          name: `NOTFOUND`,
+          code: 404,
+          message: `Product does not exists`,
+        };
+      }
+    } catch (error) {
+      await t.rollback();
+      next(error);
+    }
+  }
 
-				if (category === "bank") {
-					ledger = [
-						//assign new value, beda cuma kas di ganti jadi bank
-						{
-							AccountId: accounts.Bank, //Bank
-							transactionType: "Debet",
-							amount: product.amount,
-							UserId: userId,
-						},
-						{
-							AccountId: accounts.Persediaan, //Persediaan
-							transactionType: "Credit",
-							amount: foundProduct.basePrice * product.quantity,
-							UserId: userId,
-						},
-						{
-							AccountId: accounts.Hpp, //HPP
-							transactionType: "Debet",
-							amount: foundProduct.basePrice * product.quantity,
-							UserId: userId,
-						},
-						{
-							AccountId: accounts.Penjualan, //Penjualan
-							transactionType: "Debet",
-							amount: product.amount,
-							UserId: userId,
-							TransactionId: transaction.id,
-						},
-					];
-				}
+  static async penjualanPiutang(req, res, next) {
+    const { CustomerId, ProductId, quantity, dueDate } = req.body;
+    const userId = req.user.id;
 
-				const result = await Ledger.bulkCreate(ledger, { transaction: t });
+    const t = await sequelize.transaction();
+    try {
+      const foundProduct = await Product.findByPk(ProductId);
 
-				await t.commit();
-				res.status(201).json(result);
-			} else {
-				//Throw error not found
-				throw {
-					name: `NOTFOUND`,
-					code: 404,
-					message: `Product does not exists`,
-				};
-			}
-		} catch (error) {
-			// console.log(error);
-			await t.rollback();
-			next(error);
-		}
-	}
+      if (foundProduct) {
+        const oldQuantity = foundProduct.quantity;
+        const newQuantity = oldQuantity - quantity;
 
-	static async penjualanPiutang(req, res, next) {
-		const { customer, product } = req.body; //customer berisi object data customer, product object isi data product yg dijual
-		const productId = product.id;
-		const userId = req.user.id;
-		let customerId = customer.id ? customer.id : null;
+        const amount = foundProduct.sellPrice * quantity
 
-		const t = await sequelize.transaction();
-		try {
-			const foundProduct = await Product.findByPk(productId);
+        //Cek misal yg ngejual lebih dari stock yg ada
+        if (newQuantity < 0) {
+          //Disini throw error
+          throw {
+            name: `Bad request`,
+            code: 400,
+            message: `Cannot sell more than available quantity`,
+          };
+        }
 
-			if (foundProduct) {
-				const oldQuantity = foundProduct.quantity;
-				const newQuantity = oldQuantity - product.sellQuantity;
+        //Mengurangi quantity di table product
+        await Product.update(
+          {
+            quantity: newQuantity,
+          },
+          {
+            where: { id: ProductId },
+          },
+          {
+            transaction: t,
+          }
+        );
 
-				//Cek misal yg ngejual lebih dari stock yg ada
-				if (newQuantity < 0) {
-					//Disini throw error
-					throw {
-						name: `Bad request`,
-						code: 400,
-						message: `Cannot sell more than available quantity`,
-					};
-				}
+        //Create new transaction
+        const transaction = await Transaction.create(
+          {
+            UserId: userId,
+            CustomerId,
+            ProductId,
+            quantity,
+            amount: amount,
+            dueDate,
+            isPaid: false,
+          },
+          {
+            transaction: t,
+          }
+        );
 
-				//Mengurangi quantity di table product
-				await Product.update(
-					{
-						quantity: newQuantity,
-					},
-					{
-						where: { id: productId },
-					},
-					{
-						transaction: t,
-					}
-				);
+        //Create Ledger
+        const ledger = [
+          {
+            AccountId: accounts.Piutang, //Piutang
+            transactionType: "Debet",
+            amount: amount,
+            UserId: userId,
+          },
+          {
+            AccountId: accounts.Persediaan, //Persediaan
+            transactionType: "Credit",
+            amount: foundProduct.basePrice * quantity,
+            UserId: userId,
+          },
+          {
+            AccountId: accounts.HPP, //HPP
+            transactionType: "Debet",
+            amount: foundProduct.basePrice * quantity,
+            UserId: userId,
+          },
+          {
+            AccountId: accounts.Penjualan, //Penjualan
+            transactionType: "Debet",
+            amount: amount,
+            UserId: userId,
+            TransactionId: transaction.id,
+          },
+        ];
 
-				//cek udah punya customerId apa belom, kalo belum create new customer
-				if (!customerId) {
-					const newCustomer = await Customer.create(
-						{
-							name: customer.name,
-							email: customer.email,
-							phoneNumber: customer.phoneNumber,
-							UserId: userId,
-						},
-						{
-							transaction: t,
-						}
-					);
-					customerId = newCustomer.id; //assign value id newCustomer
-				}
+        const result = await Ledger.bulkCreate(ledger, { transaction: t });
 
-				//Create new transaction
-				const transaction = await Transaction.create(
-					{
-						UserId: userId,
-						CustomerId: customerId,
-						ProductId: productId,
-						quantity: product.sellQuantity,
-						amount: product.amount,
-						dueDate: product.dueDate,
-						isPaid: false,
-					},
-					{
-						transaction: t,
-					}
-				);
-
-				//Create Ledger
-				const ledger = [
-					{
-						AccountId: accounts.Piutang, //Piutang
-						transactionType: "Debet",
-						amount: product.amount,
-						UserId: userId,
-					},
-					{
-						AccountId: accounts.Persediaan, //Persediaan
-						transactionType: "Credit",
-						amount: foundProduct.basePrice * product.sellQuantity,
-						UserId: userId,
-					},
-					{
-						AccountId: accounts.HPP, //HPP
-						transactionType: "Debet",
-						amount: foundProduct.basePrice * product.sellQuantity,
-						UserId: userId,
-					},
-					{
-						AccountId: accounts.Penjualan, //Penjualan
-						transactionType: "Debet",
-						amount: product.amount,
-						UserId: userId,
-						TransactionId: transaction.id,
-					},
-				];
-
-				const result = await Ledger.bulkCreate(ledger, { transaction: t });
-
-				await t.commit();
-				res.status(201).json(result);
-			} else {
-				//Throw error not found
-				throw {
-					name: `NOTFOUND`,
-					code: 404,
-					message: `Product does not exists`,
-				};
-			}
-		} catch (error) {
-			console.log(error);
-			await t.rollback();
-			next(error);
-		}
-	}
+        await t.commit();
+        res.status(201).json(result);
+      } else {
+        //Throw error not found
+        throw {
+          name: `NOTFOUND`,
+          code: 404,
+          message: `Product does not exists`,
+        };
+      }
+    } catch (error) {
+      console.log(error);
+      await t.rollback();
+      next(error);
+    }
+  }
 }
 
 module.exports = PenjualanController;

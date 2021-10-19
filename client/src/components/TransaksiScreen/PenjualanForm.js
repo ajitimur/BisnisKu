@@ -12,18 +12,17 @@ import {
   Radio,
   Icon,
   Modal,
+  Link,
+  Input
 } from "native-base";
-import { AddCustomer, AddProduk } from '../';
+import { AddCustomer } from '../';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCustomers } from '../../store/actions/penjualanAction';
 import { getAllProduct } from '../../store/actions';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 export default function PenjualanForm() {
-  let [produk, setProduk] = useState("")
-  let [customer, setCustomer] = useState("")
-
   const [addCustomerVisible, setAddCustomerVisible] = useState(false)
-  const [addProdukVisible, setAddProdukVisible] = useState(false)
   const initialRef = useRef(null)
   const finalRef = useRef(null)
 
@@ -37,22 +36,23 @@ export default function PenjualanForm() {
     dispatch(getAllProduct())
   }, []);
 
+  const [produk, setProduk] = useState(null)
+  const [customer, setCustomer] = useState(null)
+  const [quantity, setQuantity] = useState(null)
+  const [pembayaran, setPembayaran] = useState("")
+  const [dueDate, setDueDate] = useState("")
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      // await dispatch(addPengeluaran(inputData, pembayaran))
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
-      <Modal
-        isOpen={addProdukVisible}
-        onClose={() => setAddProdukVisible(false)}
-        size="lg"
-        animationPreset="slide"
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-      >
-        <Modal.Content>
-          <Modal.CloseButton />
-          <Modal.Header>Tambah Produk</Modal.Header>
-          <AddProduk />
-        </Modal.Content>
-      </Modal>
       <Modal
         isOpen={addCustomerVisible}
         onClose={() => setAddCustomerVisible(false)}
@@ -67,7 +67,7 @@ export default function PenjualanForm() {
           <AddCustomer />
         </Modal.Content>
       </Modal>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View
           p="4"
           bg="white"
@@ -90,21 +90,16 @@ export default function PenjualanForm() {
                 endIcon: <CheckIcon size="5" />,
               }}
               mt={1}
-              onValueChange={(itemValue) => setProduk(itemValue)}
+              onValueChange={(itemValue) => {
+                setProduk(itemValue)
+                console.log(itemValue);
+              }}
             >
               {
                 products.map((product) => (
-                  <Select.Item label={product.productName} value={product.productName} />
+                  <Select.Item label={product.productName} value={product.id} />
                 ))
               }
-              <Button
-                bg="darkBlue.600"
-                onPress={() => {
-                  setAddProdukVisible(!addProdukVisible)
-                }}
-              >
-                Tambah Produk
-              </Button>
             </Select>
           </FormControl>
           <FormControl mt="3">
@@ -112,11 +107,12 @@ export default function PenjualanForm() {
             <View
               flexDirection="row"
               alignItems="center"
+              justifyContent="space-between"
             >
               <Select
                 selectedValue={customer}
                 accessibilityLabel="Choose Service"
-                minWidth="90%"
+                minWidth="88%"
                 placeholder="Pilih customer"
                 _selectedItem={{
                   _text: {
@@ -129,20 +125,37 @@ export default function PenjualanForm() {
               >
                 {
                   customers.map((customer) => (
-                    <Select.Item label={customer.name} value={customer.name} />
+                    <Select.Item label={customer.name} value={customer.id} />
                   ))
                 }
               </Select>
-              <Button
-                bg="darkBlue.600"
-                w="10%"
+              <Link
                 onPress={() => {
                   setAddCustomerVisible(!addCustomerVisible)
                 }}
+                isExternal
               >
-                a
-              </Button>
+                <FontAwesomeIcon size={35} color="#005db4" name="plus-square" />
+              </Link>
             </View>
+          </FormControl>
+          <FormControl mt="3">
+            <FormControl.Label _text={{ fontSize: 16 }}>Kuantitas</FormControl.Label>
+            <Input
+              onChangeText={(value) => setQuantity(value)}
+              value={quantity}
+              type="text"
+              height="12"
+              size="md"
+              rounded="md"
+              placeholder="Banyak produk terjual"
+              keyboardType="numeric"
+              bg="white"
+              _focus={{
+                borderColor: "darkBlue.600",
+                borderWidth: "1.5px",
+              }}
+            />
           </FormControl>
           <Text
             fontSize={16}
@@ -158,13 +171,17 @@ export default function PenjualanForm() {
               name="exampleGroup"
               accessibilityLabel="pick a choice"
               flexDirection="row"
+              value={pembayaran}
+              onChange={(nextValue) => {
+                setPembayaran(nextValue);
+              }}
             >
               <Radio
                 _text={{
                   mx: 2,
                 }}
                 colorScheme="green"
-                value="1"
+                value="bank"
                 icon={<Icon as={<MaterialCommunityIcons name="bank" />} />}
                 my={1}
               >
@@ -176,7 +193,7 @@ export default function PenjualanForm() {
                 }}
                 size="md"
                 colorScheme="green"
-                value="2"
+                value="tunai"
                 icon={<Icon as={<MaterialCommunityIcons name="cash" />} />}
                 my={1}
               >
@@ -188,7 +205,7 @@ export default function PenjualanForm() {
                 }}
                 size="md"
                 colorScheme="red"
-                value="3"
+                value="hutang"
                 icon={<Icon as={<MaterialCommunityIcons name="cash-remove" />} />}
                 my={1}
               >
@@ -215,6 +232,7 @@ export default function PenjualanForm() {
           }}
           top={-20}
           shadow={4}
+          onPress={handleSubmit}
         >
           Simpan Transaksi
         </Button>
