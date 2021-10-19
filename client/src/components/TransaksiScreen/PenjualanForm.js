@@ -16,6 +16,7 @@ import {
 import { AddCustomer, AddProduk } from '../';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCustomers } from '../../store/actions/penjualanAction';
+import { getAllProduct } from '../../store/actions';
 
 export default function PenjualanForm() {
   let [produk, setProduk] = useState("")
@@ -26,15 +27,14 @@ export default function PenjualanForm() {
   const initialRef = useRef(null)
   const finalRef = useRef(null)
 
-  const customers = useSelector((state) => {
-    return state.customers;
-  });
+  const customers = useSelector((state) => state.customers);
+  const products = useSelector((state) => state.products);
 
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(fetchCustomers())
-    console.log(customers);
+    dispatch(getAllProduct())
   }, []);
 
   return (
@@ -92,8 +92,11 @@ export default function PenjualanForm() {
               mt={1}
               onValueChange={(itemValue) => setProduk(itemValue)}
             >
-              <Select.Item label="UX Research" value="ux" />
-              <Select.Item label="Web Development" value="web" />
+              {
+                products.map((product) => (
+                  <Select.Item label={product.productName} value={product.productName} />
+                ))
+              }
               <Button
                 bg="darkBlue.600"
                 onPress={() => {
@@ -124,8 +127,11 @@ export default function PenjualanForm() {
                 mt={1}
                 onValueChange={(itemValue) => setCustomer(itemValue)}
               >
-                <Select.Item label="UX Research" value="ux" />
-                <Select.Item label="Web Development" value="web" />
+                {
+                  customers.map((customer) => (
+                    <Select.Item label={customer.name} value={customer.name} />
+                  ))
+                }
               </Select>
               <Button
                 bg="darkBlue.600"
