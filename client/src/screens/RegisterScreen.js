@@ -42,6 +42,8 @@ export default function RegisterScreen({ navigation }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log(userData);
+
     try {
       const userRegister = await API({
         method: "POST",

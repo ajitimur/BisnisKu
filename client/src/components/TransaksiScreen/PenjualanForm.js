@@ -119,15 +119,15 @@ export default function PenjualanForm() {
               </Button>
             </Select>
           </FormControl>
-          <View
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
+          <Text
+            fontSize={16}
             mt="2"
           >
-            <Text
-              fontSize={16}
-            >Pembayaran :{" "}</Text>
+            Pembayaran :{" "}
+          </Text>
+          <View
+            alignItems="center"
+          >
             <Radio.Group
               size="lg"
               name="exampleGroup"
@@ -156,6 +156,18 @@ export default function PenjualanForm() {
                 my={1}
               >
                 Tunai
+              </Radio>
+              <Radio
+                _text={{
+                  mx: 2,
+                }}
+                size="md"
+                colorScheme="red"
+                value="3"
+                icon={<Icon as={<MaterialCommunityIcons name="cash-remove" />} />}
+                my={1}
+              >
+                Hutang
               </Radio>
             </Radio.Group>
           </View>

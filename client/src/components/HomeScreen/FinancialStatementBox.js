@@ -1,8 +1,20 @@
-import React from "react";
-import { Text, Box, View, Heading } from "native-base";
+
+import React from 'react'
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
+import {
+  Text,
+  Box,
+  View,
+  Heading,
+  Button
+} from "native-base";
 import { useSelector, useDispatch } from "react-redux";
 
+
 export default function FinancialStatementBox() {
+  const navigation = useNavigation()
+
   return (
     <>
       <Box
@@ -56,6 +68,24 @@ export default function FinancialStatementBox() {
             Rp1.000.000
           </Text>
         </View>
+        <Button
+          rounded="3xl"
+          h="8"
+          bg="blue.400"
+          style={{
+            marginVertical: 20
+          }}
+          endIcon={
+            <FontAwesome5Icon
+              size={20}
+              name="angle-right"
+              color="white"
+            />
+          }
+          onPress={() => navigation.navigate("Statistik")}
+        >
+          Lihat detail
+        </Button>
       </Box>
     </>
   );

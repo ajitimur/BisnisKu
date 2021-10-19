@@ -7,3 +7,6 @@ export { default as PenjualanForm } from "./TransaksiScreen/PenjualanForm"
 export { default as PengeluaranForm } from "./TransaksiScreen/PengeluaranForm"
 export { default as AddCustomer } from "./TransaksiScreen/AddCustomer"
 export { default as AddProduk } from "./TransaksiScreen/AddProduk"
+
+export { default as MainStatistikCard } from "./StatistikScreen/MainStatistikCard"
+export { default as StatistikChart } from "./StatistikScreen/StatistikChart"
