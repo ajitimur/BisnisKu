@@ -1,8 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FlatList, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { View, Box, StatusBar } from "native-base";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllProduct } from "../store/actions";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import "intl";
+import "intl/locale-data/jsonp/en";
+const formatter = new Intl.NumberFormat("id-ID", {
+  style: "currency",
+  currency: "IDR",
+});
 
 const Productscreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+  async function getToken() {
+    try {
+      const token = await AsyncStorage.getItem("access_token");
+      dispatch(getAllProduct(token));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    getToken();
+  }, []);
+
+  const products = useSelector((state) => {
+    return state.products;
+  });
+  // console.log(products);
   function renderProduct(item, index) {
     return (
       <TouchableOpacity
@@ -22,14 +49,71 @@ const Productscreen = ({ navigation }) => {
             borderRadius: 15,
             marginBottom: 10,
           },
-          index % 2 == 0 ? { marginRight: 20 } : { marginLeft: 15 },
+          index % 2 == 0
+            ? { marginRight: 20, marginLeft: 3 }
+            : { marginLeft: 15 },
         ]}
         onPress={() => {
-          navigation.navigate("BeliProduk");
-          console.log("ini di pencet");
+          navigation.navigate("BeliProduk", { id: item.id });
         }}
       >
-        <Text>{item.name}</Text>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            // alignContent: "space-between",
+          }}
+        >
+          <Text
+            style={{
+              borderStyle: "solid",
+              borderColor: "gray",
+              borderWidth: 1,
+              borderRadius: 5,
+              paddingLeft: 5,
+              paddingRight: 5,
+              backgroundColor: "#5A7081",
+              color: "white",
+              marginBottom: 10,
+            }}
+          >
+            Produk: {item.productName}
+          </Text>
+          <Text
+            style={{
+              borderStyle: "solid",
+              borderColor: "gray",
+              borderWidth: 1,
+              borderRadius: 5,
+              paddingLeft: 2,
+              marginBottom: 10,
+              backgroundColor: "gray",
+              color: "white",
+            }}
+          >
+            Harga: {formatter.format(item.basePrice)}
+          </Text>
+          <Text
+            style={[
+              {
+                borderStyle: "solid",
+                borderColor: "gray",
+                borderWidth: 1,
+                borderRadius: 5,
+                paddingLeft: 5,
+                paddingRight: 5,
+              },
+              item.quantity < 10
+                ? { backgroundColor: "yellow", color: "black" }
+                : item.quantity === 0
+                ? { backgroundColor: "red" }
+                : { backgroundColor: "green", color: "white" },
+            ]}
+          >
+            {item.quantity} {item.unit}
+          </Text>
+        </View>
       </TouchableOpacity>
     );
   }
@@ -40,7 +124,7 @@ const Productscreen = ({ navigation }) => {
         backgroundColor="transparent"
         barStyle="dark-content"
       />
-      <Box safeAreaTop bg="blue.400" roundedBottomLeft={40} h={175} />
+      <Box safeAreaTop bg="blue.400" roundedBottomLeft={40} h={155} />
       <View style={{ flex: 1, alignItems: "center" }}>
         <TouchableOpacity
           style={styles.buttonAdd}
@@ -55,18 +139,7 @@ const Productscreen = ({ navigation }) => {
             horizontal={false}
             showsVerticalScrollIndicator={false}
             numColumns={2}
-            data={[
-              { id: 1, name: "produk satu" },
-              { id: 2, name: "produk dua" },
-              { id: 3, name: "produk tiga" },
-              { id: 4, name: "produk tiga" },
-              { id: 5, name: "produk tiga" },
-              { id: 12, name: "produk satu" },
-              { id: 22, name: "produk dua" },
-              { id: 32, name: "produk tiga" },
-              { id: 42, name: "produk tiga" },
-              { id: 52, name: "produk tiga" },
-            ]}
+            data={products}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item, index }) => renderProduct(item, index)}
           ></FlatList>
@@ -148,7 +221,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "white",
     flexDirection: "row",
-    marginTop: -620,
+    marginTop: -610,
     shadowColor: "rgba(0,0,0,1)",
     shadowOffset: {
       width: 3,
@@ -201,7 +274,7 @@ const styles = StyleSheet.create({
     flex: 0.2,
     justifyContent: "center",
     alignContent: "center",
-    top: -30,
+    top: -20,
     left: 140,
   },
 });

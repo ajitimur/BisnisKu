@@ -3,6 +3,6 @@ const ReportController = require("../controllers/reportController");
 const reportRouter = express.Router();
 
 reportRouter.get("/labaRugi", ReportController.labaRugi)
-reportRouter.get("/neraca", ReportController.neracaSaldo)
+reportRouter.get("/saldo", ReportController.getSaldo)
 
 module.exports = reportRouter

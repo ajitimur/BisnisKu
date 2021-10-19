@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 import {
   Text,
@@ -14,6 +14,9 @@ import {
   Modal,
 } from "native-base";
 import { AddCustomer, AddProduk } from '../';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCustomers } from '../../store/actions/penjualanAction';
+import { getAllProduct } from '../../store/actions';
 
 export default function PenjualanForm() {
   let [produk, setProduk] = useState("")
@@ -23,6 +26,16 @@ export default function PenjualanForm() {
   const [addProdukVisible, setAddProdukVisible] = useState(false)
   const initialRef = useRef(null)
   const finalRef = useRef(null)
+
+  const customers = useSelector((state) => state.customers);
+  const products = useSelector((state) => state.products);
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchCustomers())
+    dispatch(getAllProduct())
+  }, []);
 
   return (
     <>
@@ -79,8 +92,11 @@ export default function PenjualanForm() {
               mt={1}
               onValueChange={(itemValue) => setProduk(itemValue)}
             >
-              <Select.Item label="UX Research" value="ux" />
-              <Select.Item label="Web Development" value="web" />
+              {
+                products.map((product) => (
+                  <Select.Item label={product.productName} value={product.productName} />
+                ))
+              }
               <Button
                 bg="darkBlue.600"
                 onPress={() => {
@@ -93,41 +109,50 @@ export default function PenjualanForm() {
           </FormControl>
           <FormControl mt="3">
             <FormControl.Label _text={{ fontSize: 16 }}>Customer</FormControl.Label>
-            <Select
-              selectedValue={customer}
-              minWidth="90%"
-              accessibilityLabel="Choose Service"
-              placeholder="Pilih customer"
-              _selectedItem={{
-                _text: {
-                  color: "blue.400"
-                },
-                endIcon: <CheckIcon size="5" />,
-              }}
-              mt={1}
-              onValueChange={(itemValue) => setCustomer(itemValue)}
+            <View
+              flexDirection="row"
+              alignItems="center"
             >
-              <Select.Item label="UX Research" value="ux" />
-              <Select.Item label="Web Development" value="web" />
+              <Select
+                selectedValue={customer}
+                accessibilityLabel="Choose Service"
+                minWidth="90%"
+                placeholder="Pilih customer"
+                _selectedItem={{
+                  _text: {
+                    color: "blue.400"
+                  },
+                  endIcon: <CheckIcon size="5" />,
+                }}
+                mt={1}
+                onValueChange={(itemValue) => setCustomer(itemValue)}
+              >
+                {
+                  customers.map((customer) => (
+                    <Select.Item label={customer.name} value={customer.name} />
+                  ))
+                }
+              </Select>
               <Button
                 bg="darkBlue.600"
+                w="10%"
                 onPress={() => {
                   setAddCustomerVisible(!addCustomerVisible)
                 }}
               >
-                Tambah Customer
+                a
               </Button>
-            </Select>
+            </View>
           </FormControl>
-          <View
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
+          <Text
+            fontSize={16}
             mt="2"
           >
-            <Text
-              fontSize={16}
-            >Pembayaran :{" "}</Text>
+            Pembayaran :{" "}
+          </Text>
+          <View
+            alignItems="center"
+          >
             <Radio.Group
               size="lg"
               name="exampleGroup"
@@ -156,6 +181,18 @@ export default function PenjualanForm() {
                 my={1}
               >
                 Tunai
+              </Radio>
+              <Radio
+                _text={{
+                  mx: 2,
+                }}
+                size="md"
+                colorScheme="red"
+                value="3"
+                icon={<Icon as={<MaterialCommunityIcons name="cash-remove" />} />}
+                my={1}
+              >
+                Hutang
               </Radio>
             </Radio.Group>
           </View>
