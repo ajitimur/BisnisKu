@@ -1,3 +1,4 @@
+
 import React from 'react'
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
@@ -8,6 +9,8 @@ import {
   Heading,
   Button
 } from "native-base";
+import { useSelector, useDispatch } from "react-redux";
+
 
 export default function FinancialStatementBox() {
   const navigation = useNavigation()
@@ -20,13 +23,10 @@ export default function FinancialStatementBox() {
         shadow={4}
         style={{
           paddingHorizontal: 20,
-          marginTop: 20
+          marginTop: 20,
         }}
       >
-        <Heading
-          fontSize={17}
-          py="3"
-        >
+        <Heading fontSize={17} py="3">
           Laporan Keuangan{"   "}
         </Heading>
         <View
@@ -35,17 +35,10 @@ export default function FinancialStatementBox() {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Text
-            color="dark.400"
-            fontSize={15}
-          >
+          <Text color="dark.400" fontSize={15}>
             Kas Tunai
           </Text>
-          <Text
-            color="green.500"
-            fontSize={15}
-            fontWeight="bold"
-          >
+          <Text color="green.500" fontSize={15} fontWeight="bold">
             Rp1.000.000
           </Text>
         </View>
@@ -55,17 +48,10 @@ export default function FinancialStatementBox() {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Text
-            color="dark.400"
-            fontSize={15}
-          >
+          <Text color="dark.400" fontSize={15}>
             Kas bank
           </Text>
-          <Text
-            color="green.500"
-            fontSize={15}
-            fontWeight="bold"
-          >
+          <Text color="green.500" fontSize={15} fontWeight="bold">
             Rp1.000.000
           </Text>
         </View>
@@ -75,17 +61,10 @@ export default function FinancialStatementBox() {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Text
-            color="dark.400"
-            fontSize={15}
-          >
+          <Text color="dark.400" fontSize={15}>
             Hutang{" "}
           </Text>
-          <Text
-            color="danger.500"
-            fontSize={15}
-            fontWeight="bold"
-          >
+          <Text color="danger.500" fontSize={15} fontWeight="bold">
             Rp1.000.000
           </Text>
         </View>
@@ -109,5 +88,5 @@ export default function FinancialStatementBox() {
         </Button>
       </Box>
     </>
-  )
+  );
 }

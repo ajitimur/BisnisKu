@@ -1,8 +1,22 @@
-import React, { useState } from "react";
-import { Input, Stack, FormControl, StatusBar, Box, Button } from "native-base";
-import { View, StyleSheet, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  Input,
+  Stack,
+  FormControl,
+  StatusBar,
+  Box,
+  Button,
+  Icon,
+  Radio,
+} from "native-base";
+import { View, StyleSheet, ScrollView, Text } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { addNewProduct } from "../store/actions";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Addnewproduct = () => {
+const Addnewproduct = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [productData, setProductData] = useState({
     productName: "",
     quantity: "",
@@ -10,6 +24,19 @@ const Addnewproduct = () => {
     basePrice: "",
     sellPrice: "",
   });
+  const [pembayaran, setPembayaran] = useState(0);
+  const [acc_token, setAcc_token] = useState("");
+  async function getToken() {
+    try {
+      const token = await AsyncStorage.getItem("access_token");
+      setAcc_token(token);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  useEffect(() => {
+    getToken();
+  }, []);
 
   function formHandler(value, fieldName) {
     setProductData({ ...productData, [fieldName]: value });
@@ -79,12 +106,74 @@ const Addnewproduct = () => {
                 keyboardType="numeric"
               />
             </Stack>
+            <Stack>
+              <View
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+                mt="2"
+              >
+                {/* <Text fontSize={16}>Pembayaran : </Text> */}
+                <Radio.Group
+                  size="lg"
+                  name="exampleGroup"
+                  accessibilityLabel="pick a choice"
+                  flexDirection="row"
+                  value={pembayaran}
+                  onChange={(nextValue) => {
+                    setPembayaran(nextValue);
+                  }}
+                >
+                  <Radio
+                    _text={{
+                      mx: 2,
+                    }}
+                    colorScheme="green"
+                    value="1"
+                    icon={<Icon as={<MaterialCommunityIcons name="bank" />} />}
+                    my={1}
+                  >
+                    Bank
+                  </Radio>
+                  <Radio
+                    _text={{
+                      mx: 2,
+                    }}
+                    colorScheme="red"
+                    value="2"
+                    icon={<Icon as={<MaterialCommunityIcons name="cash" />} />}
+                    my={1}
+                  >
+                    Hutang
+                  </Radio>
+                  <Radio
+                    _text={{
+                      mx: 2,
+                    }}
+                    size="md"
+                    colorScheme="green"
+                    value="3"
+                    icon={<Icon as={<MaterialCommunityIcons name="cash" />} />}
+                    my={1}
+                  >
+                    Kas
+                  </Radio>
+                </Radio.Group>
+              </View>
+            </Stack>
           </Stack>
         </FormControl>
         <Button
           style={{ marginTop: 30 }}
           onPress={() => {
-            console.log(productData);
+            if (pembayaran == 3) {
+              dispatch(addNewProduct(acc_token, productData, "cash"));
+            } else if (pembayaran == 2) {
+              dispatch(addNewProduct(acc_token, productData, "hutang"));
+            } else if (pembayaran == 1) {
+              dispatch(addNewProduct(acc_token, productData, "bank"));
+            }
+            navigation.goBack();
           }}
           w="100%"
           mt="2"

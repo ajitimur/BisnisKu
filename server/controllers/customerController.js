@@ -24,6 +24,18 @@ class CustomerController{
       next(error)
     }
   }
+
+  static async createCustomer(req, res, next){
+    const UserId = req.user.id;
+    const { name, email, phoneNumber } = req.body
+    try {
+      await Customer.create({ name, email, phoneNumber, UserId })
+
+      res.status(201).json({message: "Customer created"})
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 module.exports = CustomerController

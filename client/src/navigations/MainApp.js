@@ -79,14 +79,20 @@ const Mainapp = () => {
         name="TambahProduk"
         component={AddNewProduct}
         options={{
-          headerShown: false,
+          headerTransparent: true,
+          headerShadowVisible: false,
+          animation: "slide_from_right",
+          headerTitle: "Tambah Produk",
         }}
       />
       <Stack.Screen
         name="BeliProduk"
         component={Beliproduk}
         options={{
-          headerShown: false,
+          headerTransparent: true,
+          headerShadowVisible: false,
+          animation: "slide_from_right",
+          headerTitle: "Beli Produk",
         }}
       />
       <Stack.Screen
