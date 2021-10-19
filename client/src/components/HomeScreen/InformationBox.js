@@ -1,14 +1,10 @@
-import React from 'react'
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
-import {
-  Text,
-  Box,
-  View,
-  Button,
-  Heading
-} from "native-base";
+import React from "react";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome5";
+import { Text, Box, View, Button, Heading } from "native-base";
+import { useNavigation } from "@react-navigation/native";
 
 export default function InformationBox() {
+  const navigation = useNavigation();
   return (
     <>
       <Box
@@ -17,13 +13,10 @@ export default function InformationBox() {
         shadow={4}
         style={{
           paddingHorizontal: 20,
-          marginTop: 20
+          marginTop: 20,
         }}
       >
-        <Heading
-          fontSize={17}
-          py="3"
-        >
+        <Heading fontSize={17} py="3">
           Catat Transaksi Keuangan Anda
         </Heading>
         <View
@@ -31,34 +24,18 @@ export default function InformationBox() {
           justifyContent="space-between"
           alignItems="center"
         >
-          <View
-            flexDirection="row"
-          >
-            <FontAwesomeIcon
-              name="check"
-              color="green"
-            />
-            <Text
-              ml="2"
-              mt="-1"
-              maxW={32}
-            >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec
+          <View flexDirection="row">
+            <FontAwesomeIcon name="check" color="green" />
+            <Text ml="2" mt="-1" maxW={32}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+              nec
             </Text>
           </View>
-          <View
-            flexDirection="row"
-          >
-            <FontAwesomeIcon
-              name="check"
-              color="green"
-            />
-            <Text
-              ml="2"
-              mt="-1"
-              maxW={32}
-            >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec
+          <View flexDirection="row">
+            <FontAwesomeIcon name="check" color="green" />
+            <Text ml="2" mt="-1" maxW={32}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+              nec
             </Text>
           </View>
         </View>
@@ -67,7 +44,7 @@ export default function InformationBox() {
           h="8"
           bg="blue.400"
           style={{
-            marginVertical: 20
+            marginVertical: 20,
           }}
         >
           Catat Transaksi
@@ -80,13 +57,10 @@ export default function InformationBox() {
         style={{
           paddingHorizontal: 20,
           marginTop: 20,
-          marginBottom: 95
+          marginBottom: 95,
         }}
       >
-        <Heading
-          fontSize={17}
-          py="3"
-        >
+        <Heading fontSize={17} py="3">
           Lorem Ipsum Dolor Sit
         </Heading>
         <View
@@ -94,34 +68,18 @@ export default function InformationBox() {
           justifyContent="space-between"
           alignItems="center"
         >
-          <View
-            flexDirection="row"
-          >
-            <FontAwesomeIcon
-              name="check"
-              color="green"
-            />
-            <Text
-              ml="2"
-              mt="-1"
-              maxW={32}
-            >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec
+          <View flexDirection="row">
+            <FontAwesomeIcon name="check" color="green" />
+            <Text ml="2" mt="-1" maxW={32}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+              nec
             </Text>
           </View>
-          <View
-            flexDirection="row"
-          >
-            <FontAwesomeIcon
-              name="check"
-              color="green"
-            />
-            <Text
-              ml="2"
-              mt="-1"
-              maxW={32}
-            >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec
+          <View flexDirection="row">
+            <FontAwesomeIcon name="check" color="green" />
+            <Text ml="2" mt="-1" maxW={32}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+              nec
             </Text>
           </View>
         </View>
@@ -130,12 +88,15 @@ export default function InformationBox() {
           h="8"
           bg="blue.400"
           style={{
-            marginVertical: 20
+            marginVertical: 20,
+          }}
+          onPress={() => {
+            navigation.navigate("Hutang");
           }}
         >
           Lorem Ipsum
         </Button>
       </Box>
     </>
-  )
+  );
 }

@@ -1,4 +1,9 @@
-import { FETCH_PRODUCTS, IS_LOGGED_IN, DETAIL_PRODUCT } from "../keys";
+import {
+  FETCH_PRODUCTS,
+  IS_LOGGED_IN,
+  DETAIL_PRODUCT,
+  GET_HUTANG,
+} from "../keys";
 import API from "../../apis/API";
 
 export function getProducts(data) {
@@ -16,6 +21,12 @@ export function changeLogStatus(data) {
 export function detailProduct(data) {
   return {
     type: DETAIL_PRODUCT,
+    payload: data,
+  };
+}
+export function hutangGet(data) {
+  return {
+    type: GET_HUTANG,
     payload: data,
   };
 }
@@ -78,6 +89,34 @@ export function addNewModal(token, data, endpoint) {
       console.log(modalAdd.data);
     } catch (err) {
       console.log(err.response.data, "<<<<<<");
+    }
+  };
+}
+export function getHutang(token, endpoint) {
+  return async function (dispatch) {
+    try {
+      const hutang_get = await API({
+        method: "GET",
+        url: `/transaction/${endpoint}`,
+        headers: { access_token: token },
+      });
+      dispatch(hutangGet(hutang_get.data));
+    } catch (err) {
+      console.log(err, "<<<<<<");
+    }
+  };
+}
+export function tagihCustomer(token, id) {
+  return async function () {
+    try {
+      await API({
+        method: "POST",
+        url: `/pembayaran/${id}`,
+        headers: { access_token: token },
+      });
+      // dispatch(hutangGet(pembayaranHutang.data));
+    } catch (err) {
+      console.log(err, "<<<<<<");
     }
   };
 }
