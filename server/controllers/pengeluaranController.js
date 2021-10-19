@@ -48,7 +48,11 @@ class PengeluaranController {
 
 			const balance = totalDebet - totalKredit;
 			if (balance - amount < 0) {
-				throw new Error("insufficient money");
+				// throw new Error("insufficient money");
+				throw {
+					name: "PengeluaranError",
+					msg: "insufficient money",
+				};
 			}
 
 			const ledger = [
@@ -74,7 +78,7 @@ class PengeluaranController {
 			res.status(200).json({ message: "transaction created" });
 		} catch (error) {
 			await t.rollback();
-			// console.log(error);
+
 			next(error);
 		}
 	}
@@ -117,7 +121,10 @@ class PengeluaranController {
 
 			const balance = totalDebet - totalKredit;
 			if (balance - amount < 0) {
-				throw new Error("insufficient money");
+				throw {
+					name: "PengeluaranError",
+					msg: "insufficient money",
+				};
 			}
 
 			const ledger = [

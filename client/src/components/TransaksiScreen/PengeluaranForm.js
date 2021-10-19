@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Text,
   View,
@@ -12,8 +12,33 @@ import {
   Icon
 } from "native-base";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
+import { addPengeluaran } from '../../store/actions/pengeluaranAction';
+import { useDispatch } from 'react-redux';
 
 export default function PengeluaranForm() {
+  const dispatch = useDispatch()
+  const [pembayaran, setPembayaran] = useState("")
+  const [inputData, setInputData] = useState({
+    amount: 0,
+    description: ""
+  })
+
+  const { amount, description } = inputData
+
+  const handleInput = (value, fieldName) => {
+    setInputData({ ...inputData, [fieldName]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    try {
+      await dispatch(addPengeluaran(inputData, pembayaran))
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
       <ScrollView>
@@ -28,6 +53,8 @@ export default function PengeluaranForm() {
           <FormControl>
             <FormControl.Label _text={{ fontSize: 16 }}>Nominal Pengeluaran</FormControl.Label>
             <Input
+              onChangeText={(value) => handleInput(value, "amount")}
+              value={amount}
               type="text"
               height="12"
               size="md"
@@ -44,6 +71,8 @@ export default function PengeluaranForm() {
           <FormControl mt="3">
             <FormControl.Label _text={{ fontSize: 16 }}>Deskirpsi</FormControl.Label>
             <Input
+              onChangeText={(value) => handleInput(value, "description")}
+              value={description}
               type="text"
               height="12"
               size="md"
@@ -70,13 +99,17 @@ export default function PengeluaranForm() {
               name="exampleGroup"
               accessibilityLabel="pick a choice"
               flexDirection="row"
+              value={pembayaran}
+              onChange={(nextValue) => {
+                setPembayaran(nextValue);
+              }}
             >
               <Radio
                 _text={{
                   mx: 2,
                 }}
                 colorScheme="green"
-                value="1"
+                value="bank"
                 icon={<Icon as={<MaterialCommunityIcons name="bank" />} />}
                 my={1}
               >
@@ -88,7 +121,7 @@ export default function PengeluaranForm() {
                 }}
                 size="md"
                 colorScheme="green"
-                value="2"
+                value="cash"
                 icon={<Icon as={<MaterialCommunityIcons name="cash" />} />}
                 my={1}
               >
@@ -114,6 +147,7 @@ export default function PengeluaranForm() {
           }}
           top={-20}
           shadow={4}
+          onPress={handleSubmit}
         >
           Simpan Transaksi
         </Button>

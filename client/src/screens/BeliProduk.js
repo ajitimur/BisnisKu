@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, ScrollView } from "react-native";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   View,
   Input,
@@ -7,16 +8,45 @@ import {
   FormControl,
   StatusBar,
   Box,
+  Icon,
   Button,
+  Radio,
 } from "native-base";
+import "intl";
+import "intl/locale-data/jsonp/en";
+import { useSelector, useDispatch } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Beliproduk = () => {
+import { getDetailProduct } from "../store/actions";
+const formatter = new Intl.NumberFormat("id-ID", {
+  style: "currency",
+  currency: "IDR",
+});
+
+const Beliproduk = ({ route }) => {
+  const dispatch = useDispatch();
   const [productData, setProductData] = useState({
     quantity: "",
     basePrice: "",
     sellPrice: "",
   });
-
+  const detail = useSelector((state) => {
+    return state.detail;
+  });
+  async function getToken() {
+    try {
+      const token = await AsyncStorage.getItem("access_token");
+      dispatch(getDetailProduct(id, token));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  const { id } = route.params;
+  // console.log(id);
+  useEffect(() => {
+    getToken();
+  }, []);
+  // console.log(detail, "<<<<<");
   function formHandler(value, fieldName) {
     setProductData({ ...productData, [fieldName]: value });
   }
@@ -32,10 +62,33 @@ const Beliproduk = () => {
       <View style={{ flex: 1, alignItems: "center" }}>
         <View style={styles.productInfo}>
           <View style={styles.info}>
-            <Text>nama produk</Text>
-            <Text>quantity produk</Text>
-            <Text>basePrice produk</Text>
-            <Text>sellPrice produk</Text>
+            <Text style={styles.textInfo}>{detail.productName}</Text>
+            <Text
+              style={[
+                {
+                  borderStyle: "solid",
+                  borderColor: "gray",
+                  borderWidth: 1,
+                  borderRadius: 5,
+                  paddingLeft: 5,
+                  paddingRight: 5,
+                  marginBottom: 10,
+                },
+                detail.quantity < 10
+                  ? { backgroundColor: "yellow", color: "black" }
+                  : detail.quantity === 0
+                  ? { backgroundColor: "red" }
+                  : { backgroundColor: "green", color: "white" },
+              ]}
+            >
+              {detail.quantity} {detail.unit}
+            </Text>
+            <Text style={styles.textInfo}>
+              Harga satuan {formatter.format(detail.basePrice)}
+            </Text>
+            <Text style={styles.textInfo}>
+              harga jual {formatter.format(detail.sellPrice)}
+            </Text>
           </View>
         </View>
         <ScrollView style={styles.formContainer}>
@@ -75,6 +128,46 @@ const Beliproduk = () => {
                 />
               </Stack>
             </Stack>
+            <Stack>
+              <View
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+                mt="2"
+              >
+                <Text fontSize={16}>Pembayaran : </Text>
+                <Radio.Group
+                  size="lg"
+                  name="exampleGroup"
+                  accessibilityLabel="pick a choice"
+                  flexDirection="row"
+                >
+                  <Radio
+                    _text={{
+                      mx: 2,
+                    }}
+                    colorScheme="green"
+                    value="1"
+                    icon={<Icon as={<MaterialCommunityIcons name="bank" />} />}
+                    my={1}
+                  >
+                    Bank
+                  </Radio>
+                  <Radio
+                    _text={{
+                      mx: 2,
+                    }}
+                    size="md"
+                    colorScheme="green"
+                    value="2"
+                    icon={<Icon as={<MaterialCommunityIcons name="cash" />} />}
+                    my={1}
+                  >
+                    Tunai
+                  </Radio>
+                </Radio.Group>
+              </View>
+            </Stack>
           </FormControl>
           <Button
             style={{ marginTop: 30 }}
@@ -106,7 +199,7 @@ const styles = StyleSheet.create({
   },
   productInfo: {
     width: 330,
-    height: 100,
+    height: 140,
     borderRadius: 10,
     backgroundColor: "white",
     flexDirection: "row",
@@ -122,12 +215,21 @@ const styles = StyleSheet.create({
   },
   info: {
     height: 24,
-    // flexDirection: "row",
     flex: 1,
     alignItems: "center",
-    // justifyContent: "space-evenly",
     alignContent: "center",
     marginTop: 13,
+  },
+  textInfo: {
+    borderStyle: "solid",
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingLeft: 5,
+    paddingRight: 5,
+    backgroundColor: "#5A7081",
+    color: "white",
+    marginBottom: 10,
   },
 });
 
