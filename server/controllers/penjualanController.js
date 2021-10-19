@@ -9,18 +9,18 @@ const { getAccount, accounts } = require("../helpers/dataAccounts");
 
 class PenjualanController {
   static async penjualanCash(req, res, next) {
-    const { customer, product, category } = req.body; //customer berisi object data customer, product object isi data product yg dijual, //category ini customer bayarnya tf bank atau kas
-    const productId = product.id;
+    const { CustomerId, ProductId, quantity, category } = req.body; //customer berisi object data customer, product object isi data product yg dijual, //category ini customer bayarnya tf bank atau kas
     const userId = req.user.id;
-    let customerId = customer.id ? customer.id : null;
 
     const t = await sequelize.transaction();
     try {
-      const foundProduct = await Product.findByPk(productId);
+      const foundProduct = await Product.findByPk(ProductId);
 
       if (foundProduct) {
         const oldQuantity = foundProduct.quantity;
-        const newQuantity = oldQuantity - product.sellQuantity;
+        const newQuantity = oldQuantity - quantity;
+
+        const amount = foundProduct.sellPrice * quantity
 
         //Cek misal yg ngejual lebih dari stock yg ada
         if (newQuantity < 0) {
@@ -38,40 +38,21 @@ class PenjualanController {
             quantity: newQuantity,
           },
           {
-            where: { id: productId },
+            where: { id: ProductId },
           },
           {
             transaction: t,
           }
         );
 
-        //cek udah punya customerId apa belom, kalo belum create new customer
-        if (!customerId) {
-          const newCustomer = await Customer.create(
-            {
-              name: customer.name,
-              email: customer.email,
-              phoneNumber: customer.phoneNumber,
-              UserId: userId,
-            },
-            {
-              transaction: t,
-            }
-          );
-
-          customerId = newCustomer.id; //assign value id newCustomer
-        }
-
-
         //Create new transaction
-
         const transaction = await Transaction.create(
           {
             UserId: userId,
-            CustomerId: customerId,
-            ProductId: productId,
-            quantity: product.sellQuantity,
-            amount: product.amount,
+            CustomerId,
+            ProductId,
+            quantity,
+            amount,
             dueDate: new Date(),
             isPaid: true,
           },
@@ -81,59 +62,60 @@ class PenjualanController {
         );
 
         //Create Ledger
-        const ledger = [
+        let ledger = [
           {
             AccountId: accounts.Kas, //Kas
             transactionType: "Debet",
-            amount: product.amount,
+            amount: amount,
             UserId: userId,
           },
           {
             AccountId: accounts.Persediaan, //Persediaan
             transactionType: "Credit",
-            amount: foundProduct.basePrice * product.sellQuantity,
+            amount: foundProduct.basePrice * quantity,
             UserId: userId,
           },
           {
             AccountId: accounts.HPP, //HPP
             transactionType: "Debet",
-            amount: foundProduct.basePrice * product.sellQuantity,
+            amount: foundProduct.basePrice * quantity,
             UserId: userId,
           },
           {
             AccountId: accounts.Penjualan, //Penjualan
             transactionType: "Debet",
-            amount: product.amount,
+            amount: amount,
             UserId: userId,
             TransactionId: transaction.id,
           },
         ];
 
         if (category === "bank") {
+          console.log(accounts.Bank);
           ledger = [
             //assign new value, beda cuma kas di ganti jadi bank
             {
               AccountId: accounts.Bank, //Bank
               transactionType: "Debet",
-              amount: product.amount,
+              amount: amount,
               UserId: userId,
             },
             {
               AccountId: accounts.Persediaan, //Persediaan
               transactionType: "Credit",
-              amount: foundProduct.basePrice * product.quantity,
+              amount: foundProduct.basePrice * quantity,
               UserId: userId,
             },
             {
-              AccountId: accounts.Hpp, //HPP
+              AccountId: accounts.HPP, //HPP
               transactionType: "Debet",
-              amount: foundProduct.basePrice * product.quantity,
+              amount: foundProduct.basePrice * quantity,
               UserId: userId,
             },
             {
               AccountId: accounts.Penjualan, //Penjualan
               transactionType: "Debet",
-              amount: product.amount,
+              amount: amount,
               UserId: userId,
               TransactionId: transaction.id,
             },
@@ -153,25 +135,24 @@ class PenjualanController {
         };
       }
     } catch (error) {
-      // console.log(error);
       await t.rollback();
       next(error);
     }
   }
 
   static async penjualanPiutang(req, res, next) {
-    const { customer, product } = req.body; //customer berisi object data customer, product object isi data product yg dijual
-    const productId = product.id;
+    const { CustomerId, ProductId, quantity, dueDate } = req.body;
     const userId = req.user.id;
-    let customerId = customer.id ? customer.id : null;
 
     const t = await sequelize.transaction();
     try {
-      const foundProduct = await Product.findByPk(productId);
+      const foundProduct = await Product.findByPk(ProductId);
 
       if (foundProduct) {
         const oldQuantity = foundProduct.quantity;
-        const newQuantity = oldQuantity - product.sellQuantity;
+        const newQuantity = oldQuantity - quantity;
+
+        const amount = foundProduct.sellPrice * quantity
 
         //Cek misal yg ngejual lebih dari stock yg ada
         if (newQuantity < 0) {
@@ -189,38 +170,22 @@ class PenjualanController {
             quantity: newQuantity,
           },
           {
-            where: { id: productId },
+            where: { id: ProductId },
           },
           {
             transaction: t,
           }
         );
 
-        //cek udah punya customerId apa belom, kalo belum create new customer
-        if (!customerId) {
-          const newCustomer = await Customer.create(
-            {
-              name: customer.name,
-              email: customer.email,
-              phoneNumber: customer.phoneNumber,
-              UserId: userId,
-            },
-            {
-              transaction: t,
-            }
-          );
-          customerId = newCustomer.id; //assign value id newCustomer
-        }
-
         //Create new transaction
         const transaction = await Transaction.create(
           {
             UserId: userId,
-            CustomerId: customerId,
-            ProductId: productId,
-            quantity: product.sellQuantity,
-            amount: product.amount,
-            dueDate: product.dueDate,
+            CustomerId,
+            ProductId,
+            quantity,
+            amount: amount,
+            dueDate,
             isPaid: false,
           },
           {
@@ -233,25 +198,25 @@ class PenjualanController {
           {
             AccountId: accounts.Piutang, //Piutang
             transactionType: "Debet",
-            amount: product.amount,
+            amount: amount,
             UserId: userId,
           },
           {
             AccountId: accounts.Persediaan, //Persediaan
             transactionType: "Credit",
-            amount: foundProduct.basePrice * product.sellQuantity,
+            amount: foundProduct.basePrice * quantity,
             UserId: userId,
           },
           {
             AccountId: accounts.HPP, //HPP
             transactionType: "Debet",
-            amount: foundProduct.basePrice * product.sellQuantity,
+            amount: foundProduct.basePrice * quantity,
             UserId: userId,
           },
           {
             AccountId: accounts.Penjualan, //Penjualan
             transactionType: "Debet",
-            amount: product.amount,
+            amount: amount,
             UserId: userId,
             TransactionId: transaction.id,
           },
