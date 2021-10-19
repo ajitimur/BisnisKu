@@ -146,7 +146,7 @@ const Productscreen = ({ navigation }) => {
         </View>
         <View style={styles.rect2}>
           <View style={styles.button5Row}>
-            <TouchableOpacity style={styles.button3}>
+            <TouchableOpacity style={styles.button3} onPress={() => {}}>
               <Text style={{ color: "white", marginLeft: 14 }}>filter 1</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button3}>

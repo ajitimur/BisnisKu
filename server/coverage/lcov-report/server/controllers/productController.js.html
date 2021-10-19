@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">16.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/12</span>
+                <span class='fraction'>2/12</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">16.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/12</span>
+                <span class='fraction'>2/12</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -91,24 +91,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -120,25 +120,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { Product } = require("../models");
 &nbsp;
 class ProductController {
-	static async getAllProduct(req, res, next) {
-		const UserId = req.user.id;
-		try {
-			const result = await Product.findAll({
+<span class="fstat-no" title="function not covered" >	st</span>atic async getAllProduct(req, res, next) {
+		const UserId = <span class="cstat-no" title="statement not covered" >req.user.id;</span>
+<span class="cstat-no" title="statement not covered" >		try {</span>
+			const result = <span class="cstat-no" title="statement not covered" >await Product.findAll({</span>
 				where: { UserId },
 			});
 &nbsp;
-			res.status(200).json(result);
+<span class="cstat-no" title="statement not covered" >			res.status(200).json(result);</span>
 		} catch (error) {
 <span class="cstat-no" title="statement not covered" >			next(error);</span>
 		}
 	}
 &nbsp;
-	static async getOneProduct(req, res, next) {
-		const ProductId = req.params.id;
-		try {
-			const result = await Product.findOne({ where: { id: ProductId } });
+<span class="fstat-no" title="function not covered" >	st</span>atic async getOneProduct(req, res, next) {
+		const ProductId = <span class="cstat-no" title="statement not covered" >req.params.id;</span>
+<span class="cstat-no" title="statement not covered" >		try {</span>
+			const result = <span class="cstat-no" title="statement not covered" >await Product.findOne({ where: { id: ProductId } });</span>
 &nbsp;
-			res.status(200).json(result);
+<span class="cstat-no" title="statement not covered" >			res.status(200).json(result);</span>
 		} catch (error) {
 			// console.log(error);
 <span class="cstat-no" title="statement not covered" >			next(error);</span>
@@ -154,7 +154,7 @@ module.exports = ProductController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Oct 19 2021 17:25:25 GMT+0700 (Western Indonesia Time)
+                at Tue Oct 19 2021 17:30:17 GMT+0700 (Western Indonesia Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

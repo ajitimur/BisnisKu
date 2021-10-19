@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.71% </span>
+                <span class="strong">8.45% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/71</span>
+                <span class='fraction'>6/71</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">8.33% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/12</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.71% </span>
+                <span class="strong">8.45% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/71</span>
+                <span class='fraction'>6/71</span>
             </div>
         
             
@@ -300,33 +300,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -527,34 +527,34 @@ const dayjs = require('dayjs')
 const { QueryTypes } = require('sequelize');
 &nbsp;
 class ReportController{
-  static async labaRugi(req, res, next){
-    const UserId = req.user.id
-    const today = new Date()
-    const startDate = today.getDate()
+<span class="fstat-no" title="function not covered" >  st</span>atic async labaRugi(req, res, next){
+    const UserId = <span class="cstat-no" title="statement not covered" >req.user.id</span>
+    const today = <span class="cstat-no" title="statement not covered" >new Date()</span>
+    const startDate = <span class="cstat-no" title="statement not covered" >today.getDate()</span>
     
     
-    try {
+<span class="cstat-no" title="statement not covered" >    try {</span>
       //Cari saldo penjualan
       // let sevenDaysAgo = dayjs(new Date()).subtract(7, 'day').format('DD')
       // console.log(sevenDaysAgo, 'test')
-      const penjualan = await sequelize.query(`SELECT Sum(amount) AS "penjualan", DATE("createdAt") FROM "Ledgers"
+      const penjualan = <span class="cstat-no" title="statement not covered" >await sequelize.query(`SELECT Sum(amount) AS "penjualan", DATE("createdAt") FROM "Ledgers"</span>
       where extract(day from "createdAt") &lt;= '${startDate}' AND extract(day from "createdAt") &gt;= '${startDate - 7}'
       And "AccountId" = 7 And "UserId" = ${UserId}
       GROUP BY date;` , { type: QueryTypes.SELECT })
       // console.log(penjualan, 'isi credit')
       
-      const hppBalance = await sequelize.query(`SELECT Sum(amount) AS "HPP", DATE("createdAt") FROM "Ledgers"
+      const hppBalance = <span class="cstat-no" title="statement not covered" >await sequelize.query(`SELECT Sum(amount) AS "HPP", DATE("createdAt") FROM "Ledgers"</span>
       where extract(day from "createdAt") &lt;= '${startDate}' AND extract(day from "createdAt") &gt;= '${startDate - 7}'
       And "AccountId" = 8 And "UserId" = ${UserId}
       GROUP BY date;` , { type: QueryTypes.SELECT })
 &nbsp;
-      const bebanBalance = await sequelize.query(`SELECT Sum(amount) AS "HPP", DATE("createdAt") FROM "Ledgers"
+      const bebanBalance = <span class="cstat-no" title="statement not covered" >await sequelize.query(`SELECT Sum(amount) AS "HPP", DATE("createdAt") FROM "Ledgers"</span>
       where extract(day from "createdAt") &lt;= '${startDate}' AND extract(day from "createdAt") &gt;= '${startDate - 7}'
       And "AccountId" = 9 And "UserId" = ${UserId}
       GROUP BY date;` , { type: QueryTypes.SELECT })
 &nbsp;
       
-      res.status(200).json({penjualan, hppBalance, bebanBalance})
+<span class="cstat-no" title="statement not covered" >      res.status(200).json({penjualan, hppBalance, bebanBalance})</span>
     } catch (error) {
       // console.log(error, `&lt;&lt;&lt;&lt;&lt;&lt;&lt;`);
 <span class="cstat-no" title="statement not covered" >      next(error)</span>
@@ -748,7 +748,7 @@ module.exports = ReportController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Oct 19 2021 17:25:25 GMT+0700 (Western Indonesia Time)
+                at Tue Oct 19 2021 17:30:17 GMT+0700 (Western Indonesia Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
