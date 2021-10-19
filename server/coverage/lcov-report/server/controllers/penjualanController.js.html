@@ -23,9 +23,15 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
+                <span class="strong">92.59% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>50/54</span>
+=======
                 <span class="strong">5.35% </span>
                 <span class="quiet">Statements</span>
                 <span class='fraction'>3/56</span>
+>>>>>>> dc169ca62328332afaaf1ffe627791aeab514801
             </div>
         
             
@@ -44,9 +50,15 @@
         
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
+                <span class="strong">92.59% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>50/54</span>
+=======
                 <span class="strong">5.35% </span>
                 <span class="quiet">Lines</span>
                 <span class='fraction'>3/56</span>
+>>>>>>> dc169ca62328332afaaf1ffe627791aeab514801
             </div>
         
             
@@ -470,6 +482,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<<<<<<< HEAD
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+=======
+>>>>>>> dc169ca62328332afaaf1ffe627791aeab514801
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -575,6 +592,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<<<<<<< HEAD
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+=======
+>>>>>>> dc169ca62328332afaaf1ffe627791aeab514801
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -583,9 +605,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<<<<<<< HEAD
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+=======
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+>>>>>>> dc169ca62328332afaaf1ffe627791aeab514801
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -722,6 +751,24 @@ class PenjualanController {
 &nbsp;
         const result = <span class="cstat-no" title="statement not covered" >await Ledger.bulkCreate(ledger, { transaction: t });</span>
 &nbsp;
+<<<<<<< HEAD
+<span class="cstat-no" title="statement not covered" >				await t.commit();</span>
+<span class="cstat-no" title="statement not covered" >				res.status(201).json(result);</span>
+			} else {
+				//Throw error not found
+				throw {
+					name: `NOTFOUND`,
+					code: 404,
+					message: `Product does not exists`,
+				};
+			}
+		} catch (error) {
+			// console.log(error);
+			await t.rollback();
+			next(error);
+		}
+	}
+=======
 <span class="cstat-no" title="statement not covered" >        await t.commit();</span>
 <span class="cstat-no" title="statement not covered" >        res.status(201).json(result);</span>
       } else {
@@ -738,6 +785,7 @@ class PenjualanController {
 <span class="cstat-no" title="statement not covered" >      next(error);</span>
     }
   }
+>>>>>>> dc169ca62328332afaaf1ffe627791aeab514801
 &nbsp;
 <span class="fstat-no" title="function not covered" >  st</span>atic async penjualanPiutang(req, res, next) {
     const { customer, product } = <span class="cstat-no" title="statement not covered" >req.body;</span> //customer berisi object data customer, product object isi data product yg dijual
@@ -839,6 +887,24 @@ class PenjualanController {
 &nbsp;
         const result = <span class="cstat-no" title="statement not covered" >await Ledger.bulkCreate(ledger, { transaction: t });</span>
 &nbsp;
+<<<<<<< HEAD
+<span class="cstat-no" title="statement not covered" >				await t.commit();</span>
+<span class="cstat-no" title="statement not covered" >				res.status(201).json(result);</span>
+			} else {
+				//Throw error not found
+				throw {
+					name: `NOTFOUND`,
+					code: 404,
+					message: `Product does not exists`,
+				};
+			}
+		} catch (error) {
+			console.log(error);
+			await t.rollback();
+			next(error);
+		}
+	}
+=======
 <span class="cstat-no" title="statement not covered" >        await t.commit();</span>
 <span class="cstat-no" title="statement not covered" >        res.status(201).json(result);</span>
       } else {
@@ -855,6 +921,7 @@ class PenjualanController {
 <span class="cstat-no" title="statement not covered" >      next(error);</span>
     }
   }
+>>>>>>> dc169ca62328332afaaf1ffe627791aeab514801
 }
 &nbsp;
 module.exports = PenjualanController;
@@ -865,7 +932,11 @@ module.exports = PenjualanController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
+<<<<<<< HEAD
+                at Tue Oct 19 2021 17:10:44 GMT+0800 (Singapore Standard Time)
+=======
                 at Tue Oct 19 2021 21:54:38 GMT+0700 (Waktu Indonesia Barat)
+>>>>>>> dc169ca62328332afaaf1ffe627791aeab514801
             </div>
         </div>
         <script src="../../prettify.js"></script>

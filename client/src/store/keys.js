@@ -5,3 +5,6 @@ export const GET_HUTANG = "hutang/getHutang";
 export const SET_LEDGERS = "ledgers/setLedgers";
 export const FETCH_LEDGERS = "ledgers/setLedgers";
 export const FETCH_CUSTOMERS = "customers/setCustomers";
+export const FETCH_INFO = "info/setInfo";
+
+export const isLoading = "loading/changeLoading";

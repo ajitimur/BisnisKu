@@ -1,20 +1,37 @@
-
-import React from 'react'
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
-import {
-  Text,
-  Box,
-  View,
-  Heading,
-  Button
-} from "native-base";
+import React, { useEffect } from "react";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Text, Box, View, Heading, Button } from "native-base";
 import { useSelector, useDispatch } from "react-redux";
+import "intl";
+import "intl/locale-data/jsonp/en";
+import { getInfoKeuangan } from "../../store/actions";
 
+const formatter = new Intl.NumberFormat("id-ID", {
+  style: "currency",
+  currency: "IDR",
+});
 
 export default function FinancialStatementBox() {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+  const info = useSelector((state) => {
+    return state.info;
+  });
+  const dispatch = useDispatch();
+  async function getToken() {
+    try {
+      const token = await AsyncStorage.getItem("access_token");
+      dispatch(getInfoKeuangan(token));
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
+  useEffect(() => {
+    getToken();
+  }, []);
+  console.log(info);
   return (
     <>
       <Box
@@ -39,7 +56,7 @@ export default function FinancialStatementBox() {
             Kas Tunai
           </Text>
           <Text color="green.500" fontSize={15} fontWeight="bold">
-            Rp1.000.000
+            {formatter.format(info.balanceKas)}
           </Text>
         </View>
         <View
@@ -52,7 +69,7 @@ export default function FinancialStatementBox() {
             Kas bank
           </Text>
           <Text color="green.500" fontSize={15} fontWeight="bold">
-            Rp1.000.000
+            {formatter.format(info.balanceBank)}
           </Text>
         </View>
         <View
@@ -65,7 +82,7 @@ export default function FinancialStatementBox() {
             Hutang{" "}
           </Text>
           <Text color="danger.500" fontSize={15} fontWeight="bold">
-            Rp1.000.000
+            {formatter.format(info.balanceHutang)}
           </Text>
         </View>
         <Button
@@ -73,14 +90,10 @@ export default function FinancialStatementBox() {
           h="8"
           bg="blue.400"
           style={{
-            marginVertical: 20
+            marginVertical: 20,
           }}
           endIcon={
-            <FontAwesome5Icon
-              size={20}
-              name="angle-right"
-              color="white"
-            />
+            <FontAwesome5Icon size={20} name="angle-right" color="white" />
           }
           onPress={() => navigation.navigate("Statistik")}
         >

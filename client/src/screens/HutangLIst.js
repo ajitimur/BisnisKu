@@ -13,6 +13,16 @@ import {
   Modal,
   ScrollView,
   Text,
+  Alert,
+  VStack,
+  HStack,
+  IconButton,
+  CloseIcon,
+  Collapse,
+  Center,
+  Spinner,
+  Skeleton,
+  Stack,
 } from "native-base";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getHutang, tagihCustomer } from "../store/actions";
@@ -25,11 +35,22 @@ const formatter = new Intl.NumberFormat("id-ID", {
 const Hutanglist = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [transaksiId, setTransaksiId] = useState(0);
+  const [mockLoading, setMockLoading] = useState([
+    { id: 1 },
+    { id: 2 },
+    { id: 3 },
+    { id: 4 },
+    { id: 5 },
+  ]);
+  const [showAlert, setShowAlert] = useState(false);
   const initialRef = useRef(null);
   const finalRef = useRef(null);
   const dispatch = useDispatch();
   const hutang = useSelector((state) => {
     return state.hutang;
+  });
+  const isLoading = useSelector((state) => {
+    return state.isLoading;
   });
 
   async function getToken(endpoint) {
@@ -53,7 +74,7 @@ const Hutanglist = () => {
     getToken("unpaid");
   }, []);
 
-  console.log(hutang);
+  //   console.log(hutang);
   function renderHutang(item, index) {
     return (
       <Box
@@ -106,6 +127,47 @@ const Hutanglist = () => {
     );
   }
 
+  function renderLoading(item, index) {
+    return (
+      <Box
+        rounded="xl"
+        bg="white"
+        shadow={4}
+        style={{
+          paddingHorizontal: 20,
+          marginTop: 20,
+        }}
+      >
+        <View style={{ marginTop: 10, marginLeft: 0, marginBottom: 10 }}>
+          <Skeleton variant="text" height={6} width={40} />
+        </View>
+        <View
+          flexDirection="column"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <View flexDirection="row">
+            <Skeleton variant="text" height={6} width={165} />
+          </View>
+
+          <Skeleton variant="text" my={1} height={6} width={40} />
+          <Skeleton variant="text" my={1} height={6} width={40} />
+          <Skeleton variant="text" my={1} height={6} width={40} />
+        </View>
+        <Button
+          rounded="3xl"
+          h="8"
+          bg="blue.400"
+          style={{
+            marginVertical: 20,
+          }}
+        >
+          Tagih
+        </Button>
+      </Box>
+    );
+  }
+
   return (
     <View bg="muted.100" h="100%">
       <StatusBar
@@ -132,6 +194,7 @@ const Hutanglist = () => {
                 onPress={() => {
                   tagihHutang(transaksiId);
                   setModalVisible(false);
+                  setShowAlert(true);
                 }}
               >
                 TAGIH
@@ -157,7 +220,7 @@ const Hutanglist = () => {
                 getToken("unpaid");
               }}
             >
-              <Text style={{ color: "white", marginLeft: 10 }}>unpaid</Text>
+              <Text style={{ color: "white", marginLeft: 12 }}>unpaid</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button3}
@@ -165,23 +228,63 @@ const Hutanglist = () => {
                 getToken("paid");
               }}
             >
-              <Text style={{ color: "white", marginLeft: 16 }}>paid</Text>
+              <Text style={{ color: "white", marginLeft: 20 }}>paid</Text>
             </TouchableOpacity>
           </View>
         </View>
         {/*  */}
         <View mx={30}>
           <View>
-            <FlatList
-              horizontal={false}
-              showsVerticalScrollIndicator={false}
-              data={hutang}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item, index }) => renderHutang(item, index)}
-            />
+            {isLoading ? (
+              <FlatList
+                horizontal={false}
+                showsVerticalScrollIndicator={false}
+                data={mockLoading}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item, index }) => renderLoading(item, index)}
+              />
+            ) : (
+              <FlatList
+                horizontal={false}
+                showsVerticalScrollIndicator={false}
+                data={hutang}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item, index }) => renderHutang(item, index)}
+              />
+            )}
           </View>
         </View>
       </ScrollView>
+      <Collapse isOpen={showAlert}>
+        <Alert w="100%" status="success">
+          <VStack space={1} flexShrink={1} w="100%">
+            <HStack
+              flexShrink={1}
+              space={2}
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <HStack flexShrink={1} space={2} alignItems="center">
+                <Alert.Icon />
+                <Text
+                  fontSize="md"
+                  fontWeight="medium"
+                  _dark={{
+                    color: "coolGray.800",
+                  }}
+                >
+                  Penagihan Berhasil!
+                </Text>
+              </HStack>
+              <IconButton
+                variant="unstyled"
+                icon={<CloseIcon size="3" color="coolGray.600" />}
+                onPress={() => setShowAlert(false)}
+              />
+            </HStack>
+          </VStack>
+        </Alert>
+      </Collapse>
     </View>
   );
 };
