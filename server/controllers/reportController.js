@@ -8,141 +8,73 @@ const {
 } = require("../models");
 const Op = Sequelize.Op;
 const { getAccount, accounts } = require("../helpers/dataAccounts");
+const dayjs = require('dayjs')
+const { QueryTypes } = require('sequelize');
 
 class ReportController{
   static async labaRugi(req, res, next){
     const UserId = req.user.id
-    const { startDate, endDate } = req.body //filter date dari client
-    // console.log(new Date(startDate), new Date(endDate));
-    let totalPenjualanDebet = 0
-    let totalPenjualanCredit = 0
-    let totalHppDebet = 0
-    let totalHppCredit = 0
-    let totalBebanDebet = 0
-    let totalBebanCredit = 0
-    const t = await sequelize.transaction();
+    const today = new Date()
+    const startDate = today.getDate()
+    
     
     try {
       //Cari saldo penjualan
-      const penjualanDebet = await Ledger.findAll({
-        where: {
-          AccountId: 7,
-          UserId,
-          transactionType: "Debet",
-          createdAt: {
-            [Op.between]: [startDate, endDate]
-          }
-        }
-      },
-      {
-        transaction: t
-      })
-      const penjualanCredit = await Ledger.findAll({
-        where: {
-          AccountId: 7,
-          UserId,
-          transactionType: "Credit",
-          createdAt: {
-            [Op.between]: [startDate, endDate]
-          }
-        }
-      },
-      {
-        transaction: t
-      })
-      penjualanDebet.forEach((el) => {
-        totalPenjualanDebet += el.amount;
-      });
-      penjualanCredit.forEach((el) => {
-        totalPenjualanCredit += el.amount;
-      });
-      console.log(penjualanDebet, `<<<debet`, penjualanCredit, `<<<credit`);
-      const balancePenjualan = totalPenjualanCredit - totalPenjualanDebet;
-      // End of cari Balance Penjualan
-      // Cari saldo HPP
-      const hppDebet = await Ledger.findAll({
-        where: {
-          AccountId: 8,
-          UserId,
-          transactionType: "Debet",
-          createdAt: {
-            [Op.between]: [startDate, endDate]
-          }
-        }
-      },
-      {
-        transaction: t
-      })
-      const hppCredit = await Ledger.findAll({
-        where: {
-          AccountId: 8,
-          UserId,
-          transactionType: "Credit",
-          createdAt: {
-            [Op.between]: [startDate, endDate]
-          }
-        }
-      },
-      {
-        transaction: t
-      })
-      hppDebet.forEach((el) => {
-        totalHppDebet += el.amount;
-      });
-      hppCredit.forEach((el) => {
-        totalHppCredit += el.amount;
-      });
-      const balanceHpp = totalHppDebet - totalHppCredit;
-      //End of balance HPP
-      //Cari balance beban
-      const bebanDebet = await Ledger.findAll({
-        where: {
-          AccountId: 9,
-          UserId,
-          transactionType: "Debet",
-          createdAt: {
-            [Op.between]: [startDate, endDate]
-          }
-        }
-      },
-      {
-        transaction: t
-      })
-      const bebanCredit = await Ledger.findAll({
-        where: {
-          AccountId: 9,
-          UserId,
-          transactionType: "Credit",
-          createdAt: {
-            [Op.between]: [startDate, endDate]
-          }
-        }
-      },
-      {
-        transaction: t
-      })
-      bebanDebet.forEach((el) => {
-        totalBebanDebet += el.amount;
-      });
-      bebanCredit.forEach((el) => {
-        totalBebanCredit += el.amount;
-      });
-      const balanceBeban = totalBebanDebet - totalBebanCredit;
-      const balanceLabaRugi = balancePenjualan - balanceHpp - balanceBeban
+      // let sevenDaysAgo = dayjs(new Date()).subtract(7, 'day').format('DD')
+      // console.log(sevenDaysAgo, 'test')
+      const penjualan = await sequelize.query(`SELECT Sum(amount) AS "penjualan", DATE("createdAt") FROM "Ledgers"
+      where extract(day from "createdAt") <= '${startDate}' AND extract(day from "createdAt") >= '${startDate - 7}'
+      And "AccountId" = 7 And "UserId" = ${UserId}
+      GROUP BY date;` , { type: QueryTypes.SELECT })
+      // console.log(penjualan, 'isi credit')
+      
+      const hppBalance = await sequelize.query(`SELECT Sum(amount) AS "HPP", DATE("createdAt") FROM "Ledgers"
+      where extract(day from "createdAt") <= '${startDate}' AND extract(day from "createdAt") >= '${startDate - 7}'
+      And "AccountId" = 8 And "UserId" = ${UserId}
+      GROUP BY date;` , { type: QueryTypes.SELECT })
 
-			const result = {
-				balancePenjualan,
-				balanceHpp,
-				balanceBeban,
-				balanceLabaRugi,
-			};
+      const bebanBalance = await sequelize.query(`SELECT Sum(amount) AS "HPP", DATE("createdAt") FROM "Ledgers"
+      where extract(day from "createdAt") <= '${startDate}' AND extract(day from "createdAt") >= '${startDate - 7}'
+      And "AccountId" = 9 And "UserId" = ${UserId}
+      GROUP BY date;` , { type: QueryTypes.SELECT })
 
-
-      await t.commit();
-      res.status(200).json(result)
+      
+      res.status(200).json({penjualan, hppBalance, bebanBalance})
     } catch (error) {
-      console.log(error);
-      await t.rollback()
+      // console.log(error, `<<<<<<<`);
+      next(error)
+    }
+  }
+
+  static async labaRugiBulanan(req, res, next){
+    const UserId = req.user.id
+    const today = new Date()
+    const currentMonth = today.getMonth()+1
+    
+    try {
+      console.log(today, currentMonth);
+      const penjualan = await sequelize.query(`SELECT Sum(amount) AS "penjualan", DATE("createdAt") FROM "Ledgers"
+      where extract(month from "createdAt") = '${currentMonth}'
+      And "AccountId" = 7 And "UserId" = ${UserId}
+      GROUP BY date;` , { type: QueryTypes.SELECT })
+      // console.log(penjualan, 'isi credit')
+      
+      const hppBalance = await sequelize.query(`SELECT Sum(amount) AS "HPP", DATE("createdAt") FROM "Ledgers"
+      where extract(month from "createdAt") = '${currentMonth}'
+      And "AccountId" = 8 And "UserId" = ${UserId}
+      GROUP BY date;` , { type: QueryTypes.SELECT })
+
+      const bebanBalance = await sequelize.query(`SELECT Sum(amount) AS "beban", DATE("createdAt") FROM "Ledgers"
+      where extract(month from "createdAt") = '${currentMonth}'
+      And "AccountId" = 9 And "UserId" = ${UserId}
+      GROUP BY date;` , { type: QueryTypes.SELECT })
+
+      penjualan.forEach((el, i) => {
+        el.grossProfit = el.penjualan - hppBalance[i].HPP
+      })
+
+      res.status(200).json({penjualan, hppBalance, bebanBalance})
+    } catch (error) {
       next(error)
     }
   }

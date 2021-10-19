@@ -3,7 +3,7 @@ import {
   HomeScreen,
   LainnyaScreen,
   TransaksiScreen,
-  StatistikScreen
+  StatistikScreen,
 } from "../screens";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome5";
 import { StyleSheet } from "react-native";
@@ -12,6 +12,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Productscreen from "../screens/ProductScreen";
 import AddNewProduct from "../screens/AddNewProduct";
 import Beliproduk from "../screens/BeliProduk";
+import Hutanglist from "../screens/HutangLIst";
 
 const Mainapp = () => {
   const Tab = createBottomTabNavigator();
@@ -103,6 +104,16 @@ const Mainapp = () => {
           headerShadowVisible: false,
           animation: "slide_from_right",
           headerTitle: "Statistik Keuangan",
+        }}
+      />
+      <Stack.Screen
+        name="Hutang"
+        component={Hutanglist}
+        options={{
+          headerTransparent: true,
+          headerShadowVisible: false,
+          animation: "slide_from_right",
+          headerTitle: "Daftar Hutang",
         }}
       />
     </Stack.Navigator>
