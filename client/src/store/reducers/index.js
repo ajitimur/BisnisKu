@@ -1,9 +1,15 @@
-import { FETCH_PRODUCTS, IS_LOGGED_IN, DETAIL_PRODUCT } from "../keys";
+import {
+  FETCH_PRODUCTS,
+  IS_LOGGED_IN,
+  DETAIL_PRODUCT,
+  SET_LEDGERS
+} from "../keys";
 
 const initState = {
   products: [],
   logStatus: false,
   detail: {},
+  ledgers: []
 };
 
 function reducer(state = initState, action) {
@@ -14,6 +20,8 @@ function reducer(state = initState, action) {
       return { ...state, detail: action.payload };
     case IS_LOGGED_IN:
       return { ...state, logStatus: action.payload };
+    case SET_LEDGERS:
+      return { ...state, ledgers: action.payload };
     default:
       return state;
   }
