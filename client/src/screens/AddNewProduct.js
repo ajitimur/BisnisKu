@@ -64,11 +64,11 @@ const Addnewproduct = ({ navigation }) => {
         <Box
           bg="blue.400"
           h={125}
+          roundedBottomRight={70}
         />
         <View
           bg="white"
           rounded="2xl"
-          alignItems="center"
           shadow={4}
           mx={30}
           mb={30}
@@ -127,14 +127,14 @@ const Addnewproduct = ({ navigation }) => {
             />
           </FormControl>
           <FormControl mt="3">
-            <FormControl.Label _text={{ fontSize: 16 }}>Harga Modal</FormControl.Label>
+            <FormControl.Label _text={{ fontSize: 16 }}>Harga Satuan</FormControl.Label>
             <Input
               onChangeText={(value) => formHandler(value, "basePrice")}
               type="text"
               height="10"
               size="md"
               rounded="md"
-              placeholder="Harga beli / modal"
+              placeholder="Harga produk satuan"
               bg="white"
               keyboardType="numeric"
               _focus={{
@@ -151,7 +151,7 @@ const Addnewproduct = ({ navigation }) => {
               height="10"
               size="md"
               rounded="md"
-              placeholder="Harga jual"
+              placeholder="Harga jual produk satuan"
               bg="white"
               keyboardType="numeric"
               _focus={{
@@ -163,7 +163,6 @@ const Addnewproduct = ({ navigation }) => {
           <Text
             fontSize={16}
             mt="2"
-            alignItems="flex-start"
           >
             Pembayaran :{" "}
           </Text>
