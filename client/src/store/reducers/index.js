@@ -4,6 +4,8 @@ import {
   DETAIL_PRODUCT,
   SET_LEDGERS,
   GET_HUTANG,
+  FETCH_LEDGERS,
+  FETCH_CUSTOMERS
 } from "../keys";
 
 const initState = {
@@ -12,6 +14,7 @@ const initState = {
   detail: {},
   ledgers: [],
   hutang: [],
+  customers: []
 };
 
 function reducer(state = initState, action) {
@@ -22,10 +25,12 @@ function reducer(state = initState, action) {
       return { ...state, detail: action.payload };
     case IS_LOGGED_IN:
       return { ...state, logStatus: action.payload };
-    case SET_LEDGERS:
+    case FETCH_LEDGERS:
       return { ...state, ledgers: action.payload };
     case GET_HUTANG:
       return { ...state, hutang: action.payload };
+    case FETCH_CUSTOMERS:
+      return { ...state, customers: action.payload };
     default:
       return state;
   }

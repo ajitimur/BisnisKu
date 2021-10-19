@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1634607318812" clover="3.2.0">
-  <project timestamp="1634607318813" name="All files">
-    <metrics statements="593" coveredstatements="540" conditionals="69" coveredconditionals="52" methods="60" coveredmethods="51" elements="722" coveredelements="643" complexity="0" loc="593" ncloc="593" packages="6" files="36" classes="36"/>
+<coverage generated="1634620782251" clover="3.2.0">
+  <project timestamp="1634620782251" name="All files">
+    <metrics statements="633" coveredstatements="541" conditionals="69" coveredconditionals="52" methods="68" coveredmethods="51" elements="770" coveredelements="644" complexity="0" loc="633" ncloc="633" packages="6" files="36" classes="36"/>
     <package name="server">
       <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="app.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\app.js">
@@ -19,7 +19,7 @@
       </file>
     </package>
     <package name="server.controllers">
-      <metrics statements="378" coveredstatements="332" conditionals="48" coveredconditionals="39" methods="35" coveredmethods="26"/>
+      <metrics statements="418" coveredstatements="333" conditionals="48" coveredconditionals="39" methods="43" coveredmethods="26"/>
       <file name="customerController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\customerController.js">
         <metrics statements="13" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="10" count="1" type="stmt"/>
@@ -336,7 +336,7 @@
         <line num="30" count="1" type="stmt"/>
       </file>
       <file name="reportController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\reportController.js">
-        <metrics statements="47" coveredstatements="34" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="1"/>
+        <metrics statements="87" coveredstatements="34" conditionals="0" coveredconditionals="0" methods="16" coveredmethods="1"/>
         <line num="8" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
@@ -379,26 +379,66 @@
         <line num="144" count="0" type="stmt"/>
         <line num="145" count="0" type="stmt"/>
         <line num="146" count="0" type="stmt"/>
+        <line num="151" count="0" type="stmt"/>
         <line num="152" count="0" type="stmt"/>
         <line num="153" count="0" type="stmt"/>
         <line num="154" count="0" type="stmt"/>
         <line num="155" count="0" type="stmt"/>
-        <line num="160" count="1" type="stmt"/>
+        <line num="156" count="0" type="stmt"/>
+        <line num="157" count="0" type="stmt"/>
+        <line num="158" count="0" type="stmt"/>
+        <line num="159" count="0" type="stmt"/>
+        <line num="160" count="0" type="stmt"/>
+        <line num="161" count="0" type="stmt"/>
+        <line num="162" count="0" type="stmt"/>
+        <line num="172" count="0" type="stmt"/>
+        <line num="183" count="0" type="stmt"/>
+        <line num="184" count="0" type="stmt"/>
+        <line num="186" count="0" type="stmt"/>
+        <line num="187" count="0" type="stmt"/>
+        <line num="190" count="0" type="stmt"/>
+        <line num="193" count="0" type="stmt"/>
+        <line num="203" count="0" type="stmt"/>
+        <line num="214" count="0" type="stmt"/>
+        <line num="215" count="0" type="stmt"/>
+        <line num="217" count="0" type="stmt"/>
+        <line num="218" count="0" type="stmt"/>
+        <line num="221" count="0" type="stmt"/>
+        <line num="224" count="0" type="stmt"/>
+        <line num="234" count="0" type="stmt"/>
+        <line num="245" count="0" type="stmt"/>
+        <line num="246" count="0" type="stmt"/>
+        <line num="248" count="0" type="stmt"/>
+        <line num="249" count="0" type="stmt"/>
+        <line num="252" count="0" type="stmt"/>
+        <line num="255" count="0" type="stmt"/>
+        <line num="265" count="0" type="stmt"/>
+        <line num="276" count="0" type="stmt"/>
+        <line num="277" count="0" type="stmt"/>
+        <line num="279" count="0" type="stmt"/>
+        <line num="280" count="0" type="stmt"/>
+        <line num="283" count="0" type="stmt"/>
+        <line num="285" count="0" type="stmt"/>
+        <line num="287" count="0" type="stmt"/>
+        <line num="289" count="0" type="stmt"/>
+        <line num="290" count="0" type="stmt"/>
+        <line num="291" count="0" type="stmt"/>
+        <line num="296" count="1" type="stmt"/>
       </file>
       <file name="transactionController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\transactionController.js">
-        <metrics statements="12" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="10" count="1" type="stmt"/>
         <line num="14" count="2" type="stmt"/>
         <line num="15" count="2" type="stmt"/>
         <line num="16" count="2" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
-        <line num="30" count="2" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
         <line num="31" count="2" type="stmt"/>
         <line num="32" count="2" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="41" count="2" type="stmt"/>
-        <line num="46" count="1" type="stmt"/>
+        <line num="33" count="2" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="48" count="1" type="stmt"/>
       </file>
       <file name="userController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\userController.js">
         <metrics statements="25" coveredstatements="25" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
@@ -486,18 +526,18 @@
       <file name="errorHandler.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\middlewares\errorHandler.js">
         <metrics statements="14" coveredstatements="14" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
-        <line num="2" count="25" type="stmt"/>
-        <line num="3" count="25" type="stmt"/>
-        <line num="5" count="25" type="stmt"/>
-        <line num="6" count="25" type="cond" truecount="4" falsecount="0"/>
+        <line num="2" count="24" type="stmt"/>
+        <line num="3" count="24" type="stmt"/>
+        <line num="5" count="24" type="stmt"/>
+        <line num="6" count="24" type="cond" truecount="4" falsecount="0"/>
         <line num="10" count="5" type="stmt"/>
         <line num="11" count="5" type="stmt"/>
         <line num="12" count="5" type="stmt"/>
         <line num="15" count="4" type="stmt"/>
         <line num="16" count="4" type="stmt"/>
         <line num="17" count="4" type="stmt"/>
-        <line num="19" count="16" type="stmt"/>
-        <line num="21" count="25" type="stmt"/>
+        <line num="19" count="15" type="stmt"/>
+        <line num="21" count="24" type="stmt"/>
         <line num="23" count="1" type="stmt"/>
       </file>
     </package>

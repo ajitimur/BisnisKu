@@ -5,6 +5,7 @@ import {
   GET_HUTANG,
 } from "../keys";
 import API from "../../apis/API";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function getProducts(data) {
   return {
@@ -32,9 +33,10 @@ export function hutangGet(data) {
 }
 
 // action async tembak ke server
-
-export function getAllProduct(token) {
+export function getAllProduct() {
   return async function (dispatch) {
+    const token = await AsyncStorage.getItem("access_token")
+
     try {
       const products_get = await API({
         method: "GET",
