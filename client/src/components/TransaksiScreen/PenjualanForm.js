@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 import {
   Text,
@@ -14,6 +14,8 @@ import {
   Modal,
 } from "native-base";
 import { AddCustomer, AddProduk } from '../';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCustomers } from '../../store/actions/penjualanAction';
 
 export default function PenjualanForm() {
   let [produk, setProduk] = useState("")
@@ -23,6 +25,17 @@ export default function PenjualanForm() {
   const [addProdukVisible, setAddProdukVisible] = useState(false)
   const initialRef = useRef(null)
   const finalRef = useRef(null)
+
+  const customers = useSelector((state) => {
+    return state.customers;
+  });
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchCustomers())
+    console.log(customers);
+  }, []);
 
   return (
     <>

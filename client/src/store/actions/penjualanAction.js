@@ -11,8 +11,28 @@ export function setCustomers(payload) {
   }
 }
 
+export function fetchCustomers() {
+  return async function (dispatch) {
+    const token = await AsyncStorage.getItem("access_token")
+
+    try {
+      const customers = await API({
+        method: "GET",
+        url: "/customer",
+        headers: {
+          access_token: token
+        }
+      })
+
+      dispatch(setCustomers(customers.data))
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  }
+}
+
 export function addCustomer(payload) {
-  return async function (reducer) {
+  return async function (dispatch) {
     const token = await AsyncStorage.getItem("access_token")
 
     try {

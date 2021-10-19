@@ -11,7 +11,7 @@ const initState = {
   logStatus: false,
   detail: {},
   ledgers: [],
-  customer: []
+  customers: []
 };
 
 function reducer(state = initState, action) {
@@ -25,7 +25,7 @@ function reducer(state = initState, action) {
     case FETCH_LEDGERS:
       return { ...state, ledgers: action.payload };
     case FETCH_CUSTOMERS:
-      return { ...state, customer: action.payload };
+      return { ...state, customers: action.payload };
     default:
       return state;
   }
