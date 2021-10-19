@@ -93,41 +93,50 @@ export default function PenjualanForm() {
           </FormControl>
           <FormControl mt="3">
             <FormControl.Label _text={{ fontSize: 16 }}>Customer</FormControl.Label>
-            <Select
-              selectedValue={customer}
-              minWidth="90%"
-              accessibilityLabel="Choose Service"
-              placeholder="Pilih customer"
-              _selectedItem={{
-                _text: {
-                  color: "blue.400"
-                },
-                endIcon: <CheckIcon size="5" />,
-              }}
-              mt={1}
-              onValueChange={(itemValue) => setCustomer(itemValue)}
+            <View
+              flexDirection="row"
+              alignItems="center"
             >
-              <Select.Item label="UX Research" value="ux" />
-              <Select.Item label="Web Development" value="web" />
+              <Select
+                selectedValue={customer}
+                accessibilityLabel="Choose Service"
+                minWidth="90%"
+                placeholder="Pilih customer"
+                _selectedItem={{
+                  _text: {
+                    color: "blue.400"
+                  },
+                  endIcon: <CheckIcon size="5" />,
+                }}
+                mt={1}
+                onValueChange={(itemValue) => setCustomer(itemValue)}
+              >
+                <Select.Item label="UX Research" value="ux" />
+                <Select.Item label="Web Development" value="web" />
+              </Select>
               <Button
                 bg="darkBlue.600"
+                w="10%"
                 onPress={() => {
                   setAddCustomerVisible(!addCustomerVisible)
                 }}
               >
-                Tambah Customer
+                a
               </Button>
-            </Select>
+            </View>
           </FormControl>
+          <Text
+            fontSize={16}
+            mt="2"
+          >
+            Pembayaran :{" "}
+          </Text>
           <View
             flexDirection="row"
             justifyContent="space-between"
             alignItems="center"
             mt="2"
           >
-            <Text
-              fontSize={16}
-            >Pembayaran :{" "}</Text>
             <Radio.Group
               size="lg"
               name="exampleGroup"
@@ -156,6 +165,18 @@ export default function PenjualanForm() {
                 my={1}
               >
                 Tunai
+              </Radio>
+              <Radio
+                _text={{
+                  mx: 2,
+                }}
+                size="md"
+                colorScheme="red"
+                value="3"
+                icon={<Icon as={<MaterialCommunityIcons name="cash-remove" />} />}
+                my={1}
+              >
+                Hutang
               </Radio>
             </Radio.Group>
           </View>
