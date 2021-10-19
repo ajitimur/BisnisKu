@@ -32,7 +32,7 @@ export default function HomeScreen() {
         barStyle="dark-content"
       />
       <Box safeAreaTop bg="blue.400" />
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Box bg="blue.400" roundedBottomLeft={70} h={125}>
           <View mx={30} mt={11}>
             <Text color="dark.200" fontWeight="semibold" fontSize="lg">

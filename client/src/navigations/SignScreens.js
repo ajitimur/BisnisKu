@@ -7,7 +7,6 @@ const Signscreens = () => {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator initialRouteName="Login">
-      {console.log("ini sign screen")}
       <Stack.Screen
         name="Login"
         component={LoginScreen}

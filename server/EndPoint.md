@@ -111,22 +111,9 @@ _Response (200)_
 _Response (400 - Bad Request)_
 
 ```
-[
-    "Username is required",
-    "Email is required",
-    "Must be an email",
-    "Password is required",
-    "businessName is required",
-    "bankNumber is required",
-    "phoneNumber is required",
-    "address is required"
-]
-```
-
-_Response (400 - Bad Request)_
-
-```
- [ 'Must be an email' ]
+{
+    "message": "Email atau Password salah"
+}
 ```
 
 _Response (500 - internal Server Error)_

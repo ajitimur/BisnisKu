@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -153,12 +153,7 @@
 <a name='L94'></a><a href='#L94'>94</a>
 <a name='L95'></a><a href='#L95'>95</a>
 <a name='L96'></a><a href='#L96'>96</a>
-<a name='L97'></a><a href='#L97'>97</a>
-<a name='L98'></a><a href='#L98'>98</a>
-<a name='L99'></a><a href='#L99'>99</a>
-<a name='L100'></a><a href='#L100'>100</a>
-<a name='L101'></a><a href='#L101'>101</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L97'></a><a href='#L97'>97</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -250,112 +245,105 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
-"use strict";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
 const { encodePassword } = require("../helpers/bcrypt");
 const { Model } = require("sequelize");
 &nbsp;
 module.exports = (sequelize, DataTypes) =&gt; {
-  class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
-  }
-  User.init(
-    {
-      username: {
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: `Username is required`,
-          },
-        },
-      },
-      email: {
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: `Email is required`,
-          },
-          isEmail: {
-            msg: `Must be an email`,
-          },
-        },
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: `Password is required`,
-          },
-        },
-      },
-      businessName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: `businessName is required`,
-          },
-        },
-      },
-      bankNumber: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: `bankNumber is required`,
-          },
-        },
-      },
-      phoneNumber: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: `phoneNumber is required`,
-          },
-        },
-      },
-      address: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: `address is required`,
-          },
-        },
-      },
-    },
-    {
-      sequelize,
-      modelName: "User",
-    }
-  );
-  User.beforeCreate((instance, options) =&gt; {
-    instance.password = encodePassword(instance.password);
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (!instance.role) {
-      instance.role = `admin`;
-    }
-  });
-  return User;
+	class User extends Model {
+		/**
+		 * Helper method for defining associations.
+		 * This method is not a part of Sequelize lifecycle.
+		 * The `models/index` file will call this method automatically.
+		 */
+		static associate(models) {
+			// define association here
+		}
+	}
+	User.init(
+		{
+			username: {
+				type: DataTypes.STRING,
+				unique: true,
+				allowNull: false,
+				validate: {
+					notEmpty: {
+						msg: `Username is required`,
+					},
+				},
+			},
+			email: {
+				type: DataTypes.STRING,
+				unique: true,
+				allowNull: false,
+				validate: {
+					notEmpty: {
+						msg: `Email is required`,
+					},
+					isEmail: {
+						msg: `Must be an email`,
+					},
+				},
+			},
+			password: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					notEmpty: {
+						msg: `Password is required`,
+					},
+				},
+			},
+			businessName: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					notEmpty: {
+						msg: `businessName is required`,
+					},
+				},
+			},
+			bankNumber: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					notEmpty: {
+						msg: `bankNumber is required`,
+					},
+				},
+			},
+			phoneNumber: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					notEmpty: {
+						msg: `phoneNumber is required`,
+					},
+				},
+			},
+			address: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					notEmpty: {
+						msg: `address is required`,
+					},
+				},
+			},
+		},
+		{
+			sequelize,
+			modelName: "User",
+		}
+	);
+	User.beforeCreate((instance, options) =&gt; {
+		instance.password = encodePassword(instance.password);
+	});
+	return User;
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -364,7 +352,11 @@ module.exports = (sequelize, DataTypes) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
+<<<<<<< HEAD
                 at Tue Oct 19 2021 17:10:44 GMT+0800 (Singapore Standard Time)
+=======
+                at Tue Oct 19 2021 21:54:38 GMT+0700 (Waktu Indonesia Barat)
+>>>>>>> dc169ca62328332afaaf1ffe627791aeab514801
             </div>
         </div>
         <script src="../../prettify.js"></script>

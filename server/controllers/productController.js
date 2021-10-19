@@ -18,7 +18,12 @@ class ProductController {
 		const ProductId = req.params.id;
 		try {
 			const result = await Product.findOne({ where: { id: ProductId } });
-
+			if (!result) {
+				throw {
+					name: "Product",
+					msg: "Product not Found",
+				};
+			}
 			res.status(200).json(result);
 		} catch (error) {
 			// console.log(error);
