@@ -1,5 +1,5 @@
 import { FETCH_CUSTOMERS } from "../keys";
-import { getAllProduct } from ".";
+import { getAllProduct, getInfoKeuangan } from ".";
 import API from "../../apis/API";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -43,8 +43,8 @@ export function addCustomer(payload) {
         },
         data: payload,
       });
-
-      console.log(newCustomer);
+      dispatch(fetchCustomers());
+      // console.log(newCustomer);
     } catch (error) {
       console.log(error.response.data);
     }
@@ -65,7 +65,8 @@ export function addPenjualan(payload, endPoint) {
         data: payload,
       });
       dispatch(getAllProduct());
-      console.log(newPenjualan);
+      dispatch(getInfoKeuangan());
+      // console.log(newPenjualan);
     } catch (error) {
       console.log(error.response.data);
     }

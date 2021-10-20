@@ -92,7 +92,7 @@ export default function InformationBox() {
             navigation.navigate("Hutang");
           }}
         >
-          Lorem Ipsum
+          Ke Halaman Hutang
         </Button>
       </Box>
     </>

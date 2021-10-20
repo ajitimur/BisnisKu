@@ -1570,7 +1570,6 @@ describe("pembayaran", () => {
 describe("Report", () => {
 	test("berhasil report laba/rugi ", (done) => {
 		getAccount;
-
 		request(app)
 			.get("/reports/labaRugi")
 			.set("access_token", access_token)
@@ -1631,25 +1630,61 @@ describe("Report", () => {
 			});
 	});
 
-	// test("gagal report laba/rugi ", (done) => {
-	// 	getAccount;
+	test("report laba rugi handle error", (done) => {
+		jest.spyOn(Product, "findAll").mockRejectedValue("Error");
 
-	// 	jest.spyOn(sequelize, "query").mockRejectedValue(undefined);
-	// 	// expect(ReportController.labaRugi(undefined, undefined, function (test) {}));
-	// 	access_token =
-	// 		"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJkaWFuYXJkaWFuIiwiYnVzaW5lc3NOYW1lIjoia2Vsb250b25nIiwiaWF0IjoxNjM0NzM2NTI2fQ.blnHt7FOyTJMLRvrSvGx28qcyVtocrYU70eCOmgijf4";
-	// 	request(app)
-	// 		.get("/reports/labaRugi")
-	// 		.set("access_token", access_token)
-	// 		.expect(401)
+		request(app)
+			.get("/reports/labaRugi")
+			.set("access_token", access_token)
+			.expect(500)
+			.then((resp) => {
+				expect(resp.body.err).toBe(undefined);
 
-	// 		.then((resp) => {
-	// 			expect(resp.body).toEqual(expect.any(Array));
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			})
+			.finally(() => {
+				jest.clearAllMocks();
+			});
+	});
+	test(" laba rugi bulanan handle error", (done) => {
+		jest.spyOn(Product, "findAll").mockRejectedValue("Error");
 
-	// 			done();
-	// 		})
-	// 		.catch((err) => {
-	// 			done(err);
-	// 		});
-	// });
+		request(app)
+			.get("/reports/labaRugiBulanan")
+			.set("access_token", access_token)
+			.expect(500)
+			.then((resp) => {
+				expect(resp.body.err).toBe(undefined);
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			})
+			.finally(() => {
+				jest.clearAllMocks();
+			});
+	});
+	test("saldo bulanan handle error", (done) => {
+		jest.spyOn(Ledger, "findAll").mockRejectedValue("Error");
+
+		request(app)
+			.get("/reports/saldo")
+			.set("access_token", access_token)
+			.expect(500)
+			.then((resp) => {
+				expect(resp.body.err).toBe(undefined);
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			})
+			.finally(() => {
+				jest.clearAllMocks();
+			});
+	});
 });

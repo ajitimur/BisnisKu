@@ -21,14 +21,16 @@ import {
   IconButton,
   CloseIcon,
 } from "native-base";
-import { AddCustomer } from '../';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchCustomers, addPenjualan } from '../../store/actions/penjualanAction';
-import { getAllProduct } from '../../store/actions';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchCustomers,
+  addPenjualan,
+} from "../../store/actions/penjualanAction";
+import { addCustomer } from "../../store/actions/penjualanAction";
+import { getAllProduct } from "../../store/actions";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
 
 export default function PenjualanForm() {
   const [showAlert, setShowAlert] = useState(false);
@@ -37,7 +39,16 @@ export default function PenjualanForm() {
   const finalRef = useRef(null);
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [showDueDate, setShowDueDate] = useState(false)
+  const [showDueDate, setShowDueDate] = useState(false);
+  const [inputData, setInputData] = useState({
+    name: "",
+    email: "",
+    phoneNumber: "",
+  });
+  const { name, email, phoneNumber } = inputData;
+  const handleInput = (value, fieldName) => {
+    setInputData({ ...inputData, [fieldName]: value });
+  };
 
   const customers = useSelector((state) => state.customers);
   const products = useSelector((state) => state.products);
@@ -57,14 +68,14 @@ export default function PenjualanForm() {
     setDatePickerVisibility(false);
   };
 
-  const [produk, setProduk] = useState(null)
-  const [customer, setCustomer] = useState(null)
-  const [quantity, setQuantity] = useState(null)
-  const [pembayaran, setPembayaran] = useState("")
-  const [dueDate, setDueDate] = useState("")
+  const [produk, setProduk] = useState(null);
+  const [customer, setCustomer] = useState(null);
+  const [quantity, setQuantity] = useState(null);
+  const [pembayaran, setPembayaran] = useState("");
+  const [dueDate, setDueDate] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
       if (pembayaran === "hutang") {
@@ -72,36 +83,32 @@ export default function PenjualanForm() {
           ProductId: produk,
           CustomerId: customer,
           quantity: quantity,
-          dueDate: dueDate
-        }
+          dueDate: dueDate,
+        };
 
-        dispatch(addPenjualan(payload, "piutang"))
+        dispatch(addPenjualan(payload, "piutang"));
       } else {
         const payload = {
           ProductId: produk,
           CustomerId: customer,
           quantity: quantity,
-          category: pembayaran
-        }
+          category: pembayaran,
+        };
 
-        dispatch(addPenjualan(payload, "cash"))
+        dispatch(addPenjualan(payload, "cash"));
       }
-       setShowAlert(true);
+      setShowAlert(true);
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleClick = (value) => {
-    value === "hutang" ? (
-      setShowDueDate(true)
-    ) : (
-      setShowDueDate(false)
-    )
-  }
+    value === "hutang" ? setShowDueDate(true) : setShowDueDate(false);
+  };
 
   const handleConfirm = (date) => {
-    setDueDate(date)
+    setDueDate(date);
 
     console.warn("A date has been picked: ", date);
     hideDatePicker();
@@ -120,7 +127,83 @@ export default function PenjualanForm() {
         <Modal.Content>
           <Modal.CloseButton />
           <Modal.Header>Tambah Customer</Modal.Header>
-          <AddCustomer />
+          <Modal.Body bg="white">
+            <FormControl mt="2">
+              <FormControl.Label _text={{ fontSize: 16 }}>
+                Nama
+              </FormControl.Label>
+              <Input
+                onChangeText={(value) => handleInput(value, "name")}
+                value={name}
+                type="text"
+                height="10"
+                size="md"
+                rounded="md"
+                placeholder="Nama customer"
+                bg="white"
+                _focus={{
+                  borderColor: "darkBlue.600",
+                  borderWidth: "1.5px",
+                }}
+                ref={initialRef}
+              />
+            </FormControl>
+            <FormControl mt="2">
+              <FormControl.Label _text={{ fontSize: 16 }}>
+                Email
+              </FormControl.Label>
+              <Input
+                onChangeText={(value) => handleInput(value, "email")}
+                value={email}
+                type="text"
+                height="10"
+                size="md"
+                rounded="md"
+                placeholder="Email customer"
+                bg="white"
+                keyboardType="email-address"
+                _focus={{
+                  borderColor: "darkBlue.600",
+                  borderWidth: "1.5px",
+                }}
+                ref={initialRef}
+              />
+            </FormControl>
+            <FormControl mt="2">
+              <FormControl.Label _text={{ fontSize: 16 }}>
+                Nomor Telepon
+              </FormControl.Label>
+              <Input
+                onChangeText={(value) => handleInput(value, "phoneNumber")}
+                value={phoneNumber}
+                type="text"
+                height="10"
+                size="md"
+                rounded="md"
+                placeholder="Nomor telepon customer"
+                bg="white"
+                keyboardType="numeric"
+                _focus={{
+                  borderColor: "darkBlue.600",
+                  borderWidth: "1.5px",
+                }}
+                ref={initialRef}
+              />
+            </FormControl>
+          </Modal.Body>
+          <Modal.Footer bg="white">
+            <Button
+              w="100%"
+              bg="darkBlue.600"
+              _text={{ color: "white" }}
+              onPress={() => {
+                dispatch(addCustomer(inputData));
+                setAddCustomerVisible(false);
+              }}
+            >
+              Save
+            </Button>
+          </Modal.Footer>
         </Modal.Content>
       </Modal>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -142,11 +225,16 @@ export default function PenjualanForm() {
               }}
               mt={1}
               onValueChange={(itemValue) => {
-                setProduk(itemValue)
+                setProduk(itemValue);
               }}
             >
               {products.map((product) => (
-                <Select.Item label={product.productName} value={product.id} />
+                <Select.Item
+                  isDisabled={product.quantity <= 0 ? true : false}
+                  label={product.productName}
+                  value={product.id}
+                  key={product.id.toString()}
+                />
               ))}
             </Select>
           </FormControl>
@@ -174,7 +262,11 @@ export default function PenjualanForm() {
                 onValueChange={(itemValue) => setCustomer(itemValue)}
               >
                 {customers.map((customer) => (
-                  <Select.Item label={customer.name} value={customer.id} />
+                  <Select.Item
+                    label={customer.name}
+                    value={customer.id}
+                    key={customer.id.toString()}
+                  />
                 ))}
               </Select>
               <Link
@@ -254,47 +346,50 @@ export default function PenjualanForm() {
                 colorScheme="red"
                 value="hutang"
                 onPress={() => handleClick("hutang")}
-                icon={<Icon as={<MaterialCommunityIcons name="cash-remove" />} />}
+                icon={
+                  <Icon as={<MaterialCommunityIcons name="cash-remove" />} />
+                }
                 my={1}
               >
                 Hutang
               </Radio>
             </Radio.Group>
           </View>
-          {
-            showDueDate ? (
-              <FormControl isDisabled mt="3">
-                <FormControl.Label _text={{ fontSize: 16 }}>Tanggal</FormControl.Label>
-                <View
-                  flexDirection="row"
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Input
-                    type="text"
-                    height="12"
-                    size="md"
-                    rounded="md"
-                    width="88%"
-                    placeholder="Tanggal jatuh tempo"
-                    keyboardType="numeric"
-                    bg="white"
-                    _focus={{
-                      borderColor: "darkBlue.600",
-                      borderWidth: "1.5px",
-                    }}
-                    value={dueDate}
+          {showDueDate ? (
+            <FormControl isDisabled mt="3">
+              <FormControl.Label _text={{ fontSize: 16 }}>
+                Tanggal
+              </FormControl.Label>
+              <View
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <Input
+                  type="text"
+                  height="12"
+                  size="md"
+                  rounded="md"
+                  width="88%"
+                  placeholder="Tanggal jatuh tempo"
+                  keyboardType="numeric"
+                  bg="white"
+                  _focus={{
+                    borderColor: "darkBlue.600",
+                    borderWidth: "1.5px",
+                  }}
+                  value={dueDate}
+                />
+                <Link onPress={showDatePicker} isExternal>
+                  <FontAwesome5Icon
+                    size={35}
+                    color="#005db4"
+                    name="calendar-alt"
                   />
-                  <Link
-                    onPress={showDatePicker}
-                    isExternal
-                  >
-                    <FontAwesome5Icon size={35} color="#005db4" name="calendar-alt" />
-                  </Link>
-                </View>
-              </FormControl>
-            ) : null
-          }
+                </Link>
+              </View>
+            </FormControl>
+          ) : null}
           <DateTimePickerModal
             isVisible={isDatePickerVisible}
             mode="date"

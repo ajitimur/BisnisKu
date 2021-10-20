@@ -25,17 +25,20 @@ export default function StatistikScreen() {
       <Box
         safeAreaTop
         bg="blue.400"
+        h={75}
       />
-      <Box
-        bg="blue.400"
-        h={125}
-        roundedBottomRight={70}
-      >
-      </Box>
-      <View mx={30}>
-        <MainStatistikCard />
-        <StatistikChart />
-      </View>
+      <ScrollView>
+        <Box
+          bg="blue.400"
+          h={75}
+          roundedBottomRight={70}
+        >
+        </Box>
+        <View mx={30}>
+          <MainStatistikCard />
+          <StatistikChart />
+        </View>
+      </ScrollView>
     </View>
   )
 }
