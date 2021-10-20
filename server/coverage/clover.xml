@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1634715488131" clover="3.2.0">
-  <project timestamp="1634715488133" name="All files">
-    <metrics statements="627" coveredstatements="602" conditionals="59" coveredconditionals="52" methods="64" coveredmethods="60" elements="750" coveredelements="714" complexity="0" loc="627" ncloc="627" packages="6" files="36" classes="36"/>
+<coverage generated="1634740561967" clover="3.2.0">
+  <project timestamp="1634740561967" name="All files">
+    <metrics statements="627" coveredstatements="603" conditionals="59" coveredconditionals="52" methods="64" coveredmethods="61" elements="750" coveredelements="716" complexity="0" loc="627" ncloc="627" packages="6" files="36" classes="36"/>
     <package name="server">
       <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="app.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\app.js">
@@ -19,7 +19,7 @@
       </file>
     </package>
     <package name="server.controllers">
-      <metrics statements="399" coveredstatements="376" conditionals="38" coveredconditionals="35" methods="39" coveredmethods="35"/>
+      <metrics statements="399" coveredstatements="377" conditionals="38" coveredconditionals="35" methods="39" coveredmethods="36"/>
       <file name="customerController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\customerController.js">
         <metrics statements="13" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="10" count="1" type="stmt"/>
@@ -112,7 +112,7 @@
         <line num="39" count="3" type="stmt"/>
         <line num="40" count="3" type="stmt"/>
         <line num="42" count="3" type="stmt"/>
-        <line num="43" count="5" type="stmt"/>
+        <line num="43" count="3" type="stmt"/>
         <line num="46" count="3" type="stmt"/>
         <line num="47" count="3" type="cond" truecount="2" falsecount="0"/>
         <line num="48" count="1" type="stmt"/>
@@ -231,7 +231,7 @@
         <line num="40" count="4" type="stmt"/>
         <line num="41" count="8" type="stmt"/>
         <line num="43" count="4" type="stmt"/>
-        <line num="44" count="21" type="stmt"/>
+        <line num="44" count="13" type="stmt"/>
         <line num="49" count="4" type="stmt"/>
         <line num="50" count="4" type="cond" truecount="2" falsecount="0"/>
         <line num="52" count="1" type="stmt"/>
@@ -333,7 +333,7 @@
         <line num="35" count="1" type="stmt"/>
       </file>
       <file name="reportController.js" path="C:\Users\asus\GIT\phase3\Final-Project-Team5\server\controllers\reportController.js">
-        <metrics statements="71" coveredstatements="56" conditionals="0" coveredconditionals="0" methods="12" coveredmethods="8"/>
+        <metrics statements="71" coveredstatements="57" conditionals="0" coveredconditionals="0" methods="12" coveredmethods="9"/>
         <line num="8" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
@@ -376,7 +376,7 @@
         <line num="137" count="1" type="stmt"/>
         <line num="138" count="2" type="stmt"/>
         <line num="140" count="1" type="stmt"/>
-        <line num="141" count="6" type="stmt"/>
+        <line num="141" count="4" type="stmt"/>
         <line num="144" count="1" type="stmt"/>
         <line num="147" count="1" type="stmt"/>
         <line num="157" count="1" type="stmt"/>
@@ -397,7 +397,7 @@
         <line num="230" count="1" type="stmt"/>
         <line num="231" count="0" type="stmt"/>
         <line num="233" count="1" type="stmt"/>
-        <line num="234" count="0" type="stmt"/>
+        <line num="234" count="2" type="stmt"/>
         <line num="237" count="1" type="stmt"/>
         <line num="239" count="1" type="stmt"/>
         <line num="241" count="1" type="stmt"/>
