@@ -53,23 +53,10 @@ export default function FinancialStatementBox() {
           alignItems="center"
         >
           <Text color="dark.400" fontSize={15}>
-            Kas Tunai
+            Total Kas
           </Text>
           <Text color="green.500" fontSize={15} fontWeight="bold">
-            {formatter.format(info.balanceKas)}
-          </Text>
-        </View>
-        <View
-          mb="3"
-          flexDirection="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Text color="dark.400" fontSize={15}>
-            Kas bank
-          </Text>
-          <Text color="green.500" fontSize={15} fontWeight="bold">
-            {formatter.format(info.balanceBank)}
+            {formatter.format(info.balanceKas + info.balanceBank)}
           </Text>
         </View>
         <View
