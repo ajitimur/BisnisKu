@@ -17,14 +17,20 @@ import {
 } from "native-base";
 import { AddCustomer } from '../';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCustomers } from '../../store/actions/penjualanAction';
+import { fetchCustomers, addPenjualan } from '../../store/actions/penjualanAction';
 import { getAllProduct } from '../../store/actions';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
 
 export default function PenjualanForm() {
   const [addCustomerVisible, setAddCustomerVisible] = useState(false)
   const initialRef = useRef(null)
   const finalRef = useRef(null)
+
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [showDueDate, setShowDueDate] = useState(false)
 
   const customers = useSelector((state) => state.customers);
   const products = useSelector((state) => state.products);
@@ -36,6 +42,14 @@ export default function PenjualanForm() {
     dispatch(getAllProduct())
   }, []);
 
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
   const [produk, setProduk] = useState(null)
   const [customer, setCustomer] = useState(null)
   const [quantity, setQuantity] = useState(null)
@@ -44,12 +58,46 @@ export default function PenjualanForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
     try {
-      // await dispatch(addPengeluaran(inputData, pembayaran))
+      if (pembayaran === "hutang") {
+        const payload = {
+          ProductId: produk,
+          CustomerId: customer,
+          quantity: quantity,
+          dueDate: dueDate
+        }
+
+        dispatch(addPenjualan(payload, "piutang"))
+      } else {
+        const payload = {
+          ProductId: produk,
+          CustomerId: customer,
+          quantity: quantity,
+          category: pembayaran
+        }
+
+        dispatch(addPenjualan(payload, "cash"))
+      }
     } catch (error) {
       console.log(error);
     }
   }
+
+  const handleClick = (value) => {
+    value === "hutang" ? (
+      setShowDueDate(true)
+    ) : (
+      setShowDueDate(false)
+    )
+  }
+
+  const handleConfirm = (date) => {
+    setDueDate(date)
+
+    console.warn("A date has been picked: ", date);
+    hideDatePicker();
+  };
 
   return (
     <>
@@ -92,7 +140,6 @@ export default function PenjualanForm() {
               mt={1}
               onValueChange={(itemValue) => {
                 setProduk(itemValue)
-                console.log(itemValue);
               }}
             >
               {
@@ -182,6 +229,7 @@ export default function PenjualanForm() {
                 }}
                 colorScheme="green"
                 value="bank"
+                onPress={() => handleClick("bank")}
                 icon={<Icon as={<MaterialCommunityIcons name="bank" />} />}
                 my={1}
               >
@@ -194,6 +242,7 @@ export default function PenjualanForm() {
                 size="md"
                 colorScheme="green"
                 value="tunai"
+                onPress={() => handleClick("tunai")}
                 icon={<Icon as={<MaterialCommunityIcons name="cash" />} />}
                 my={1}
               >
@@ -206,6 +255,7 @@ export default function PenjualanForm() {
                 size="md"
                 colorScheme="red"
                 value="hutang"
+                onPress={() => handleClick("hutang")}
                 icon={<Icon as={<MaterialCommunityIcons name="cash-remove" />} />}
                 my={1}
               >
@@ -213,6 +263,46 @@ export default function PenjualanForm() {
               </Radio>
             </Radio.Group>
           </View>
+          {
+            showDueDate ? (
+              <FormControl isDisabled mt="3">
+                <FormControl.Label _text={{ fontSize: 16 }}>Tanggal</FormControl.Label>
+                <View
+                  flexDirection="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <Input
+                    type="text"
+                    height="12"
+                    size="md"
+                    rounded="md"
+                    width="88%"
+                    placeholder="Tanggal jatuh tempo"
+                    keyboardType="numeric"
+                    bg="white"
+                    _focus={{
+                      borderColor: "darkBlue.600",
+                      borderWidth: "1.5px",
+                    }}
+                    value={dueDate}
+                  />
+                  <Link
+                    onPress={showDatePicker}
+                    isExternal
+                  >
+                    <FontAwesome5Icon size={35} color="#005db4" name="calendar-alt" />
+                  </Link>
+                </View>
+              </FormControl>
+            ) : null
+          }
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+          />
         </View>
       </ScrollView>
       <Box

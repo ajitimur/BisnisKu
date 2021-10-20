@@ -135,6 +135,7 @@ class PenjualanController {
         };
       }
     } catch (error) {
+      console.log(error);
       await t.rollback();
       next(error);
     }
