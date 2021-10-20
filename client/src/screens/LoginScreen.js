@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TouchableOpacity } from "react-native";
-import { CommonActions } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import API from "../apis/API";
 import {
@@ -18,9 +17,12 @@ import {
   HStack,
   IconButton,
   CloseIcon,
+  StatusBar,
+  ScrollView
 } from "native-base";
 import { useDispatch } from "react-redux";
 import { changeLogStatus } from "../store/actions";
+const BisnisKuLogo = require("../assets/img/BisnisKu-main-logo-02.png")
 
 export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -47,7 +49,6 @@ export default function LoginScreen({ navigation }) {
         data: userData
       })
 
-
       if (userLogin) {
         await AsyncStorage.setItem("access_token", userLogin.data.access_token);
         await AsyncStorage.setItem("user", username);
@@ -67,8 +68,22 @@ export default function LoginScreen({ navigation }) {
   const handleClick = () => setShowPassword(!showPassword);
 
   return (
-    <SafeAreaView>
-      <View height="100%">
+    <View
+      bg="blue.400"
+      h="100%"
+    >
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="light-content"
+      />
+      <Box
+        safeAreaTop
+        bg="lightBlue.700"
+      />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
         <Image
           width="100%"
           height={550}
@@ -85,11 +100,21 @@ export default function LoginScreen({ navigation }) {
           height={550}
           alignItems="center"
         >
-          <Heading mt="140" color="light.300" size="2xl">
-            Financee{"  "}
-          </Heading>
+          <Image
+            source={BisnisKuLogo}
+            alt="BisnisKu Logo"
+            style={{
+              width: 275,
+              height: 275
+            }}
+          />
         </View>
-        <View flex={1} alignItems="center" justifyContent="flex-end">
+        <View
+          flex={1}
+          alignItems="center"
+          justifyContent="flex-end"
+          mt="-58.5%"
+        >
           <Box
             w="100%"
             height={425}
@@ -212,7 +237,7 @@ export default function LoginScreen({ navigation }) {
             </View>
           </Box>
         </View>
-      </View>
-    </SafeAreaView>
+      </ScrollView>
+    </View>
   );
 }

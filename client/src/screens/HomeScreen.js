@@ -1,18 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  StatusBar,
-  Text,
-  Box,
-  View,
-  ScrollView
-} from "native-base";
+import { StatusBar, Text, Box, View, ScrollView } from "native-base";
 import {
   StackNavigationBox,
   FinancialStatementBox,
-  InformationBox
+  InformationBox,
 } from "../components";
-
 
 export default function HomeScreen() {
   const [userLogin, setUserLogin] = useState("");
@@ -31,36 +24,18 @@ export default function HomeScreen() {
   useEffect(() => {
     getData();
   }, []);
-
   return (
-    <View
-      bg="muted.100"
-      h="100%"
-    >
+    <View bg="muted.100" h="100%">
       <StatusBar
         translucent
         backgroundColor="transparent"
         barStyle="dark-content"
       />
-      <Box
-        safeAreaTop
-        bg="blue.400"
-      />
-      <ScrollView>
-        <Box
-          bg="blue.400"
-          roundedBottomLeft={70}
-          h={125}
-        >
-          <View
-            mx={30}
-            mt={11}
-          >
-            <Text
-              color="dark.200"
-              fontWeight="semibold"
-              fontSize="lg"
-            >
+      <Box safeAreaTop bg="blue.400" />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Box bg="blue.400" roundedBottomLeft={70} h={125}>
+          <View mx={30} mt={11}>
+            <Text color="dark.200" fontWeight="semibold" fontSize="lg">
               Hello, {userLogin}
             </Text>
           </View>
@@ -71,8 +46,8 @@ export default function HomeScreen() {
           <View>
             <InformationBox />
           </View>
-        </View >
+        </View>
       </ScrollView>
-    </View >
+    </View>
   );
 }
