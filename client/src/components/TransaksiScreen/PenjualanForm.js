@@ -86,7 +86,7 @@ export default function PenjualanForm() {
 
         dispatch(addPenjualan(payload, "cash"))
       }
-       setShowAlert(true);
+      setShowAlert(true);
     } catch (error) {
       console.log(error);
     }
