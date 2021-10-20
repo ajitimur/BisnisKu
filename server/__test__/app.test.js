@@ -845,18 +845,10 @@ describe("penjualan  ", () => {
 	test(" penjualan berhasil menggunakan kas ", (done) => {
 		getAccount;
 		let penjualan = {
-			customer: {
-				id: 1,
-				name: "Jasmin Rahmawati",
-				email: "reksa.rajata@gmail.co.id",
-				phoneNumber: "026 0949 884",
-			},
-			product: {
-				id: 1,
-				productName: "Pepsodent",
-				sellQuantity: 1,
-				amount: 9000,
-			},
+      CustomerId: 1,
+      ProductId: 1,
+      quantity: 1,
+      category: "cash"
 		};
 		request(app)
 			.post("/penjualan/cash")
@@ -885,20 +877,11 @@ describe("penjualan  ", () => {
 	});
 	test(" penjualan berhasil menggunakan Piutang ", (done) => {
 		getAccount;
-		let penjualan = {
-			customer: {
-				id: 1,
-				name: "Jasmin Rahmawati",
-				email: "reksa.rajata@gmail.co.id",
-				phoneNumber: "026 0949 884",
-			},
-			product: {
-				id: 1,
-				productName: "Pepsodent",
-				sellQuantity: 1,
-				amount: 9000,
-				dueDate: new Date(),
-			},
+    let penjualan = {
+      CustomerId: 1,
+      ProductId: 1,
+      quantity: 1,
+      dueDate: "2021-10-25"
 		};
 		request(app)
 			.post("/penjualan/Piutang")
@@ -929,19 +912,10 @@ describe("penjualan  ", () => {
 	test("penjualan piutang melebihi yang ada di stock", (done) => {
 		getAccount;
 		let penjualan = {
-			customer: {
-				id: 1,
-				name: "Jasmin Rahmawati",
-				email: "reksa.rajata@gmail.co.id",
-				phoneNumber: "026 0949 884",
-			},
-			product: {
-				id: 1,
-				productName: "Pepsodent",
-				sellQuantity: 1000000,
-				amount: 900000000,
-				dueDate: new Date(),
-			},
+      CustomerId: 1,
+      ProductId: 1,
+      quantity: 9999,
+      dueDate: new Date()
 		};
 		let exprectedResponse = {
 			message: `Cannot sell more than available quantity`,
@@ -963,22 +937,13 @@ describe("penjualan  ", () => {
 			});
 	});
 
-	test("penjualan piutang melebihi yang ada di stock", (done) => {
+	test("penjualan cash melebihi yang ada di stock", (done) => {
 		getAccount;
-		let penjualan = {
-			customer: {
-				id: 1,
-				name: "Jasmin Rahmawati",
-				email: "reksa.rajata@gmail.co.id",
-				phoneNumber: "026 0949 884",
-			},
-			product: {
-				id: 1,
-				productName: "Pepsodent",
-				sellQuantity: 1000000,
-				amount: 900000000,
-				dueDate: new Date(),
-			},
+    let penjualan = {
+      CustomerId: 1,
+      ProductId: 1,
+      quantity: 999999,
+      category: "cash"
 		};
 		let exprectedResponse = {
 			message: `Cannot sell more than available quantity`,
@@ -1000,106 +965,15 @@ describe("penjualan  ", () => {
 			});
 	});
 
-	test("pembeli cash namun tidak memiliki customerId", (done) => {
-		getAccount;
-		let penjualan = {
-			customer: {
-				name: "Ahmad Suhemat",
-				email: "reksa@gmail.co.id",
-				phoneNumber: "026 0949 884",
-			},
-			product: {
-				id: 1,
-				productName: "Pepsodent",
-				sellQuantity: 1,
-				amount: 9000,
-				dueDate: new Date(),
-			},
-		};
-		request(app)
-			.post("/penjualan/cash")
-			.set("access_token", access_token)
-			.send(penjualan)
-			.expect(201)
-			.then((resp) => {
-				expect(resp.body).toEqual(expect.any(Array));
-				resp.body.forEach((element, index) => {
-					expect(element).toEqual(
-						expect.objectContaining({
-							id: expect.any(Number),
-							AccountId: expect.any(Number),
-							transactionType: expect.any(String),
-							amount: expect.any(Number),
-							UserId: expect.any(Number),
-						})
-					);
-				});
-
-				done();
-			})
-			.catch((err) => {
-				done(err);
-			});
-	});
-
-	test("pembeli piutang namun tidak memiliki customerId", (done) => {
-		getAccount;
-		let penjualan = {
-			customer: {
-				name: "Ahmad Suhendra",
-				email: "reksa@gmail.co.id",
-				phoneNumber: "026 0949 884",
-			},
-			product: {
-				id: 1,
-				productName: "Pepsodent",
-				sellQuantity: 1,
-				amount: 9000,
-				dueDate: new Date(),
-			},
-		};
-		request(app)
-			.post("/penjualan/piutang")
-			.set("access_token", access_token)
-			.send(penjualan)
-			.expect(201)
-			.then((resp) => {
-				expect(resp.body).toEqual(expect.any(Array));
-				resp.body.forEach((element, index) => {
-					expect(element).toEqual(
-						expect.objectContaining({
-							id: expect.any(Number),
-							AccountId: expect.any(Number),
-							transactionType: expect.any(String),
-							amount: expect.any(Number),
-							UserId: expect.any(Number),
-						})
-					);
-				});
-
-				done();
-			})
-			.catch((err) => {
-				done(err);
-			});
-	});
+	
 
 	test(" penjualan berhasil menggunakan bank ", (done) => {
 		getAccount;
 		let penjualan = {
-			customer: {
-				id: 1,
-				name: "Jasmin Rahmawati",
-				email: "reksa.rajata@gmail.co.id",
-				phoneNumber: "026 0949 884",
-			},
-			product: {
-				id: 1,
-				productName: "Pepsodent",
-				sellQuantity: 1,
-				amount: 9000,
-			},
-			category: "bank",
+      CustomerId: 1,
+      ProductId: 1,
+      quantity: 2,
+      category: "bank"
 		};
 		request(app)
 			.post("/penjualan/cash")
@@ -1130,18 +1004,10 @@ describe("penjualan  ", () => {
 	test("menjual barang yang tidak ada secara cash", (done) => {
 		getAccount;
 		let penjualan = {
-			customer: {
-				id: 1,
-				name: "Jasmin Rahmawati",
-				email: "reksa.rajata@gmail.co.id",
-				phoneNumber: "026 0949 884",
-			},
-			product: {
-				id: 99,
-				productName: "Tahu",
-				sellQuantity: 1,
-				amount: 9000,
-			},
+      CustomerId: 1,
+      ProductId: 99,
+      quantity: 1,
+      category: "cash"
 		};
 		let exprectedResponse = {
 			message: `Product does not exists`,

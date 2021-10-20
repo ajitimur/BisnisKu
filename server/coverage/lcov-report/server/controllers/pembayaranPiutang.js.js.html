@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">80.64% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>31/31</span>
+                <span class='fraction'>25/31</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">80.64% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>31/31</span>
+                <span class='fraction'>25/31</span>
             </div>
         
             
@@ -221,21 +221,16 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -244,18 +239,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -352,16 +352,16 @@ class PembayaranPiutangController {
 			if (findTransaction) {
 				//nerbitin invoice
 				const Xendit = require("xendit-node");
-				const x = new Xendit({
+				const x = <span class="cstat-no" title="statement not covered" >new Xendit({</span>
 					secretKey:
 						"xnd_development_dHe58lZyBgLLnJYRH1O7CTukejaSIBAAkwl5IkKQbw5WBXyzHhVGPcMjdFju0y",
 				});
 &nbsp;
-				const { Invoice } = x;
-				const invoiceSpecificOptions = {};
-				const i = new Invoice(invoiceSpecificOptions);
+				const { Invoice } = <span class="cstat-no" title="statement not covered" >x;</span>
+				const invoiceSpecificOptions = <span class="cstat-no" title="statement not covered" >{};</span>
+				const i = <span class="cstat-no" title="statement not covered" >new Invoice(invoiceSpecificOptions);</span>
 &nbsp;
-				const resp = await i.createInvoice({
+				const resp = <span class="cstat-no" title="statement not covered" >await i.createInvoice({</span>
 					externalID: `${id}`, // ini ganti TransactionId
 					amount: findTransaction.amount,
 					payerEmail: findTransaction.Customer.email,
@@ -375,10 +375,10 @@ class PembayaranPiutangController {
 				});
 				// console.log(resp);
 &nbsp;
-				res.status(200).json(resp);
+<span class="cstat-no" title="statement not covered" >				res.status(200).json(resp);</span>
 			} else {
 				throw {
-					name: `Pembayaran`,
+					name: `NOTFOUND`,
 					code: 404,
 					msg: `Product does not exists`,
 				};
@@ -457,15 +457,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-<<<<<<< HEAD
-                at Wed Oct 20 2021 01:29:02 GMT+0700 (Western Indonesia Time)
-=======
-<<<<<<< HEAD
-                at Tue Oct 19 2021 17:10:44 GMT+0800 (Singapore Standard Time)
-=======
-                at Tue Oct 19 2021 21:54:38 GMT+0700 (Waktu Indonesia Barat)
->>>>>>> dc169ca62328332afaaf1ffe627791aeab514801
->>>>>>> ecb213e7dff66d729512aa9f6967861c2de8cf3e
+                at Wed Oct 20 2021 14:38:07 GMT+0700 (Western Indonesia Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
