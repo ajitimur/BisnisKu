@@ -8,6 +8,8 @@ import {
   FETCH_INFO,
   isLoading,
   errorMsg,
+  FETCH_REPORTS_WEEKLY,
+  FETCH_REPORTS_MONTHLY
 } from "../keys";
 
 const initState = {
@@ -18,6 +20,8 @@ const initState = {
   hutang: [],
   customers: [],
   info: {},
+  reportsWeekly: [],
+  reportsMonthly: [],
   isLoading: false,
   errors: {},
 };
@@ -38,6 +42,10 @@ function reducer(state = initState, action) {
       return { ...state, customers: action.payload };
     case FETCH_INFO:
       return { ...state, info: action.payload };
+    case FETCH_REPORTS_WEEKLY:
+      return { ...state, reportsWeekly: action.payload };
+    case FETCH_REPORTS_MONTHLY:
+      return { ...state, reportsMonthly: action.payload };
     case isLoading:
       return { ...state, isLoading: action.payload };
     case errorMsg:

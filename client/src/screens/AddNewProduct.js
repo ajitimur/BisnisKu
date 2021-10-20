@@ -73,9 +73,9 @@ const Addnewproduct = ({ navigation }) => {
           mb={30}
           p="4"
           my={-5}
-          // style={{
-          //   marginTop: -20,
-          // }}
+          style={{
+            marginTop: -65,
+          }}
         >
           <FormControl>
             <FormControl.Label _text={{ fontSize: 16 }}>
