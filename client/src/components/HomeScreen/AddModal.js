@@ -114,13 +114,10 @@ export default function AddModal() {
           _text={{ color: "white" }}
           onPress={() => {
             if (pembayaran == 1) {
-              // console.log(dataModal, pembayaran);
               dispatch(addNewModal(acc_token, dataModal, "bank"));
             } else if (pembayaran == 2) {
-              // console.log("lwl");
               dispatch(addNewModal(acc_token, dataModal, "cash"));
             }
-            // Modal.CloseButton();
             // setModalVisible(false);
           }}
         >
