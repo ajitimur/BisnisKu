@@ -1,19 +1,33 @@
-import { Image } from "native-base";
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
+import {
+  Spinner,
+  HStack,
+  Heading,
+  Center,
+  NativeBaseProvider,
+  Image,
+} from "native-base";
 
 const Loadingscreen = () => {
   return (
-    <View style={{ backgroundColor: "#60a5fa" }}>
-      <Image
-        source={{
-          uri: "https://ik.imagekit.io/abiraditya/splash_8gWIhq56N.png?updatedAt=1634562030962",
-        }}
-      />
-    </View>
+    <HStack space={2} alignItems="center">
+      <Spinner accessibilityLabel="Loading posts" />
+      <Heading color="primary.500" fontSize="md">
+        Loading
+      </Heading>
+    </HStack>
   );
 };
 
 const styles = StyleSheet.create({});
 
-export default Loadingscreen;
+export default () => {
+  return (
+    <NativeBaseProvider>
+      <Center flex={1} px="3">
+        <Loadingscreen />
+      </Center>
+    </NativeBaseProvider>
+  );
+};

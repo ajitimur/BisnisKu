@@ -1,9 +1,18 @@
 import React, { useEffect } from "react";
-import { FlatList, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { View, Box, StatusBar } from "native-base";
+import { TouchableOpacity } from "react-native";
+import {
+  View,
+  Box,
+  StatusBar,
+  Text,
+  Button,
+  Link,
+  FlatList,
+  ScrollView,
+  Heading
+} from "native-base";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllProduct } from "../store/actions";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import "intl";
 import "intl/locale-data/jsonp/en";
 const formatter = new Intl.NumberFormat("id-ID", {
@@ -13,270 +22,184 @@ const formatter = new Intl.NumberFormat("id-ID", {
 
 const Productscreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  async function getToken() {
-    try {
-      const token = await AsyncStorage.getItem("access_token");
-      dispatch(getAllProduct(token));
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  useEffect(() => {
-    getToken();
-  }, []);
 
   const products = useSelector((state) => {
     return state.products;
   });
-  // console.log(products);
-  function renderProduct(item, index) {
+
+  useEffect(() => {
+    dispatch(getAllProduct())
+  }, []);
+
+  function renderProduct(item) {
     return (
-      <TouchableOpacity
-        style={[
-          {
-            width: 145,
-            height: 135,
-            backgroundColor: "#E6E6E6",
-            shadowColor: "rgba(0,0,0,1)",
-            shadowOffset: {
-              width: 3,
-              height: 3,
-            },
-            elevation: 5,
-            shadowOpacity: 0.5,
-            shadowRadius: 0,
-            borderRadius: 15,
-            marginBottom: 10,
-          },
-          index % 2 == 0
-            ? { marginRight: 20, marginLeft: 3 }
-            : { marginLeft: 15 },
-        ]}
-        onPress={() => {
-          navigation.navigate("BeliProduk", { id: item.id });
-        }}
+      <View
+        bg="white"
+        rounded="xl"
+        shadow={3}
+        flex={1}
+        w="48%"
+        m="2%"
+        alignItems="center"
       >
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            // alignContent: "space-between",
+        <Link
+          onPress={() => {
+            navigation.navigate("BeliProduk", { id: item.id });
           }}
+          isExternal
         >
-          <Text
-            style={{
-              borderStyle: "solid",
-              borderColor: "gray",
-              borderWidth: 1,
-              borderRadius: 5,
-              paddingLeft: 5,
-              paddingRight: 5,
-              backgroundColor: "#5A7081",
-              color: "white",
-              marginBottom: 10,
-            }}
+          <View
+            width="100%"
+            p="3"
+            alignItems="center"
           >
-            Produk: {item.productName}
-          </Text>
-          <Text
-            style={{
-              borderStyle: "solid",
-              borderColor: "gray",
-              borderWidth: 1,
-              borderRadius: 5,
-              paddingLeft: 2,
-              marginBottom: 10,
-              backgroundColor: "gray",
-              color: "white",
-            }}
-          >
-            Harga: {formatter.format(item.basePrice)}
-          </Text>
-          <Text
-            style={[
-              {
-                borderStyle: "solid",
-                borderColor: "gray",
-                borderWidth: 1,
-                borderRadius: 5,
-                paddingLeft: 5,
-                paddingRight: 5,
-              },
-              item.quantity < 10
-                ? { backgroundColor: "yellow", color: "black" }
-                : item.quantity === 0
-                ? { backgroundColor: "red" }
-                : { backgroundColor: "green", color: "white" },
-            ]}
-          >
-            {item.quantity} {item.unit}
-          </Text>
-        </View>
-      </TouchableOpacity>
+            <View
+              mb="3"
+              alignItems="center"
+            >
+              <Heading fontSize={19}>{item.productName}</Heading>
+              <Heading fontSize={13}>{formatter.format(item.basePrice)}{" "}</Heading>
+            </View>
+            <View
+              w="100%"
+              alignItems="center"
+              bg={
+                item.quantity === 0
+                  ? "danger.400"
+                  : item.quantity < 10
+                    ? "yellow.400"
+                    : "success.500"
+              }
+              rounded="md"
+            >
+              <Text
+                color={
+                  item.quantity === 0
+                    ? "white"
+                    : item.quantity < 10
+                      ? "dark.200"
+                      : "white"
+                }
+                fontWeight="medium"
+              >
+                {item.quantity} {item.unit.toUpperCase()}{" "}
+              </Text>
+            </View>
+          </View>
+        </Link>
+      </View>
     );
   }
+
   return (
-    <View bg="muted.100" h="100%" style={styles.container}>
+    <View
+      bg="muted.100"
+      h="100%"
+    >
       <StatusBar
         translucent
         backgroundColor="transparent"
         barStyle="dark-content"
       />
-      <Box safeAreaTop bg="blue.400" roundedBottomLeft={40} h={155} />
-      <View style={{ flex: 1, alignItems: "center" }}>
-        <TouchableOpacity
-          style={styles.buttonAdd}
-          onPress={() => {
-            navigation.navigate("TambahProduk");
-          }}
+      <Box
+        safeAreaTop
+        bg="blue.400"
+      />
+      <Box
+        bg="blue.400"
+        h={125}
+        alignItems="center"
+      >
+        <Heading
+          color="dark.200"
+          mt="2"
         >
-          <Text style={{ color: "white", marginLeft: 10 }}>Tambah Produk</Text>
-        </TouchableOpacity>
-        <View style={styles.scrollArea}>
-          <FlatList
-            horizontal={false}
-            showsVerticalScrollIndicator={false}
-            numColumns={2}
-            data={products}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item, index }) => renderProduct(item, index)}
-          ></FlatList>
-        </View>
-        <View style={styles.rect2}>
-          <View style={styles.button5Row}>
-            <TouchableOpacity style={styles.button3} onPress={() => {}}>
-              <Text style={{ color: "white", marginLeft: 14 }}>filter 1</Text>
+          List Produk{"  "}
+        </Heading>
+      </Box>
+      <View mx={30}>
+        <Box
+          mt={-75}
+          rounded="xl"
+          h={125}
+          bg="white"
+          shadow={4}
+          style={{
+            paddingHorizontal: 40,
+            paddingVertical: 15
+          }}
+          justifyContent="space-around"
+          mb="2"
+        >
+          <View
+            flexDirection="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <TouchableOpacity>
+              <Text
+                bg="blue.400"
+                color="white"
+                px="4"
+                py="1"
+                rounded="full"
+              >
+                filter 1
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button3}>
-              <Text style={{ color: "white", marginLeft: 14 }}>filter 2</Text>
+            <TouchableOpacity>
+              <Text
+                bg="blue.400"
+                color="white"
+                px="4"
+                py="1"
+                rounded="full"
+              >
+                filter 2
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button3}>
-              <Text style={{ color: "white", marginLeft: 14 }}>filter 3</Text>
+            <TouchableOpacity>
+              <Text
+                bg="blue.400"
+                color="white"
+                px="4"
+                py="1"
+                rounded="full"
+              >
+                filter 3
+              </Text>
             </TouchableOpacity>
           </View>
-        </View>
+          <Button
+            rounded="lg"
+            bg="darkBlue.600"
+            onPress={() => {
+              navigation.navigate("TambahProduk");
+            }}
+          >
+            Tambah Produk
+          </Button>
+        </Box>
       </View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
+        <View
+          mx={25}
+          style={{
+            marginBottom: 95
+          }}
+        >
+          <FlatList
+            data={products}
+            renderItem={({ item }) => renderProduct(item)}
+            numColumns="2"
+            keyExtractor={(item) => item.id.toString()}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  rect: {
-    width: 630,
-    height: 230,
-    backgroundColor: "#6495ed",
-    borderRadius: 99,
-    marginTop: -130,
-  },
-  scrollArea: {
-    width: 330,
-    height: 500,
-    borderRadius: 5,
-    marginTop: 40,
-  },
-  button2: {
-    width: 145,
-    height: 135,
-    backgroundColor: "#E6E6E6",
-    borderRadius: 15,
-    shadowColor: "rgba(0,0,0,1)",
-    shadowOffset: {
-      width: 3,
-      height: 3,
-    },
-    elevation: 5,
-    shadowOpacity: 0.5,
-    shadowRadius: 0,
-    overflow: "visible",
-  },
-  button: {
-    width: 145,
-    height: 135,
-    backgroundColor: "#E6E6E6",
-    shadowColor: "rgba(0,0,0,1)",
-    shadowOffset: {
-      width: 3,
-      height: 3,
-    },
-    elevation: 5,
-    shadowOpacity: 0.5,
-    shadowRadius: 0,
-    borderRadius: 15,
-    marginLeft: 31,
-  },
-  button2Row: {
-    height: 135,
-    flexDirection: "row",
-    flex: 1,
-    marginTop: 60,
-  },
-  rect2: {
-    width: 330,
-    height: 100,
-    borderRadius: 10,
-    backgroundColor: "white",
-    flexDirection: "row",
-    marginTop: -610,
-    shadowColor: "rgba(0,0,0,1)",
-    shadowOffset: {
-      width: 3,
-      height: 3,
-    },
-    elevation: 5,
-    shadowOpacity: 0.5,
-    shadowRadius: 0,
-  },
-  button3: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
-    elevation: 6,
-    width: 66,
-    height: 24,
-    backgroundColor: "#5A7081",
-    borderRadius: 15,
-    flex: 0.2,
-    justifyContent: "center",
-    alignContent: "center",
-  },
-  button5Row: {
-    height: 24,
-    flexDirection: "row",
-    flex: 1,
-    justifyContent: "space-evenly",
-    alignContent: "center",
-    marginTop: 13,
-  },
-  buttonAdd: {
-    zIndex: 5,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
-    elevation: 6,
-    position: "absolute",
-    width: 120,
-    height: 35,
-    backgroundColor: "#60a5fa",
-    borderRadius: 12,
-    flex: 0.2,
-    justifyContent: "center",
-    alignContent: "center",
-    top: -20,
-    left: 140,
-  },
-});
 
 export default Productscreen;

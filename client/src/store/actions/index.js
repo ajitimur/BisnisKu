@@ -3,6 +3,8 @@ import {
   IS_LOGGED_IN,
   DETAIL_PRODUCT,
   GET_HUTANG,
+  FETCH_INFO,
+  isLoading,
 } from "../keys";
 import API from "../../apis/API";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -13,9 +15,21 @@ export function getProducts(data) {
     payload: data,
   };
 }
+export function getInfo(data) {
+  return {
+    type: FETCH_INFO,
+    payload: data,
+  };
+}
 export function changeLogStatus(data) {
   return {
     type: IS_LOGGED_IN,
+    payload: data,
+  };
+}
+export function changeIsLoading(data) {
+  return {
+    type: isLoading,
     payload: data,
   };
 }
@@ -35,16 +49,19 @@ export function hutangGet(data) {
 // action async tembak ke server
 export function getAllProduct() {
   return async function (dispatch) {
-    const token = await AsyncStorage.getItem("access_token")
+    const token = await AsyncStorage.getItem("access_token");
 
     try {
+      dispatch(changeIsLoading(true));
       const products_get = await API({
         method: "GET",
         url: "/product/all",
         headers: { access_token: token },
       });
       dispatch(getProducts(products_get.data));
+      dispatch(changeIsLoading(false));
     } catch (err) {
+      dispatch(changeIsLoading(false));
       console.log(err, "<<<<<<");
     }
   };
@@ -96,6 +113,7 @@ export function addNewModal(token, data, endpoint) {
 }
 export function getHutang(token, endpoint) {
   return async function (dispatch) {
+    dispatch(changeIsLoading(true));
     try {
       const hutang_get = await API({
         method: "GET",
@@ -103,7 +121,9 @@ export function getHutang(token, endpoint) {
         headers: { access_token: token },
       });
       dispatch(hutangGet(hutang_get.data));
+      dispatch(changeIsLoading(false));
     } catch (err) {
+      dispatch(changeIsLoading(false));
       console.log(err, "<<<<<<");
     }
   };
@@ -117,6 +137,22 @@ export function tagihCustomer(token, id) {
         headers: { access_token: token },
       });
       // dispatch(hutangGet(pembayaranHutang.data));
+    } catch (err) {
+      console.log(err, "<<<<<<");
+    }
+  };
+}
+export function getInfoKeuangan() {
+  return async function (dispatch) {
+    const token = await AsyncStorage.getItem("access_token");
+
+    try {
+      const info_get = await API({
+        method: "GET",
+        url: "/reports/saldo",
+        headers: { access_token: token },
+      });
+      dispatch(getInfo(info_get.data));
     } catch (err) {
       console.log(err, "<<<<<<");
     }
