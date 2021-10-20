@@ -11,11 +11,18 @@ import {
   Button,
   Radio,
   Heading,
-  Text
+  Text,
+  Alert,
+  VStack,
+  HStack,
+  IconButton,
+  CloseIcon,
+  Collapse,
 } from "native-base";
 import "intl";
 import "intl/locale-data/jsonp/en";
 import { useSelector, useDispatch } from "react-redux";
+import { addNewProduct } from "../store/actions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { getDetailProduct } from "../store/actions";
@@ -24,15 +31,21 @@ const formatter = new Intl.NumberFormat("id-ID", {
   currency: "IDR",
 });
 
-const Beliproduk = ({ route }) => {
+const Beliproduk = ({ route, navigation }) => {
   const dispatch = useDispatch();
+  const [pembayaran, setPembayaran] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
+  const [money, setMoney] = useState(false);
+
+  const detail = useSelector((state) => {
+    return state.detail;
+  });
+  const info = useSelector((state) => {
+    return state.info;
+  });
   const [productData, setProductData] = useState({
     quantity: "",
     basePrice: "",
-    sellPrice: "",
-  });
-  const detail = useSelector((state) => {
-    return state.detail;
   });
   async function getToken() {
     try {
@@ -53,24 +66,14 @@ const Beliproduk = ({ route }) => {
   }
 
   return (
-    <View
-      bg="muted.100"
-      h="100%"
-    >
+    <View bg="muted.100" h="100%">
       <StatusBar
         translucent
         backgroundColor="transparent"
         barStyle="dark-content"
       />
-      <Box
-        safeAreaTop
-        bg="blue.400"
-      />
-      <Box
-        bg="blue.400"
-        h={125}
-        roundedBottomRight={70}
-      />
+      <Box safeAreaTop bg="blue.400" />
+      <Box bg="blue.400" h={125} roundedBottomRight={70} />
       <View
         bg="white"
         rounded="2xl"
@@ -83,10 +86,7 @@ const Beliproduk = ({ route }) => {
           marginTop: -67,
         }}
       >
-        <View
-          flexDirection="row"
-          justifyContent="center"
-        >
+        <View flexDirection="row" justifyContent="center">
           <Heading fontSize={22}>{detail.productName}</Heading>
           <View
             justifyContent="center"
@@ -95,8 +95,8 @@ const Beliproduk = ({ route }) => {
               detail.quantity === 0
                 ? "danger.400"
                 : detail.quantity < 10
-                  ? "yellow.400"
-                  : "success.500"
+                ? "yellow.400"
+                : "success.500"
             }
             rounded="full"
             px="2"
@@ -107,43 +107,32 @@ const Beliproduk = ({ route }) => {
                 detail.quantity === 0
                   ? "white"
                   : detail.quantity < 10
-                    ? "dark.200"
-                    : "white"
+                  ? "dark.200"
+                  : "white"
               }
             >
               {detail.quantity} {detail?.unit?.toUpperCase()}{" "}
             </Text>
           </View>
         </View>
-        <View
-          w="100%"
-          mt="3"
-        >
-          <View
-            flexDirection="row"
-            justifyContent="space-between"
-          >
+        <View w="100%" mt="3">
+          <View flexDirection="row" justifyContent="space-between">
+            <Text fontSize={16}>Harga satuan:</Text>
             <Text fontSize={16}>
-              Harga satuan:
-            </Text>
-            <Text fontSize={16}>
-              {formatter.format(detail?.basePrice)}{"  "}
+              {formatter.format(detail?.basePrice)}
+              {"  "}
             </Text>
           </View>
-          <View
-            flexDirection="row"
-            justifyContent="space-between"
-          >
+          <View flexDirection="row" justifyContent="space-between">
+            <Text fontSize={16}>Harga jual satuan:</Text>
             <Text fontSize={16}>
-              Harga jual satuan:
+              {formatter.format(detail?.sellPrice)}
+              {"  "}
             </Text>
-            <Text fontSize={16}>{formatter.format(detail?.sellPrice)}{"  "}</Text>
           </View>
         </View>
       </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View
           bg="white"
           rounded="2xl"
@@ -155,7 +144,9 @@ const Beliproduk = ({ route }) => {
           p="4"
         >
           <FormControl>
-            <FormControl.Label _text={{ fontSize: 16 }}>Kuantitas</FormControl.Label>
+            <FormControl.Label _text={{ fontSize: 16 }}>
+              Kuantitas
+            </FormControl.Label>
             <Input
               onChangeText={(value) => formHandler(value, "quantity")}
               type="text"
@@ -172,7 +163,9 @@ const Beliproduk = ({ route }) => {
             />
           </FormControl>
           <FormControl mt="3">
-            <FormControl.Label _text={{ fontSize: 16 }}>Harga Satuan</FormControl.Label>
+            <FormControl.Label _text={{ fontSize: 16 }}>
+              Harga Satuan
+            </FormControl.Label>
             <Input
               onChangeText={(value) => formHandler(value, "basePrice")}
               type="text"
@@ -194,17 +187,15 @@ const Beliproduk = ({ route }) => {
             w="100%"
             mt="2"
           >
-            <Text
-              fontSize={16}
-              mt="2"
-            >
-              Pembayaran :{" "}
-            </Text>
             <Radio.Group
               size="lg"
               name="exampleGroup"
               accessibilityLabel="pick a choice"
               flexDirection="row"
+              mx={9}
+              onChange={(nextValue) => {
+                setPembayaran(nextValue);
+              }}
             >
               <Radio
                 _text={{
@@ -229,167 +220,109 @@ const Beliproduk = ({ route }) => {
               >
                 Tunai
               </Radio>
+              <Radio
+                _text={{
+                  mx: 2,
+                }}
+                size="md"
+                colorScheme="red"
+                value="3"
+                icon={<Icon as={<MaterialCommunityIcons name="cash" />} />}
+                my={1}
+              >
+                Hutang
+              </Radio>
             </Radio.Group>
           </View>
         </View>
       </ScrollView>
-      <Box
-        h={60}
-        bg="blue.400"
-        w="100%"
-        position="relative"
-      >
+      <Collapse isOpen={showAlert} my={5}>
+        <Alert w="100%" status="error">
+          <VStack space={1} flexShrink={1} w="100%">
+            <HStack
+              flexShrink={1}
+              space={2}
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <HStack flexShrink={1} space={2} alignItems="center">
+                <Alert.Icon />
+                <Text
+                  fontSize="md"
+                  fontWeight="medium"
+                  _dark={{
+                    color: "coolGray.800",
+                  }}
+                >
+                  {money
+                    ? "Balance anda tidak cukup"
+                    : "Input Masih ada yang kosong!"}
+                </Text>
+              </HStack>
+              <IconButton
+                variant="unstyled"
+                icon={<CloseIcon size="3" color="coolGray.600" />}
+                onPress={() => {
+                  setMoney(false);
+                  setShowAlert(false);
+                }}
+              />
+            </HStack>
+          </VStack>
+        </Alert>
+      </Collapse>
+      <Box h={60} bg="blue.400" w="100%" position="relative">
         <Button
           bg="darkBlue.600"
           mx={75}
           rounded="full"
           p="3"
           _text={{
-            "fontWeight": "bold",
-            "fontSize": "md"
+            fontWeight: "bold",
+            fontSize: "md",
           }}
           top={-20}
           shadow={4}
           onPress={() => {
-            console.log(productData);
+            let amount = +productData.basePrice * +productData.quantity;
+            let calculationKas = +info.balanceKas - amount;
+            let calculationBank = +info.balanceBank - amount;
+            productData.id = detail.id;
+            productData.productName = detail.productName;
+            productData.unit = detail.unit;
+            productData.sellPrice = detail.sellPrice;
+            if (
+              pembayaran == 0 ||
+              !productData.quantity ||
+              !productData.basePrice
+            ) {
+              setShowAlert(true);
+            } else if (pembayaran == 1) {
+              if (calculationBank < 0) {
+                setMoney(true);
+                setShowAlert(true);
+              } else {
+                navigation.goBack();
+                dispatch(addNewProduct(productData, "bank"));
+              }
+            } else if (pembayaran == 2) {
+              if (calculationKas < 0) {
+                setMoney(true);
+                setShowAlert(true);
+              } else {
+                navigation.goBack();
+                dispatch(addNewProduct(productData, "cash"));
+              }
+            } else if (pembayaran == 3) {
+              navigation.goBack();
+              dispatch(addNewProduct(productData, "hutang"));
+            }
           }}
         >
-          Tambah Produk
+          Tambah Stock
         </Button>
       </Box>
-    </View >
-    // <View bg="muted.100" h="100%">
-    //   <StatusBar
-    //     translucent
-    //     backgroundColor="transparent"
-    //     barStyle="dark-content"
-    //   />
-    //   <Box safeAreaTop bg="blue.400" roundedBottomLeft={40} h={175} />
-    //   <View style={{ flex: 1, alignItems: "center" }}>
-    //     <View style={styles.productInfo}>
-    //       <View style={styles.info}>
-    //         <Text style={styles.textInfo}>{detail.productName}</Text>
-    //         <Text
-    //           style={[
-    //             {
-    //               borderStyle: "solid",
-    //               borderColor: "gray",
-    //               borderWidth: 1,
-    //               borderRadius: 5,
-    //               paddingLeft: 5,
-    //               paddingRight: 5,
-    //               marginBottom: 10,
-    //             },
-    //             detail.quantity < 10
-    //               ? { backgroundColor: "yellow", color: "black" }
-    //               : detail.quantity === 0
-    //               ? { backgroundColor: "red" }
-    //               : { backgroundColor: "green", color: "white" },
-    //           ]}
-    //         >
-    //           {detail.quantity} {detail.unit}
-    //         </Text>
-    //         <Text style={styles.textInfo}>
-    //           Harga satuan {formatter.format(detail.basePrice)}
-    //         </Text>
-    //         <Text style={styles.textInfo}>
-    //           harga jual {formatter.format(detail.sellPrice)}
-    //         </Text>
-    //       </View>
-    //     </View>
-    //     <ScrollView style={styles.formContainer}>
-    //       <FormControl>
-    //         <Stack space={5}>
-    //           <Stack>
-    //             <FormControl.Label>Quantitas</FormControl.Label>
-    //             <Input
-    //               onChangeText={(value) => formHandler(value, "quantity")}
-    //               variant="underlined"
-    //               p={2}
-    //               placeholder="20"
-    //               style={styles.formInput}
-    //               keyboardType="numeric"
-    //             />
-    //           </Stack>
-    //           <Stack>
-    //             <FormControl.Label>Harga Satuan</FormControl.Label>
-    //             <Input
-    //               onChangeText={(value) => formHandler(value, "basePrice")}
-    //               variant="underlined"
-    //               p={2}
-    //               placeholder="20.000"
-    //               style={styles.formInput}
-    //               keyboardType="numeric"
-    //             />
-    //           </Stack>
-    //           <Stack>
-    //             <FormControl.Label>Harga Jual Satuan</FormControl.Label>
-    //             <Input
-    //               onChangeText={(value) => formHandler(value, "sellPrice")}
-    //               variant="underlined"
-    //               p={2}
-    //               placeholder="30.000"
-    //               style={styles.formInput}
-    //               keyboardType="numeric"
-    //             />
-    //           </Stack>
-    //         </Stack>
-    //         <Stack>
-    //           <View
-    //             flexDirection="row"
-    //             justifyContent="space-between"
-    //             alignItems="center"
-    //             mt="2"
-    //           >
-    //             <Text fontSize={16}>Pembayaran : </Text>
-    //             <Radio.Group
-    //               size="lg"
-    //               name="exampleGroup"
-    //               accessibilityLabel="pick a choice"
-    //               flexDirection="row"
-    //             >
-    //               <Radio
-    //                 _text={{
-    //                   mx: 2,
-    //                 }}
-    //                 colorScheme="green"
-    //                 value="1"
-    //                 icon={<Icon as={<MaterialCommunityIcons name="bank" />} />}
-    //                 my={1}
-    //               >
-    //                 Bank
-    //               </Radio>
-    //               <Radio
-    //                 _text={{
-    //                   mx: 2,
-    //                 }}
-    //                 size="md"
-    //                 colorScheme="green"
-    //                 value="2"
-    //                 icon={<Icon as={<MaterialCommunityIcons name="cash" />} />}
-    //                 my={1}
-    //               >
-    //                 Tunai
-    //               </Radio>
-    //             </Radio.Group>
-    //           </View>
-    //         </Stack>
-    //       </FormControl>
-    //       <Button
-    //         style={{ marginTop: 30 }}
-    //         onPress={() => {
-    //           console.log(productData);
-    //         }}
-    //         w="100%"
-    //         mt="2"
-    //         bg="blue.400"
-    //         _text={{ color: "white" }}
-    //       >
-    //         Beli
-    //       </Button>
-    //     </ScrollView>
-    //   </View>
-    // </View>
+    </View>
   );
 };
 

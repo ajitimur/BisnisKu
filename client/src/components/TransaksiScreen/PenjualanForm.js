@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react'
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
+import React, { useState, useRef, useEffect } from "react";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   Text,
   View,
@@ -13,43 +13,51 @@ import {
   Icon,
   Modal,
   Link,
-  Input
+  Input,
+  Collapse,
+  Alert,
+  VStack,
+  HStack,
+  IconButton,
+  CloseIcon,
 } from "native-base";
-import { AddCustomer } from '../';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchCustomers } from '../../store/actions/penjualanAction';
-import { getAllProduct } from '../../store/actions';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { AddCustomer } from "../";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCustomers } from "../../store/actions/penjualanAction";
+import { getAllProduct } from "../../store/actions";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 
 export default function PenjualanForm() {
-  const [addCustomerVisible, setAddCustomerVisible] = useState(false)
-  const initialRef = useRef(null)
-  const finalRef = useRef(null)
+  const [showAlert, setShowAlert] = useState(false);
+  const [addCustomerVisible, setAddCustomerVisible] = useState(false);
+  const initialRef = useRef(null);
+  const finalRef = useRef(null);
 
   const customers = useSelector((state) => state.customers);
   const products = useSelector((state) => state.products);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCustomers())
-    dispatch(getAllProduct())
+    dispatch(fetchCustomers());
+    dispatch(getAllProduct());
   }, []);
 
-  const [produk, setProduk] = useState(null)
-  const [customer, setCustomer] = useState(null)
-  const [quantity, setQuantity] = useState(null)
-  const [pembayaran, setPembayaran] = useState("")
-  const [dueDate, setDueDate] = useState("")
+  const [produk, setProduk] = useState(null);
+  const [customer, setCustomer] = useState(null);
+  const [quantity, setQuantity] = useState(null);
+  const [pembayaran, setPembayaran] = useState("");
+  const [dueDate, setDueDate] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       // await dispatch(addPengeluaran(inputData, pembayaran))
+      setShowAlert(true);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <>
@@ -68,16 +76,11 @@ export default function PenjualanForm() {
         </Modal.Content>
       </Modal>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View
-          p="4"
-          bg="white"
-          roundedBottom="2xl"
-          shadow={4}
-          mx={30}
-          mb={30}
-        >
+        <View p="4" bg="white" roundedBottom="2xl" shadow={4} mx={30} mb={30}>
           <FormControl>
-            <FormControl.Label _text={{ fontSize: 16 }}>Produk</FormControl.Label>
+            <FormControl.Label _text={{ fontSize: 16 }}>
+              Produk
+            </FormControl.Label>
             <Select
               selectedValue={produk}
               minWidth="90%"
@@ -85,25 +88,25 @@ export default function PenjualanForm() {
               placeholder="Pilih produk"
               _selectedItem={{
                 _text: {
-                  color: "blue.400"
+                  color: "blue.400",
                 },
                 endIcon: <CheckIcon size="5" />,
               }}
               mt={1}
               onValueChange={(itemValue) => {
-                setProduk(itemValue)
+                setProduk(itemValue);
                 console.log(itemValue);
               }}
             >
-              {
-                products.map((product) => (
-                  <Select.Item label={product.productName} value={product.id} />
-                ))
-              }
+              {products.map((product) => (
+                <Select.Item label={product.productName} value={product.id} />
+              ))}
             </Select>
           </FormControl>
           <FormControl mt="3">
-            <FormControl.Label _text={{ fontSize: 16 }}>Customer</FormControl.Label>
+            <FormControl.Label _text={{ fontSize: 16 }}>
+              Customer
+            </FormControl.Label>
             <View
               flexDirection="row"
               alignItems="center"
@@ -116,22 +119,20 @@ export default function PenjualanForm() {
                 placeholder="Pilih customer"
                 _selectedItem={{
                   _text: {
-                    color: "blue.400"
+                    color: "blue.400",
                   },
                   endIcon: <CheckIcon size="5" />,
                 }}
                 mt={1}
                 onValueChange={(itemValue) => setCustomer(itemValue)}
               >
-                {
-                  customers.map((customer) => (
-                    <Select.Item label={customer.name} value={customer.id} />
-                  ))
-                }
+                {customers.map((customer) => (
+                  <Select.Item label={customer.name} value={customer.id} />
+                ))}
               </Select>
               <Link
                 onPress={() => {
-                  setAddCustomerVisible(!addCustomerVisible)
+                  setAddCustomerVisible(!addCustomerVisible);
                 }}
                 isExternal
               >
@@ -140,7 +141,9 @@ export default function PenjualanForm() {
             </View>
           </FormControl>
           <FormControl mt="3">
-            <FormControl.Label _text={{ fontSize: 16 }}>Kuantitas</FormControl.Label>
+            <FormControl.Label _text={{ fontSize: 16 }}>
+              Kuantitas
+            </FormControl.Label>
             <Input
               onChangeText={(value) => setQuantity(value)}
               value={quantity}
@@ -157,15 +160,10 @@ export default function PenjualanForm() {
               }}
             />
           </FormControl>
-          <Text
-            fontSize={16}
-            mt="2"
-          >
+          <Text fontSize={16} mt="2">
             Pembayaran :{" "}
           </Text>
-          <View
-            alignItems="center"
-          >
+          <View alignItems="center">
             <Radio.Group
               size="lg"
               name="exampleGroup"
@@ -206,7 +204,9 @@ export default function PenjualanForm() {
                 size="md"
                 colorScheme="red"
                 value="hutang"
-                icon={<Icon as={<MaterialCommunityIcons name="cash-remove" />} />}
+                icon={
+                  <Icon as={<MaterialCommunityIcons name="cash-remove" />} />
+                }
                 my={1}
               >
                 Hutang
@@ -215,20 +215,45 @@ export default function PenjualanForm() {
           </View>
         </View>
       </ScrollView>
-      <Box
-        h={60}
-        bg="blue.400"
-        w="100%"
-        position="relative"
-      >
+      <Collapse isOpen={showAlert} my={5}>
+        <Alert w="100%" status="success">
+          <VStack space={1} flexShrink={1} w="100%">
+            <HStack
+              flexShrink={1}
+              space={2}
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <HStack flexShrink={1} space={2} alignItems="center">
+                <Alert.Icon />
+                <Text
+                  fontSize="md"
+                  fontWeight="medium"
+                  _dark={{
+                    color: "coolGray.800",
+                  }}
+                >
+                  Penjualan berhasil!
+                </Text>
+              </HStack>
+              <IconButton
+                variant="unstyled"
+                icon={<CloseIcon size="3" color="coolGray.600" />}
+                onPress={() => setShowAlert(false)}
+              />
+            </HStack>
+          </VStack>
+        </Alert>
+      </Collapse>
+      <Box h={60} bg="blue.400" w="100%" position="relative">
         <Button
           bg="darkBlue.600"
           mx={75}
           rounded="full"
           p="3"
           _text={{
-            "fontWeight": "bold",
-            "fontSize": "md"
+            fontWeight: "bold",
+            fontSize: "md",
           }}
           top={-20}
           shadow={4}
@@ -238,5 +263,5 @@ export default function PenjualanForm() {
         </Button>
       </Box>
     </>
-  )
+  );
 }

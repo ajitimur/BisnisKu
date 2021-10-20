@@ -5,6 +5,7 @@ import {
   GET_HUTANG,
   FETCH_INFO,
   isLoading,
+  errorMsg,
 } from "../keys";
 import API from "../../apis/API";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -12,6 +13,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export function getProducts(data) {
   return {
     type: FETCH_PRODUCTS,
+    payload: data,
+  };
+}
+export function errorMessages(data) {
+  return {
+    type: errorMsg,
     payload: data,
   };
 }
@@ -81,31 +88,35 @@ export function getDetailProduct(id, token) {
     }
   };
 }
-export function addNewProduct(token, data, endpoint) {
+export function addNewProduct(data, endpoint) {
   return async function (dispatch) {
     try {
-      const beliCash = await API({
+      const token = await AsyncStorage.getItem("access_token");
+      await API({
         method: "POST",
         url: `/pembelian/${endpoint}`,
         headers: { access_token: token },
         data: data,
       });
-      console.log(beliCash.data);
+      dispatch(getAllProduct());
     } catch (err) {
+      dispatch(errorMessages({ msg: err.response.data }));
       console.log(err.response.data, "<<<<<<");
     }
   };
 }
-export function addNewModal(token, data, endpoint) {
+export function addNewModal(data, endpoint) {
   return async function (dispatch) {
     try {
-      const modalAdd = await API({
+      const token = await AsyncStorage.getItem("access_token");
+      await API({
         method: "POST",
         url: `/modal/${endpoint}`,
         headers: { access_token: token },
         data: data,
       });
-      console.log(modalAdd.data);
+      dispatch(getInfoKeuangan(token));
+      // console.log(modalAdd.data);
     } catch (err) {
       console.log(err.response.data, "<<<<<<");
     }

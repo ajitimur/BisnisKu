@@ -8,6 +8,7 @@ import {
   FETCH_CUSTOMERS,
   FETCH_INFO,
   isLoading,
+  errorMsg,
 } from "../keys";
 
 const initState = {
@@ -19,6 +20,7 @@ const initState = {
   customers: [],
   info: {},
   isLoading: false,
+  errors: {},
 };
 
 function reducer(state = initState, action) {
@@ -39,6 +41,8 @@ function reducer(state = initState, action) {
       return { ...state, info: action.payload };
     case isLoading:
       return { ...state, isLoading: action.payload };
+    case errorMsg:
+      return { ...state, errors: action.payload };
     default:
       return state;
   }

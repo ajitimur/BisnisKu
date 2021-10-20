@@ -19,10 +19,7 @@ import {
   IconButton,
   CloseIcon,
   Collapse,
-  Center,
-  Spinner,
   Skeleton,
-  Stack,
 } from "native-base";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getHutang, tagihCustomer } from "../store/actions";
@@ -33,6 +30,7 @@ const formatter = new Intl.NumberFormat("id-ID", {
 });
 
 const Hutanglist = () => {
+  const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   const [transaksiId, setTransaksiId] = useState(0);
   const [mockLoading, setMockLoading] = useState([
@@ -43,9 +41,10 @@ const Hutanglist = () => {
     { id: 5 },
   ]);
   const [showAlert, setShowAlert] = useState(false);
+
   const initialRef = useRef(null);
   const finalRef = useRef(null);
-  const dispatch = useDispatch();
+
   const hutang = useSelector((state) => {
     return state.hutang;
   });
@@ -74,7 +73,6 @@ const Hutanglist = () => {
     getToken("unpaid");
   }, []);
 
-  //   console.log(hutang);
   function renderHutang(item, index) {
     return (
       <Box
@@ -109,6 +107,7 @@ const Hutanglist = () => {
           <Text>jatuh tempo: {item.dueDate}</Text>
         </View>
         <Button
+          isDisabled={item.isPaid ? true : false}
           rounded="3xl"
           h="8"
           bg="blue.400"
