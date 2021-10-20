@@ -28,7 +28,7 @@ class PenjualanController {
           throw {
             name: `Bad request`,
             code: 400,
-            message: `Cannot sell more than available quantity`,
+            msg: `Cannot sell more than available quantity`,
           };
         }
 
@@ -131,10 +131,11 @@ class PenjualanController {
         throw {
           name: `NOTFOUND`,
           code: 404,
-          message: `Product does not exists`,
+          msg: `Product does not exists`,
         };
       }
     } catch (error) {
+      console.log(error);
       await t.rollback();
       next(error);
     }
@@ -160,7 +161,7 @@ class PenjualanController {
           throw {
             name: `Bad request`,
             code: 400,
-            message: `Cannot sell more than available quantity`,
+            msg: `Cannot sell more than available quantity`,
           };
         }
 
@@ -231,7 +232,7 @@ class PenjualanController {
         throw {
           name: `NOTFOUND`,
           code: 404,
-          message: `Product does not exists`,
+          msg: `Product does not exists`,
         };
       }
     } catch (error) {

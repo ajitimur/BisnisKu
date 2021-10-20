@@ -1,14 +1,14 @@
 {
   "development": {
     "username": "postgres",
-    "password": "postgres",
+    "password": "Ajitimur471",
     "database": "final_project",
     "host": "localhost",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
-    "password": "postgres",
+    "password": "Ajitimur471",
     "database": "final_project_test",
     "host": "localhost",
     "dialect": "postgres"
