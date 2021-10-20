@@ -61,7 +61,14 @@ export default function PenjualanForm() {
 
     try {
       if (pembayaran === "hutang") {
+        const payload = {
+          ProductId: produk,
+          CustomerId: customer,
+          quantity: quantity,
+          dueDate: dueDate
+        }
 
+        dispatch(addPenjualan(payload, "piutang"))
       } else {
         const payload = {
           ProductId: produk,
@@ -258,7 +265,7 @@ export default function PenjualanForm() {
           </View>
           {
             showDueDate ? (
-              <FormControl mt="3">
+              <FormControl isDisabled mt="3">
                 <FormControl.Label _text={{ fontSize: 16 }}>Tanggal</FormControl.Label>
                 <View
                   flexDirection="row"
@@ -278,7 +285,6 @@ export default function PenjualanForm() {
                       borderColor: "darkBlue.600",
                       borderWidth: "1.5px",
                     }}
-                    // onValueChange={(value) => setDueDate(value)}
                     value={dueDate}
                   />
                   <Link
