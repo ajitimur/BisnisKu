@@ -18,11 +18,11 @@ import {
   IconButton,
   CloseIcon,
   StatusBar,
-  ScrollView
+  ScrollView,
 } from "native-base";
 import { useDispatch } from "react-redux";
 import { changeLogStatus } from "../store/actions";
-const BisnisKuLogo = require("../assets/img/BisnisKu-main-logo-02.png")
+const BisnisKuLogo = require("../assets/img/BisnisKu-main-logo-02.png");
 
 export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -46,8 +46,8 @@ export default function LoginScreen({ navigation }) {
       const userLogin = await API({
         method: "POST",
         url: "/user/login",
-        data: userData
-      })
+        data: userData,
+      });
 
       if (userLogin) {
         await AsyncStorage.setItem("access_token", userLogin.data.access_token);
@@ -68,22 +68,14 @@ export default function LoginScreen({ navigation }) {
   const handleClick = () => setShowPassword(!showPassword);
 
   return (
-    <View
-      bg="blue.400"
-      h="100%"
-    >
+    <View bg="blue.400" h="100%">
       <StatusBar
         translucent
         backgroundColor="transparent"
         barStyle="light-content"
       />
-      <Box
-        safeAreaTop
-        bg="lightBlue.700"
-      />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-      >
+      <Box safeAreaTop bg="lightBlue.700" />
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Image
           width="100%"
           height={550}
@@ -105,7 +97,7 @@ export default function LoginScreen({ navigation }) {
             alt="BisnisKu Logo"
             style={{
               width: 275,
-              height: 275
+              height: 275,
             }}
           />
         </View>
@@ -113,7 +105,7 @@ export default function LoginScreen({ navigation }) {
           flex={1}
           alignItems="center"
           justifyContent="flex-end"
-          mt="-58.5%"
+          mt="-35.5%"
         >
           <Box
             w="100%"
@@ -198,7 +190,7 @@ export default function LoginScreen({ navigation }) {
                 border={2}
                 pb="7"
                 borderColor="dark.200"
-                borderBottomWidth={1}
+                // borderBottomWidth={1}
                 alignItems="center"
               >
                 <Button
@@ -210,22 +202,9 @@ export default function LoginScreen({ navigation }) {
                 >
                   Masuk
                 </Button>
-                <View position="absolute" bottom={-10} bg="blue.400" px="2">
-                  <Text>ATAU</Text>
-                </View>
-              </View>
-              <View>
-                <Button
-                  w="100%"
-                  mt="4"
-                  bg="darkBlue.600"
-                  _text={{ color: "white" }}
-                >
-                  Social Login
-                </Button>
               </View>
             </VStack>
-            <View flex={1} justifyContent="flex-end" mb="4">
+            <View flex={0.2} justifyContent="flex-end" mb="20">
               <View flexDirection="row">
                 <Text>Belum memiliki akun? </Text>
                 <TouchableOpacity
