@@ -315,7 +315,7 @@ class PembelianController {
 						UserId,
 					},
 					{
-						AccountId: accounts.Kas, //kas
+						AccountId: accounts.Hutang, //Hutang
 						transactionType: "Credit",
 						amount,
 						UserId,
@@ -337,7 +337,7 @@ class PembelianController {
 						UserId,
 					},
 					{
-						AccountId: accounts.Kas, //kas
+						AccountId: accounts.Hutang, //Hutang
 						transactionType: "Credit",
 						amount,
 						UserId,
