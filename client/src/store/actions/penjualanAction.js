@@ -51,3 +51,24 @@ export function addCustomer(payload) {
     }
   }
 }
+
+export function addPenjualan(payload, endPoint) {
+  return async function (dispatch) {
+    const token = await AsyncStorage.getItem("access_token")
+
+    try {
+      const newPenjualan = await API({
+        method: "POST",
+        url: `/penjualan/${endPoint}`,
+        headers: {
+          access_token: token
+        },
+        data: payload
+      })
+
+      console.log(newPenjualan);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  }
+}

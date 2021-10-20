@@ -22,6 +22,7 @@ import {
 } from "native-base";
 import { useDispatch } from "react-redux";
 import { changeLogStatus } from "../store/actions";
+const BisnisKuLogo = require("../assets/img/BisnisKu-main-logo-02.png")
 
 export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -47,7 +48,6 @@ export default function LoginScreen({ navigation }) {
         url: "/user/login",
         data: userData
       })
-
 
       if (userLogin) {
         await AsyncStorage.setItem("access_token", userLogin.data.access_token);
@@ -100,9 +100,14 @@ export default function LoginScreen({ navigation }) {
           height={550}
           alignItems="center"
         >
-          <Heading mt="140" color="light.300" size="2xl">
-            BisnisKu{"  "}
-          </Heading>
+          <Image
+            source={BisnisKuLogo}
+            alt="BisnisKu Logo"
+            style={{
+              width: 275,
+              height: 275
+            }}
+          />
         </View>
         <View
           flex={1}
