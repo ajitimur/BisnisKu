@@ -96,8 +96,8 @@ export default function LoginScreen({ navigation }) {
             source={BisnisKuLogo}
             alt="BisnisKu Logo"
             style={{
-              width: 275,
-              height: 275,
+              width: 380,
+              height: 380,
             }}
           />
         </View>
@@ -105,11 +105,11 @@ export default function LoginScreen({ navigation }) {
           flex={1}
           alignItems="center"
           justifyContent="flex-end"
-          mt="-35.5%"
+          mt="-40%"
         >
           <Box
             w="100%"
-            height={425}
+            height={350}
             roundedTop="45"
             bg="blue.400"
             alignItems="center"
@@ -204,7 +204,7 @@ export default function LoginScreen({ navigation }) {
                 </Button>
               </View>
             </VStack>
-            <View flex={0.2} justifyContent="flex-end" mb="20">
+            <View justifyContent="flex-end" mb="20">
               <View flexDirection="row">
                 <Text>Belum memiliki akun? </Text>
                 <TouchableOpacity
