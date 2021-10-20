@@ -1570,3 +1570,172 @@ describe("transaction", () => {
 			});
 	});
 });
+
+describe("pembayaran", () => {
+	test("berhasil pembayaran piutang", (done) => {
+		getAccount;
+		const expectedResponse = {
+			message: "invalid input",
+		};
+		request(app)
+			.get("/pembayaran/1")
+			.set("access_token", access_token)
+			.expect(200)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body).toEqual(
+					expect.objectContaining({
+						id: expect.any(String),
+						external_id: expect.any(String),
+						user_id: expect.any(String),
+					})
+				);
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test("gagal pembayaran piutang", (done) => {
+		getAccount;
+		const expectedResponse = {
+			message: "Product does not exists",
+		};
+		request(app)
+			.get("/pembayaran/100")
+			.set("access_token", access_token)
+			.expect(404)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body).toEqual(expect.objectContaining(expectedResponse));
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test("berhasil pembayaran xendit", (done) => {
+		getAccount;
+		const expectedResponse = { message: "Invoice 1 Have Been Paid" };
+		const dataToXendit = {
+			external_id: 1,
+		};
+		request(app)
+			.post("/xendit/success")
+			.set("access_token", access_token)
+			.expect(200)
+			.send(dataToXendit)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body).toEqual(expect.objectContaining(expectedResponse));
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test("gagal pembayaran xendit", (done) => {
+		getAccount;
+		const expectedResponse = {
+			message: ["internal server error"],
+		};
+		const dataToXendit = {
+			external_id: 100,
+		};
+		request(app)
+			.post("/xendit/success")
+			.set("access_token", access_token)
+			.expect(500)
+			.send(dataToXendit)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body).toEqual(expect.objectContaining(expectedResponse));
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+});
+
+describe("Report", () => {
+	test("gagal report laba/rugi ", (done) => {
+		getAccount;
+		jest.spyOn(sequelize, "query").mockRejectedValue("Error");
+		request(app)
+			.get("/reports/labaRugi")
+			.set("access_token", access_token)
+			.expect(401)
+
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Array));
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test("berhasil report laba/rugi ", (done) => {
+		getAccount;
+
+		request(app)
+			.get("/reports/labaRugi")
+			.set("access_token", access_token)
+			.expect(200)
+
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body).toEqual(
+					expect.objectContaining({
+						bebanBalance: expect.any(Array),
+						hppBalance: expect.any(Array),
+						penjualan: expect.any(Array),
+					})
+				);
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test("berhasil report saldo ", (done) => {
+		getAccount;
+
+		request(app)
+			.get("/reports/saldo")
+			.set("access_token", access_token)
+			.expect(200)
+
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body).toEqual(
+					expect.objectContaining({
+						balanceBank: expect.any(Number),
+						balanceHutang: expect.any(Number),
+					})
+				);
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test("gagal report saldo ", (done) => {
+		getAccount;
+		jest.spyOn(Ledger, "findAll").mockRejectedValue("Error");
+		request(app)
+			.get("/reports/saldo")
+			.set("access_token", access_token)
+			.expect(500)
+
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+});

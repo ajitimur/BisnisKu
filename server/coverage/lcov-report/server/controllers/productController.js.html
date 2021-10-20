@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/14</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/14</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -96,32 +96,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -130,33 +130,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { Product } = require("../models");
 &nbsp;
 class ProductController {
-<span class="fstat-no" title="function not covered" >	st</span>atic async getAllProduct(req, res, next) {
-		const UserId = <span class="cstat-no" title="statement not covered" >req.user.id;</span>
-<span class="cstat-no" title="statement not covered" >		try {</span>
-			const result = <span class="cstat-no" title="statement not covered" >await Product.findAll({</span>
+	static async getAllProduct(req, res, next) {
+		const UserId = req.user.id;
+		try {
+			const result = await Product.findAll({
 				where: { UserId },
 			});
 &nbsp;
-<span class="cstat-no" title="statement not covered" >			res.status(200).json(result);</span>
+			res.status(200).json(result);
 		} catch (error) {
-<span class="cstat-no" title="statement not covered" >			next(error);</span>
+			next(error);
 		}
 	}
 &nbsp;
-<span class="fstat-no" title="function not covered" >	st</span>atic async getOneProduct(req, res, next) {
-		const ProductId = <span class="cstat-no" title="statement not covered" >req.params.id;</span>
-<span class="cstat-no" title="statement not covered" >		try {</span>
-			const result = <span class="cstat-no" title="statement not covered" >await Product.findOne({ where: { id: ProductId } });</span>
-<span class="cstat-no" title="statement not covered" >			if (!result) {</span>
-<span class="cstat-no" title="statement not covered" >				throw {</span>
+	static async getOneProduct(req, res, next) {
+		const ProductId = req.params.id;
+		try {
+			const result = await Product.findOne({ where: { id: ProductId } });
+			if (!result) {
+				throw {
 					name: "Product",
 					msg: "Product not Found",
 				};
 			}
-<span class="cstat-no" title="statement not covered" >			res.status(200).json(result);</span>
+			res.status(200).json(result);
 		} catch (error) {
 			// console.log(error);
-<span class="cstat-no" title="statement not covered" >			next(error);</span>
+			next(error);
 		}
 	}
 }
@@ -170,10 +170,14 @@ module.exports = ProductController;
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
 <<<<<<< HEAD
+                at Wed Oct 20 2021 01:29:02 GMT+0700 (Western Indonesia Time)
+=======
+<<<<<<< HEAD
                 at Tue Oct 19 2021 17:10:44 GMT+0800 (Singapore Standard Time)
 =======
                 at Tue Oct 19 2021 21:54:38 GMT+0700 (Waktu Indonesia Barat)
 >>>>>>> dc169ca62328332afaaf1ffe627791aeab514801
+>>>>>>> ecb213e7dff66d729512aa9f6967861c2de8cf3e
             </div>
         </div>
         <script src="../../prettify.js"></script>

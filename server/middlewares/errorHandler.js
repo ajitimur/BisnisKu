@@ -27,6 +27,7 @@ const errorHandler = (err, req, res, next) => {
 			code = 401;
 			message = err.msg;
 			break;
+		case "Pembayaran":
 		case "Product":
 			code = 404;
 			message = err.msg;
