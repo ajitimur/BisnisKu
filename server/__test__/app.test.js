@@ -94,7 +94,7 @@ beforeAll(async () => {
 		],
 		{}
 	);
-	//  await queryInterface.bulkInsert("Posts", arrayPost, {});
+	// await queryInterface.bulkInsert("Posts", arrayPost, {});
 });
 
 afterAll(async () => {
@@ -540,7 +540,7 @@ describe("modal ", () => {
 	});
 });
 
-describe("pembellian  ", () => {
+describe("pembellian ", () => {
 	test(" berhasil pembelian Cash dengan product yang sudah ada", (done) => {
 		getAccount;
 		let pembelian = {
@@ -842,7 +842,7 @@ describe("error pembelian", () => {
 });
 
 //TODO penjualan
-describe("penjualan  ", () => {
+describe("penjualan ", () => {
 	test(" penjualan berhasil menggunakan kas ", (done) => {
 		getAccount;
 		let penjualan = {
@@ -1201,7 +1201,7 @@ describe("penjualan  ", () => {
 	});
 });
 
-describe(" pengeluaran  ", () => {
+describe(" pengeluaran ", () => {
 	test(" pengeluaran berhasil menggunakan Cash ", (done) => {
 		getAccount;
 		let pengeluaran = {
@@ -1344,33 +1344,33 @@ describe(" pengeluaran  ", () => {
 	});
 });
 
-// describe(" report  ", () => {
-// 	test(" berashasil menerima reports laba atau rugi", (done) => {
-// 		getAccount;
-// 		request(app)
-// 			.get("/reports/labaRugi")
-// 			.set("access_token", access_token)
-// 			.expect(200)
-// 			.then((resp) => {
-// 				expect(resp.body).toEqual(expect.any(Object));
-// 				expect(resp.body).toEqual(
-// 					expect.objectContaining({
-// 						balancePenjualan: expect.any(Number),
-// 						balanceHpp: expect.any(Number),
-// 						balanceBeban: expect.any(Number),
-// 						balanceLabaRugi: expect.any(Number),
-// 					})
-// 				);
+// describe(" report ", () => {
+// test(" berashasil menerima reports laba atau rugi", (done) => {
+// getAccount;
+// request(app)
+// .get("/reports/labaRugi")
+// .set("access_token", access_token)
+// .expect(200)
+// .then((resp) => {
+// expect(resp.body).toEqual(expect.any(Object));
+// expect(resp.body).toEqual(
+// expect.objectContaining({
+// balancePenjualan: expect.any(Number),
+// balanceHpp: expect.any(Number),
+// balanceBeban: expect.any(Number),
+// balanceLabaRugi: expect.any(Number),
+// })
+// );
 
-// 				done();
-// 			})
-// 			.catch((err) => {
-// 				done(err);
-// 			});
-// 	});
+// done();
+// })
+// .catch((err) => {
+// done(err);
+// });
+// });
 // });
 
-describe(" authentication  ", () => {
+describe(" authentication ", () => {
 	test("authentication ", (done) => {
 		let exprectedResponse = {
 			message: "Invalid JWT",
@@ -1575,9 +1575,7 @@ describe("transaction", () => {
 describe("pembayaran", () => {
 	test("berhasil pembayaran piutang", (done) => {
 		getAccount;
-		const expectedResponse = {
-			message: "invalid input",
-		};
+
 		request(app)
 			.get("/pembayaran/1")
 			.set("access_token", access_token)
@@ -1661,23 +1659,23 @@ describe("pembayaran", () => {
 
 describe("Report", () => {
 	// test("gagal report laba/rugi ", (done) => {
-	// 	getAccount;
-	// 	const today = new Date();
-	// 	jest.spyOn(today, "getDate").mockRejectedValue(undefined);
-	// 	expect(ReportController.labaRugi(undefined, undefined, function (test) {}));
-	// 	request(app)
-	// 		.get("/reports/labaRugi")
-	// 		.set("access_token", access_token)
-	// 		.expect(401)
+	// getAccount;
+	// const today = new Date();
+	// jest.spyOn(today, "getDate").mockRejectedValue(undefined);
+	// expect(ReportController.labaRugi(undefined, undefined, function (test) {}));
+	// request(app)
+	// .get("/reports/labaRugi")
+	// .set("access_token", access_token)
+	// .expect(401)
 
-	// 		.then((resp) => {
-	// 			expect(resp.body).toEqual(expect.any(Array));
+	// .then((resp) => {
+	// expect(resp.body).toEqual(expect.any(Array));
 
-	// 			done();
-	// 		})
-	// 		.catch((err) => {
-	// 			done(err);
-	// 		});
+	// done();
+	// })
+	// .catch((err) => {
+	// done(err);
+	// });
 	// });
 	test("berhasil report laba/rugi ", (done) => {
 		getAccount;
