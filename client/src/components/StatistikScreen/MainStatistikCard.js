@@ -208,7 +208,7 @@ export default function MainStatistikCard() {
       >
         <TouchableOpacity>
           <Text
-            bg="blue.400"
+            bg="darkBlue.600"
             color="white"
             px="4"
             py="1"
@@ -220,7 +220,7 @@ export default function MainStatistikCard() {
         </TouchableOpacity>
         <TouchableOpacity>
           <Text
-            bg="blue.400"
+            bg="darkBlue.600"
             color="white"
             px="4"
             py="1"
@@ -232,7 +232,7 @@ export default function MainStatistikCard() {
         </TouchableOpacity>
         <TouchableOpacity>
           <Text
-            bg="blue.400"
+            bg="darkBlue.600"
             color="white"
             px="4"
             py="1"
