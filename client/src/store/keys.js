@@ -7,3 +7,4 @@ export const FETCH_CUSTOMERS = "customers/setCustomers";
 export const FETCH_INFO = "info/setInfo";
 
 export const isLoading = "loading/changeLoading";
+export const errorMsg = "errors/fillErrors";

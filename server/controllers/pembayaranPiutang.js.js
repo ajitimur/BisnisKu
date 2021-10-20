@@ -57,7 +57,7 @@ class PembayaranPiutangController {
 				res.status(200).json(resp);
 			} else {
 				throw {
-					name: `Pembayaran`,
+					name: `NOTFOUND`,
 					code: 404,
 					msg: `Product does not exists`,
 				};

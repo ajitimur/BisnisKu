@@ -21,7 +21,8 @@ export default function LainnyaScreen() {
   };
 
   const handleConfirm = (date) => {
-    const formattedDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
+    const formattedDate =
+      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
     console.log(formattedDate);
 
     console.warn("A date has been picked: ", date);
@@ -30,14 +31,15 @@ export default function LainnyaScreen() {
   return (
     <View flex={1} justifyContent="center" alignItems="center">
       <Text>Lainnya Screen</Text>
-      <Button mb="3" title="Show Date Picker" onPress={showDatePicker} >Test date</Button>
+      <Button mb="3" title="Show Date Picker" onPress={showDatePicker}></Button>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
       />
-      {/* <Button
+      <Button
+        title="Logout"
         onPress={async () => {
           try {
             await AsyncStorage.removeItem("access_token");
@@ -47,9 +49,7 @@ export default function LainnyaScreen() {
             console.log(err);
           }
         }}
-      >
-        Logout
-      </Button> */}
+      ></Button>
     </View>
   );
 }

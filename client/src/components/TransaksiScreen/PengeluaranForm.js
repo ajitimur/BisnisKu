@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -9,49 +9,52 @@ import {
   Button,
   ScrollView,
   Radio,
-  Icon
+  Icon,
+  Collapse,
+  Alert,
+  VStack,
+  HStack,
+  IconButton,
+  CloseIcon,
 } from "native-base";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
-import { addPengeluaran } from '../../store/actions/pengeluaranAction';
-import { useDispatch } from 'react-redux';
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { addPengeluaran } from "../../store/actions/pengeluaranAction";
+import { useDispatch } from "react-redux";
 
 export default function PengeluaranForm() {
-  const dispatch = useDispatch()
-  const [pembayaran, setPembayaran] = useState("")
+  const dispatch = useDispatch();
+  const [showAlert, setShowAlert] = useState(false);
+  const [pembayaran, setPembayaran] = useState("");
   const [inputData, setInputData] = useState({
     amount: 0,
-    description: ""
-  })
+    description: "",
+  });
 
-  const { amount, description } = inputData
+  const { amount, description } = inputData;
 
   const handleInput = (value, fieldName) => {
     setInputData({ ...inputData, [fieldName]: value });
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
-      await dispatch(addPengeluaran(inputData, pembayaran))
+      await dispatch(addPengeluaran(inputData, pembayaran));
+      setShowAlert(true);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View
-          p="4"
-          bg="white"
-          roundedBottom="2xl"
-          shadow={4}
-          mx={30}
-          mb={30}
-        >
+        <View p="4" bg="white" roundedBottom="2xl" shadow={4} mx={30} mb={30}>
           <FormControl>
-            <FormControl.Label _text={{ fontSize: 16 }}>Nominal Pengeluaran</FormControl.Label>
+            <FormControl.Label _text={{ fontSize: 16 }}>
+              Nominal Pengeluaran
+            </FormControl.Label>
             <Input
               onChangeText={(value) => handleInput(value, "amount")}
               value={amount}
@@ -69,7 +72,9 @@ export default function PengeluaranForm() {
             />
           </FormControl>
           <FormControl mt="3">
-            <FormControl.Label _text={{ fontSize: 16 }}>Deskirpsi</FormControl.Label>
+            <FormControl.Label _text={{ fontSize: 16 }}>
+              Deskirpsi
+            </FormControl.Label>
             <Input
               onChangeText={(value) => handleInput(value, "description")}
               value={description}
@@ -91,9 +96,7 @@ export default function PengeluaranForm() {
             alignItems="center"
             mt="2"
           >
-            <Text
-              fontSize={16}
-            >Pembayaran :{" "}</Text>
+            <Text fontSize={16}>Pembayaran : </Text>
             <Radio.Group
               size="lg"
               name="exampleGroup"
@@ -131,19 +134,45 @@ export default function PengeluaranForm() {
           </View>
         </View>
       </ScrollView>
-      <Box
-        h={60}
-        bg="blue.400"
-        w="100%"
-      >
+      <Collapse isOpen={showAlert} my={5}>
+        <Alert w="100%" status="success">
+          <VStack space={1} flexShrink={1} w="100%">
+            <HStack
+              flexShrink={1}
+              space={2}
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <HStack flexShrink={1} space={2} alignItems="center">
+                <Alert.Icon />
+                <Text
+                  fontSize="md"
+                  fontWeight="medium"
+                  _dark={{
+                    color: "coolGray.800",
+                  }}
+                >
+                  Pengeluaran berhasil!
+                </Text>
+              </HStack>
+              <IconButton
+                variant="unstyled"
+                icon={<CloseIcon size="3" color="coolGray.600" />}
+                onPress={() => setShowAlert(false)}
+              />
+            </HStack>
+          </VStack>
+        </Alert>
+      </Collapse>
+      <Box h={60} bg="blue.400" w="100%">
         <Button
           bg="darkBlue.600"
           mx={75}
           rounded="full"
           p="3"
           _text={{
-            "fontWeight": "bold",
-            "fontSize": "md"
+            fontWeight: "bold",
+            fontSize: "md",
           }}
           top={-20}
           shadow={4}
@@ -153,5 +182,5 @@ export default function PengeluaranForm() {
         </Button>
       </Box>
     </>
-  )
+  );
 }

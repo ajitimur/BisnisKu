@@ -10,20 +10,31 @@ import {
   Text,
   View,
   ScrollView,
+  Alert,
+  VStack,
+  HStack,
+  IconButton,
+  CloseIcon,
+  Collapse,
 } from "native-base";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { addNewProduct } from "../store/actions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Addnewproduct = ({ navigation }) => {
   const dispatch = useDispatch();
+  const [showAlert, setShowAlert] = useState(false);
+  const [money, setMoney] = useState(false);
   const [productData, setProductData] = useState({
     productName: "",
     quantity: "",
     unit: "",
     basePrice: "",
     sellPrice: "",
+  });
+  const info = useSelector((state) => {
+    return state.info;
   });
 
   const [pembayaran, setPembayaran] = useState(0);
@@ -45,28 +56,15 @@ const Addnewproduct = ({ navigation }) => {
   }
 
   return (
-    <View
-      bg="muted.100"
-      h="100%"
-    >
+    <View bg="muted.100" h="100%">
       <StatusBar
         translucent
         backgroundColor="transparent"
         barStyle="dark-content"
       />
-      <Box
-        safeAreaTop
-        bg="blue.400"
-        h={75}
-      />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-      >
-        <Box
-          bg="blue.400"
-          h={75}
-          roundedBottomRight={70}
-        />
+      <Box safeAreaTop bg="blue.400" h={75} />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Box bg="blue.400" h={75} roundedBottomRight={70} />
         <View
           bg="white"
           rounded="2xl"
@@ -74,12 +72,15 @@ const Addnewproduct = ({ navigation }) => {
           mx={30}
           mb={30}
           p="4"
-          style={{
-            marginTop: -67,
-          }}
+          my={-5}
+          // style={{
+          //   marginTop: -20,
+          // }}
         >
           <FormControl>
-            <FormControl.Label _text={{ fontSize: 16 }}>Nama Produk</FormControl.Label>
+            <FormControl.Label _text={{ fontSize: 16 }}>
+              Nama Produk
+            </FormControl.Label>
             <Input
               onChangeText={(value) => formHandler(value, "productName")}
               type="text"
@@ -95,7 +96,9 @@ const Addnewproduct = ({ navigation }) => {
             />
           </FormControl>
           <FormControl mt="3">
-            <FormControl.Label _text={{ fontSize: 16 }}>Kuantitas</FormControl.Label>
+            <FormControl.Label _text={{ fontSize: 16 }}>
+              Kuantitas
+            </FormControl.Label>
             <Input
               onChangeText={(value) => formHandler(value, "quantity")}
               type="text"
@@ -128,7 +131,9 @@ const Addnewproduct = ({ navigation }) => {
             />
           </FormControl>
           <FormControl mt="3">
-            <FormControl.Label _text={{ fontSize: 16 }}>Harga Satuan</FormControl.Label>
+            <FormControl.Label _text={{ fontSize: 16 }}>
+              Harga Satuan
+            </FormControl.Label>
             <Input
               onChangeText={(value) => formHandler(value, "basePrice")}
               type="text"
@@ -145,7 +150,9 @@ const Addnewproduct = ({ navigation }) => {
             />
           </FormControl>
           <FormControl mt="3">
-            <FormControl.Label _text={{ fontSize: 16 }}>Harga Jual</FormControl.Label>
+            <FormControl.Label _text={{ fontSize: 16 }}>
+              Harga Jual
+            </FormControl.Label>
             <Input
               onChangeText={(value) => formHandler(value, "sellPrice")}
               type="text"
@@ -161,15 +168,10 @@ const Addnewproduct = ({ navigation }) => {
               }}
             />
           </FormControl>
-          <Text
-            fontSize={16}
-            mt="2"
-          >
+          <Text fontSize={16} mt="2">
             Pembayaran :{" "}
           </Text>
-          <View
-            alignItems="center"
-          >
+          <View alignItems="center">
             <Radio.Group
               size="lg"
               name="exampleGroup"
@@ -210,7 +212,9 @@ const Addnewproduct = ({ navigation }) => {
                 size="md"
                 colorScheme="red"
                 value="3"
-                icon={<Icon as={<MaterialCommunityIcons name="cash-remove" />} />}
+                icon={
+                  <Icon as={<MaterialCommunityIcons name="cash-remove" />} />
+                }
                 my={1}
               >
                 Hutang
@@ -219,32 +223,86 @@ const Addnewproduct = ({ navigation }) => {
           </View>
         </View>
       </ScrollView>
-      <Box
-        h={60}
-        bg="blue.400"
-        w="100%"
-        position="relative"
-      >
+      <Collapse isOpen={showAlert} my={5}>
+        <Alert w="100%" status="error">
+          <VStack space={1} flexShrink={1} w="100%">
+            <HStack
+              flexShrink={1}
+              space={2}
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <HStack flexShrink={1} space={2} alignItems="center">
+                <Alert.Icon />
+                <Text
+                  fontSize="md"
+                  fontWeight="medium"
+                  _dark={{
+                    color: "coolGray.800",
+                  }}
+                >
+                  {money
+                    ? "Balance anda tidak cukup"
+                    : "Input Masih ada yang kosong!"}
+                </Text>
+              </HStack>
+              <IconButton
+                variant="unstyled"
+                icon={<CloseIcon size="3" color="coolGray.600" />}
+                onPress={() => {
+                  setMoney(false);
+                  setShowAlert(false);
+                }}
+              />
+            </HStack>
+          </VStack>
+        </Alert>
+      </Collapse>
+      <Box h={60} bg="blue.400" w="100%" position="relative">
         <Button
           bg="darkBlue.600"
           mx={75}
           rounded="full"
           p="3"
           _text={{
-            "fontWeight": "bold",
-            "fontSize": "md"
+            fontWeight: "bold",
+            fontSize: "md",
           }}
           top={-20}
           shadow={4}
           onPress={() => {
-            if (pembayaran == 3) {
-              dispatch(addNewProduct(acc_token, productData, "cash"));
+            let amount = +productData.basePrice * +productData.quantity;
+            let calculationKas = +info.balanceKas - amount;
+            let calculationBank = +info.balanceBank - amount;
+            if (
+              pembayaran == 0 ||
+              !productData.productName ||
+              !productData.quantity ||
+              !productData.unit ||
+              !productData.basePrice ||
+              !productData.sellPrice
+            ) {
+              setShowAlert(true);
+            } else if (pembayaran == 3) {
+              navigation.goBack();
+              dispatch(addNewProduct(productData, "hutang"));
             } else if (pembayaran == 2) {
-              dispatch(addNewProduct(acc_token, productData, "hutang"));
+              if (calculationKas < 0) {
+                setMoney(true);
+                setShowAlert(true);
+              } else {
+                navigation.goBack();
+                dispatch(addNewProduct(productData, "cash"));
+              }
             } else if (pembayaran == 1) {
-              dispatch(addNewProduct(acc_token, productData, "bank"));
+              if (calculationBank < 0) {
+                setMoney(true);
+                setShowAlert(true);
+              } else {
+                navigation.goBack();
+                dispatch(addNewProduct(productData, "bank"));
+              }
             }
-            navigation.goBack();
           }}
         >
           Tambah Produk

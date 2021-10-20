@@ -9,7 +9,7 @@ import {
   Link,
   FlatList,
   ScrollView,
-  Heading
+  Heading,
 } from "native-base";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllProduct } from "../store/actions";
@@ -28,7 +28,7 @@ const Productscreen = ({ navigation }) => {
   });
 
   useEffect(() => {
-    dispatch(getAllProduct())
+    dispatch(getAllProduct());
   }, []);
 
   function renderProduct(item) {
@@ -48,17 +48,12 @@ const Productscreen = ({ navigation }) => {
           }}
           isExternal
         >
-          <View
-            width="100%"
-            p="3"
-            alignItems="center"
-          >
-            <View
-              mb="3"
-              alignItems="center"
-            >
+          <View width="100%" p="3" alignItems="center">
+            <View mb="3" alignItems="center">
               <Heading fontSize={19}>{item.productName}</Heading>
-              <Heading fontSize={13}>{formatter.format(item.basePrice)}{" "}</Heading>
+              <Heading fontSize={13}>
+                {formatter.format(item.basePrice)}{" "}
+              </Heading>
             </View>
             <View
               w="100%"
@@ -67,8 +62,8 @@ const Productscreen = ({ navigation }) => {
                 item.quantity === 0
                   ? "danger.400"
                   : item.quantity < 10
-                    ? "yellow.400"
-                    : "success.500"
+                  ? "yellow.400"
+                  : "success.500"
               }
               rounded="md"
             >
@@ -77,8 +72,8 @@ const Productscreen = ({ navigation }) => {
                   item.quantity === 0
                     ? "white"
                     : item.quantity < 10
-                      ? "dark.200"
-                      : "white"
+                    ? "dark.200"
+                    : "white"
                 }
                 fontWeight="medium"
               >
@@ -92,84 +87,32 @@ const Productscreen = ({ navigation }) => {
   }
 
   return (
-    <View
-      bg="muted.100"
-      h="100%"
-    >
+    <View bg="muted.100" h="100%">
       <StatusBar
         translucent
         backgroundColor="transparent"
         barStyle="dark-content"
       />
-      <Box
-        safeAreaTop
-        bg="blue.400"
-      />
-      <Box
-        bg="blue.400"
-        h={125}
-        alignItems="center"
-      >
-        <Heading
-          color="dark.200"
-          mt="2"
-        >
+      <Box safeAreaTop bg="blue.400" />
+      <Box bg="blue.400" h={125} alignItems="center">
+        <Heading color="dark.200" mt="2">
           List Produk{"  "}
         </Heading>
       </Box>
       <View mx={30}>
         <Box
-          mt={-75}
+          mt={-60}
           rounded="xl"
-          h={125}
+          h={100}
           bg="white"
           shadow={4}
           style={{
             paddingHorizontal: 40,
-            paddingVertical: 15
+            paddingVertical: 15,
           }}
           justifyContent="space-around"
           mb="2"
         >
-          <View
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <TouchableOpacity>
-              <Text
-                bg="blue.400"
-                color="white"
-                px="4"
-                py="1"
-                rounded="full"
-              >
-                filter 1
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text
-                bg="blue.400"
-                color="white"
-                px="4"
-                py="1"
-                rounded="full"
-              >
-                filter 2
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text
-                bg="blue.400"
-                color="white"
-                px="4"
-                py="1"
-                rounded="full"
-              >
-                filter 3
-              </Text>
-            </TouchableOpacity>
-          </View>
           <Button
             rounded="lg"
             bg="darkBlue.600"
@@ -181,13 +124,11 @@ const Productscreen = ({ navigation }) => {
           </Button>
         </Box>
       </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View
           mx={25}
           style={{
-            marginBottom: 95
+            marginBottom: 95,
           }}
         >
           <FlatList
