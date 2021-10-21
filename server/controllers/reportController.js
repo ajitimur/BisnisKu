@@ -12,24 +12,23 @@ const dayjs = require("dayjs");
 const { QueryTypes } = require("sequelize");
 
 class ReportController {
-	static async labaRugi(req, res, next) {
-		const UserId = req.user.id;
-		const today = new Date();
-		const startDate = today.getDate();
+  static async labaRugi(req, res, next) {
+    const UserId = req.user.id;
+    const today = new Date();
+    const startDate = today.getDate();
 
-		try {
-			const result = await Product.findAll({
-				where: { UserId },
-			});
+    try {
+      const result = await Product.findAll({
+        where: { UserId },
+      });
 
-			//Cari saldo penjualan
-			// let sevenDaysAgo = dayjs(new Date()).subtract(7, 'day').format('DD')
-			// console.log(sevenDaysAgo, 'test')
-			const penjualan = await sequelize.query(
-				`SELECT Sum(amount) AS "penjualan", DATE("createdAt") FROM "Ledgers"
-      where extract(day from "createdAt") <= '${startDate}' AND extract(day from "createdAt") >= '${
-					startDate - 7
-				}'
+      //Cari saldo penjualan
+      // let sevenDaysAgo = dayjs(new Date()).subtract(7, 'day').format('DD')
+      // console.log(sevenDaysAgo, 'test')
+      const penjualan = await sequelize.query(
+        `SELECT Sum(amount) AS "penjualan", DATE("createdAt") FROM "Ledgers"
+      where extract(day from "createdAt") <= '${startDate}' AND extract(day from "createdAt") >= '${startDate - 7
+        }'
       And "AccountId" = 7 And "UserId" = ${UserId}
       GROUP BY date;`,
 				{ type: QueryTypes.SELECT }
@@ -53,29 +52,33 @@ class ReportController {
 				}'
       And "AccountId" = 9 And "UserId" = ${UserId}
       GROUP BY date;`,
-				{ type: QueryTypes.SELECT }
-			);
+        { type: QueryTypes.SELECT }
+      );
 
-			res.status(200).json({ penjualan, hppBalance, bebanBalance });
-		} catch (error) {
-			// console.log(error, `<<<<<<<`);
-			next(error);
-		}
-	}
+      for (let [i, value] of penjualan.entries()) {
+        value.grossProfit = value.penjualan - hppBalance[i].HPP;
+      }
 
-	static async labaRugiBulanan(req, res, next) {
-		const UserId = req.user.id;
-		const today = new Date();
-		const currentMonth = today.getMonth() + 1;
+      res.status(200).json({ penjualan, hppBalance, bebanBalance });
+    } catch (error) {
+      // console.log(error, `<<<<<<<`);
+      next(error);
+    }
+  }
 
-		try {
-			const result = await Product.findAll({
-				where: { UserId },
-			});
+  static async labaRugiBulanan(req, res, next) {
+    const UserId = req.user.id;
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1;
 
-			console.log(today, currentMonth);
-			const penjualan = await sequelize.query(
-				`SELECT Sum(amount) AS "penjualan", DATE("createdAt") FROM "Ledgers"
+    try {
+      const result = await Product.findAll({
+        where: { UserId },
+      });
+
+      console.log(today, currentMonth);
+      const penjualan = await sequelize.query(
+        `SELECT Sum(amount) AS "penjualan", DATE("createdAt") FROM "Ledgers"
       where extract(month from "createdAt") = '${currentMonth}'
       And "AccountId" = 7 And "UserId" = ${UserId}
       GROUP BY date;`,
@@ -99,9 +102,9 @@ class ReportController {
 				{ type: QueryTypes.SELECT }
 			);
 
-			penjualan.forEach((el, i) => {
-				el.grossProfit = el.penjualan - hppBalance[i].HPP;
-			});
+			for (let [i, value] of penjualan.entries()) {
+        value.grossProfit = value.penjualan - hppBalance[i].HPP;
+      }
 
 			res.status(200).json({ penjualan, hppBalance, bebanBalance });
 		} catch (error) {
