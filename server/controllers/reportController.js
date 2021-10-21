@@ -1,10 +1,10 @@
 const {
-  Customer,
-  Ledger,
-  Product,
-  Transaction,
-  sequelize,
-  Sequelize,
+	Customer,
+	Ledger,
+	Product,
+	Transaction,
+	sequelize,
+	Sequelize,
 } = require("../models");
 const Op = Sequelize.Op;
 const { getAccount, accounts } = require("../helpers/dataAccounts");
@@ -31,23 +31,25 @@ class ReportController {
         }'
       And "AccountId" = 7 And "UserId" = ${UserId}
       GROUP BY date;`,
-        { type: QueryTypes.SELECT }
-      );
-      // console.log(penjualan, 'isi credit')
+				{ type: QueryTypes.SELECT }
+			);
+			// console.log(penjualan, 'isi credit')
 
-      const hppBalance = await sequelize.query(
-        `SELECT Sum(amount) AS "HPP", DATE("createdAt") FROM "Ledgers"
-      where extract(day from "createdAt") <= '${startDate}' AND extract(day from "createdAt") >= '${startDate - 7
-        }'
+			const hppBalance = await sequelize.query(
+				`SELECT Sum(amount) AS "HPP", DATE("createdAt") FROM "Ledgers"
+      where extract(day from "createdAt") <= '${startDate}' AND extract(day from "createdAt") >= '${
+					startDate - 7
+				}'
       And "AccountId" = 8 And "UserId" = ${UserId}
       GROUP BY date;`,
-        { type: QueryTypes.SELECT }
-      );
+				{ type: QueryTypes.SELECT }
+			);
 
-      const bebanBalance = await sequelize.query(
-        `SELECT Sum(amount) AS "HPP", DATE("createdAt") FROM "Ledgers"
-      where extract(day from "createdAt") <= '${startDate}' AND extract(day from "createdAt") >= '${startDate - 7
-        }'
+			const bebanBalance = await sequelize.query(
+				`SELECT Sum(amount) AS "HPP", DATE("createdAt") FROM "Ledgers"
+      where extract(day from "createdAt") <= '${startDate}' AND extract(day from "createdAt") >= '${
+					startDate - 7
+				}'
       And "AccountId" = 9 And "UserId" = ${UserId}
       GROUP BY date;`,
         { type: QueryTypes.SELECT }
@@ -80,182 +82,182 @@ class ReportController {
       where extract(month from "createdAt") = '${currentMonth}'
       And "AccountId" = 7 And "UserId" = ${UserId}
       GROUP BY date;`,
-        { type: QueryTypes.SELECT }
-      );
-      // console.log(penjualan, 'isi credit')
+				{ type: QueryTypes.SELECT }
+			);
+			// console.log(penjualan, 'isi credit')
 
-      const hppBalance = await sequelize.query(
-        `SELECT Sum(amount) AS "HPP", DATE("createdAt") FROM "Ledgers"
+			const hppBalance = await sequelize.query(
+				`SELECT Sum(amount) AS "HPP", DATE("createdAt") FROM "Ledgers"
       where extract(month from "createdAt") = '${currentMonth}'
       And "AccountId" = 8 And "UserId" = ${UserId}
       GROUP BY date;`,
-        { type: QueryTypes.SELECT }
-      );
+				{ type: QueryTypes.SELECT }
+			);
 
-      const bebanBalance = await sequelize.query(
-        `SELECT Sum(amount) AS "beban", DATE("createdAt") FROM "Ledgers"
+			const bebanBalance = await sequelize.query(
+				`SELECT Sum(amount) AS "beban", DATE("createdAt") FROM "Ledgers"
       where extract(month from "createdAt") = '${currentMonth}'
       And "AccountId" = 9 And "UserId" = ${UserId}
       GROUP BY date;`,
-        { type: QueryTypes.SELECT }
-      );
+				{ type: QueryTypes.SELECT }
+			);
 
-      for (let [i, value] of penjualan.entries()) {
+			for (let [i, value] of penjualan.entries()) {
         value.grossProfit = value.penjualan - hppBalance[i].HPP;
       }
 
-      res.status(200).json({ penjualan, hppBalance, bebanBalance });
-    } catch (error) {
-      next(error);
-    }
-  }
+			res.status(200).json({ penjualan, hppBalance, bebanBalance });
+		} catch (error) {
+			next(error);
+		}
+	}
 
-  static async getSaldo(req, res, next) {
-    const UserId = req.user.id;
-    let totalKasDebet = 0;
-    let totalKasKredit = 0;
-    let totalBankDebet = 0;
-    let totalBankKredit = 0;
-    let totalPiutangDebet = 0;
-    let totalPiutangKredit = 0;
-    let totalHutangkDebet = 0;
-    let totalHutangkKredit = 0;
-    const t = await sequelize.transaction();
-    try {
-      const kasDebet = await Ledger.findAll(
-        {
-          where: {
-            AccountId: accounts.Kas,
-            UserId: UserId,
-            transactionType: "Debet",
-          },
-        },
-        { transaction: t }
-      );
-      const kasKredit = await Ledger.findAll(
-        {
-          where: {
-            AccountId: accounts.Kas,
-            UserId: UserId,
-            transactionType: "Credit",
-          },
-        },
-        { transaction: t }
-      );
+	static async getSaldo(req, res, next) {
+		const UserId = req.user.id;
+		let totalKasDebet = 0;
+		let totalKasKredit = 0;
+		let totalBankDebet = 0;
+		let totalBankKredit = 0;
+		let totalPiutangDebet = 0;
+		let totalPiutangKredit = 0;
+		let totalHutangkDebet = 0;
+		let totalHutangkKredit = 0;
+		const t = await sequelize.transaction();
+		try {
+			const kasDebet = await Ledger.findAll(
+				{
+					where: {
+						AccountId: accounts.Kas,
+						UserId: UserId,
+						transactionType: "Debet",
+					},
+				},
+				{ transaction: t }
+			);
+			const kasKredit = await Ledger.findAll(
+				{
+					where: {
+						AccountId: accounts.Kas,
+						UserId: UserId,
+						transactionType: "Credit",
+					},
+				},
+				{ transaction: t }
+			);
 
-      kasDebet.forEach((el) => {
-        totalKasDebet += el.amount;
-      });
-      kasKredit.forEach((el) => {
-        totalKasKredit += el.amount;
-      });
+			kasDebet.forEach((el) => {
+				totalKasDebet += el.amount;
+			});
+			kasKredit.forEach((el) => {
+				totalKasKredit += el.amount;
+			});
 
-      const balanceKas = totalKasDebet - totalKasKredit;
+			const balanceKas = totalKasDebet - totalKasKredit;
 
-      //Bank
-      const bankDebet = await Ledger.findAll(
-        {
-          where: {
-            AccountId: accounts.Bank,
-            UserId: UserId,
-            transactionType: "Debet",
-          },
-        },
-        { transaction: t }
-      );
-      const bankKredit = await Ledger.findAll(
-        {
-          where: {
-            AccountId: accounts.Bank,
-            UserId: UserId,
-            transactionType: "Credit",
-          },
-        },
-        { transaction: t }
-      );
+			//Bank
+			const bankDebet = await Ledger.findAll(
+				{
+					where: {
+						AccountId: accounts.Bank,
+						UserId: UserId,
+						transactionType: "Debet",
+					},
+				},
+				{ transaction: t }
+			);
+			const bankKredit = await Ledger.findAll(
+				{
+					where: {
+						AccountId: accounts.Bank,
+						UserId: UserId,
+						transactionType: "Credit",
+					},
+				},
+				{ transaction: t }
+			);
 
-      bankDebet.forEach((el) => {
-        totalBankDebet += el.amount;
-      });
-      bankKredit.forEach((el) => {
-        totalBankKredit += el.amount;
-      });
+			bankDebet.forEach((el) => {
+				totalBankDebet += el.amount;
+			});
+			bankKredit.forEach((el) => {
+				totalBankKredit += el.amount;
+			});
 
-      const balanceBank = totalBankDebet - totalBankKredit;
+			const balanceBank = totalBankDebet - totalBankKredit;
 
-      //piutang
-      const piutangDebet = await Ledger.findAll(
-        {
-          where: {
-            AccountId: accounts.Piutang,
-            UserId: UserId,
-            transactionType: "Debet",
-          },
-        },
-        { transaction: t }
-      );
-      const piutangKredit = await Ledger.findAll(
-        {
-          where: {
-            AccountId: accounts.Piutang,
-            UserId: UserId,
-            transactionType: "Credit",
-          },
-        },
-        { transaction: t }
-      );
+			//piutang
+			const piutangDebet = await Ledger.findAll(
+				{
+					where: {
+						AccountId: accounts.Piutang,
+						UserId: UserId,
+						transactionType: "Debet",
+					},
+				},
+				{ transaction: t }
+			);
+			const piutangKredit = await Ledger.findAll(
+				{
+					where: {
+						AccountId: accounts.Piutang,
+						UserId: UserId,
+						transactionType: "Credit",
+					},
+				},
+				{ transaction: t }
+			);
 
-      piutangDebet.forEach((el) => {
-        totalPiutangDebet += el.amount;
-      });
-      piutangKredit.forEach((el) => {
-        totalPiutangKredit += el.amount;
-      });
+			piutangDebet.forEach((el) => {
+				totalPiutangDebet += el.amount;
+			});
+			piutangKredit.forEach((el) => {
+				totalPiutangKredit += el.amount;
+			});
 
-      const balancePiutang = totalPiutangDebet - totalPiutangKredit;
+			const balancePiutang = totalPiutangDebet - totalPiutangKredit;
 
-      //Hutang
-      const hutangDebet = await Ledger.findAll(
-        {
-          where: {
-            AccountId: accounts.Hutang,
-            UserId: UserId,
-            transactionType: "Debet",
-          },
-        },
-        { transaction: t }
-      );
-      const hutangKredit = await Ledger.findAll(
-        {
-          where: {
-            AccountId: accounts.Hutang,
-            UserId: UserId,
-            transactionType: "Credit",
-          },
-        },
-        { transaction: t }
-      );
+			//Hutang
+			const hutangDebet = await Ledger.findAll(
+				{
+					where: {
+						AccountId: accounts.Hutang,
+						UserId: UserId,
+						transactionType: "Debet",
+					},
+				},
+				{ transaction: t }
+			);
+			const hutangKredit = await Ledger.findAll(
+				{
+					where: {
+						AccountId: accounts.Hutang,
+						UserId: UserId,
+						transactionType: "Credit",
+					},
+				},
+				{ transaction: t }
+			);
 
-      hutangDebet.forEach((el) => {
-        totalHutangkDebet += el.amount;
-      });
-      hutangKredit.forEach((el) => {
-        totalHutangkKredit += el.amount;
-      });
+			hutangDebet.forEach((el) => {
+				totalHutangkDebet += el.amount;
+			});
+			hutangKredit.forEach((el) => {
+				totalHutangkKredit += el.amount;
+			});
 
-      const balanceHutang = totalHutangkKredit - totalHutangkDebet;
+			const balanceHutang = totalHutangkKredit - totalHutangkDebet;
 
-      await t.commit();
+			await t.commit();
 
-      res
-        .status(200)
-        .json({ balanceKas, balanceBank, balancePiutang, balanceHutang });
-    } catch (error) {
-      await t.rollback();
-      console.log(error);
-      next(error);
-    }
-  }
+			res
+				.status(200)
+				.json({ balanceKas, balanceBank, balancePiutang, balanceHutang });
+		} catch (error) {
+			await t.rollback();
+			console.log(error);
+			next(error);
+		}
+	}
 }
 
 module.exports = ReportController;
