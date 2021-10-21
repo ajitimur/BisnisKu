@@ -1,6 +1,7 @@
 const request = require("supertest");
 const { getAccount, accounts } = require("../helpers/dataAccounts");
 const app = require("../app");
+const ReportController = require("../controllers/reportController");
 
 const {
 	Account,
@@ -93,7 +94,7 @@ beforeAll(async () => {
 		],
 		{}
 	);
-	//  await queryInterface.bulkInsert("Posts", arrayPost, {});
+	// await queryInterface.bulkInsert("Posts", arrayPost, {});
 });
 
 afterAll(async () => {
@@ -539,7 +540,7 @@ describe("modal ", () => {
 	});
 });
 
-describe("pembellian  ", () => {
+describe("pembellian ", () => {
 	test(" berhasil pembelian Cash dengan product yang sudah ada", (done) => {
 		getAccount;
 		let pembelian = {
@@ -721,6 +722,29 @@ describe("pembellian bank ", () => {
 				done(err);
 			});
 	});
+	test(" berhasil pembelian bank dengan product yang sudah ada tanpa sellprice", (done) => {
+		getAccount;
+		let pembelian = {
+			productName: "Pepsodent",
+			quantity: 1,
+			unit: "pcs",
+			basePrice: 5000,
+		};
+		request(app)
+			.post("/pembelian/bank")
+			.set("access_token", access_token)
+			.send(pembelian)
+			.expect(200)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Array));
+				expect(resp.body[0]).toBe(0);
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
 	test(" berhasil pembelian bank dengan product yang belum ada atau product baru", (done) => {
 		getAccount;
 		let pembelian = {
@@ -749,6 +773,29 @@ describe("pembellian bank ", () => {
 						sellPrice: expect.any(Number),
 					})
 				);
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test(" berhasil pembelian bank dengan product yang belum ada atau product baru tanpa sell price", (done) => {
+		getAccount;
+		let pembelian = {
+			productName: "colgate white",
+			quantity: 6,
+			unit: "pcs",
+			basePrice: 8000,
+		};
+		request(app)
+			.post("/pembelian/bank")
+			.set("access_token", access_token)
+			.send(pembelian)
+			.expect(200)
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Array));
+				expect(resp.body[1]).toBe(undefined);
 
 				done();
 			})
@@ -841,14 +888,14 @@ describe("error pembelian", () => {
 });
 
 //TODO penjualan
-describe("penjualan  ", () => {
+describe("penjualan ", () => {
 	test(" penjualan berhasil menggunakan kas ", (done) => {
 		getAccount;
 		let penjualan = {
-      CustomerId: 1,
-      ProductId: 1,
-      quantity: 1,
-      category: "cash"
+			CustomerId: 1,
+			ProductId: 1,
+			quantity: 1,
+			category: "cash",
 		};
 		request(app)
 			.post("/penjualan/cash")
@@ -877,11 +924,11 @@ describe("penjualan  ", () => {
 	});
 	test(" penjualan berhasil menggunakan Piutang ", (done) => {
 		getAccount;
-    let penjualan = {
-      CustomerId: 1,
-      ProductId: 1,
-      quantity: 1,
-      dueDate: "2021-10-25"
+		let penjualan = {
+			CustomerId: 1,
+			ProductId: 1,
+			quantity: 1,
+			dueDate: "2021-10-25",
 		};
 		request(app)
 			.post("/penjualan/Piutang")
@@ -912,10 +959,10 @@ describe("penjualan  ", () => {
 	test("penjualan piutang melebihi yang ada di stock", (done) => {
 		getAccount;
 		let penjualan = {
-      CustomerId: 1,
-      ProductId: 1,
-      quantity: 9999,
-      dueDate: new Date()
+			CustomerId: 1,
+			ProductId: 1,
+			quantity: 9999,
+			dueDate: new Date(),
 		};
 		let exprectedResponse = {
 			message: `Cannot sell more than available quantity`,
@@ -939,11 +986,11 @@ describe("penjualan  ", () => {
 
 	test("penjualan cash melebihi yang ada di stock", (done) => {
 		getAccount;
-    let penjualan = {
-      CustomerId: 1,
-      ProductId: 1,
-      quantity: 999999,
-      category: "cash"
+		let penjualan = {
+			CustomerId: 1,
+			ProductId: 1,
+			quantity: 999999,
+			category: "cash",
 		};
 		let exprectedResponse = {
 			message: `Cannot sell more than available quantity`,
@@ -965,15 +1012,13 @@ describe("penjualan  ", () => {
 			});
 	});
 
-	
-
 	test(" penjualan berhasil menggunakan bank ", (done) => {
 		getAccount;
 		let penjualan = {
-      CustomerId: 1,
-      ProductId: 1,
-      quantity: 2,
-      category: "bank"
+			CustomerId: 1,
+			ProductId: 1,
+			quantity: 2,
+			category: "bank",
 		};
 		request(app)
 			.post("/penjualan/cash")
@@ -1004,10 +1049,10 @@ describe("penjualan  ", () => {
 	test("menjual barang yang tidak ada secara cash", (done) => {
 		getAccount;
 		let penjualan = {
-      CustomerId: 1,
-      ProductId: 99,
-      quantity: 1,
-      category: "cash"
+			CustomerId: 1,
+			ProductId: 99,
+			quantity: 1,
+			category: "cash",
 		};
 		let exprectedResponse = {
 			message: `Product does not exists`,
@@ -1066,7 +1111,7 @@ describe("penjualan  ", () => {
 	});
 });
 
-describe(" pengeluaran  ", () => {
+describe(" pengeluaran ", () => {
 	test(" pengeluaran berhasil menggunakan Cash ", (done) => {
 		getAccount;
 		let pengeluaran = {
@@ -1209,33 +1254,33 @@ describe(" pengeluaran  ", () => {
 	});
 });
 
-describe(" report  ", () => {
-	test(" berashasil menerima reports laba atau rugi", (done) => {
-		getAccount;
-		request(app)
-			.get("/reports/labaRugi")
-			.set("access_token", access_token)
-			.expect(200)
-			.then((resp) => {
-				expect(resp.body).toEqual(expect.any(Object));
-				expect(resp.body).toEqual(
-					expect.objectContaining({
-						balancePenjualan: expect.any(Number),
-						balanceHpp: expect.any(Number),
-						balanceBeban: expect.any(Number),
-						balanceLabaRugi: expect.any(Number),
-					})
-				);
+// describe(" report ", () => {
+// test(" berashasil menerima reports laba atau rugi", (done) => {
+// getAccount;
+// request(app)
+// .get("/reports/labaRugi")
+// .set("access_token", access_token)
+// .expect(200)
+// .then((resp) => {
+// expect(resp.body).toEqual(expect.any(Object));
+// expect(resp.body).toEqual(
+// expect.objectContaining({
+// balancePenjualan: expect.any(Number),
+// balanceHpp: expect.any(Number),
+// balanceBeban: expect.any(Number),
+// balanceLabaRugi: expect.any(Number),
+// })
+// );
 
-				done();
-			})
-			.catch((err) => {
-				done(err);
-			});
-	});
-});
+// done();
+// })
+// .catch((err) => {
+// done(err);
+// });
+// });
+// });
 
-describe(" authentication  ", () => {
+describe(" authentication ", () => {
 	test("authentication ", (done) => {
 		let exprectedResponse = {
 			message: "Invalid JWT",
@@ -1440,9 +1485,7 @@ describe("transaction", () => {
 describe("pembayaran", () => {
 	test("berhasil pembayaran piutang", (done) => {
 		getAccount;
-		const expectedResponse = {
-			message: "invalid input",
-		};
+
 		request(app)
 			.get("/pembayaran/1")
 			.set("access_token", access_token)
@@ -1525,26 +1568,8 @@ describe("pembayaran", () => {
 });
 
 describe("Report", () => {
-	test("gagal report laba/rugi ", (done) => {
-		getAccount;
-		jest.spyOn(sequelize, "query").mockRejectedValue("Error");
-		request(app)
-			.get("/reports/labaRugi")
-			.set("access_token", access_token)
-			.expect(401)
-
-			.then((resp) => {
-				expect(resp.body).toEqual(expect.any(Array));
-
-				done();
-			})
-			.catch((err) => {
-				done(err);
-			});
-	});
 	test("berhasil report laba/rugi ", (done) => {
 		getAccount;
-
 		request(app)
 			.get("/reports/labaRugi")
 			.set("access_token", access_token)
@@ -1559,6 +1584,23 @@ describe("Report", () => {
 						penjualan: expect.any(Array),
 					})
 				);
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			});
+	});
+	test("gagal report saldo ", (done) => {
+		getAccount;
+		jest.spyOn(Ledger, "findAll").mockRejectedValue("Error");
+		request(app)
+			.get("/reports/saldo")
+			.set("access_token", access_token)
+			.expect(500)
+
+			.then((resp) => {
+				expect(resp.body).toEqual(expect.any(Object));
+
 				done();
 			})
 			.catch((err) => {
@@ -1587,21 +1629,62 @@ describe("Report", () => {
 				done(err);
 			});
 	});
-	test("gagal report saldo ", (done) => {
-		getAccount;
-		jest.spyOn(Ledger, "findAll").mockRejectedValue("Error");
+
+	test("report laba rugi handle error", (done) => {
+		jest.spyOn(Product, "findAll").mockRejectedValue("Error");
+
 		request(app)
-			.get("/reports/saldo")
+			.get("/reports/labaRugi")
 			.set("access_token", access_token)
 			.expect(500)
-
 			.then((resp) => {
-				expect(resp.body).toEqual(expect.any(Object));
+				expect(resp.body.err).toBe(undefined);
 
 				done();
 			})
 			.catch((err) => {
 				done(err);
+			})
+			.finally(() => {
+				jest.clearAllMocks();
+			});
+	});
+	test(" laba rugi bulanan handle error", (done) => {
+		jest.spyOn(Product, "findAll").mockRejectedValue("Error");
+
+		request(app)
+			.get("/reports/labaRugiBulanan")
+			.set("access_token", access_token)
+			.expect(500)
+			.then((resp) => {
+				expect(resp.body.err).toBe(undefined);
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			})
+			.finally(() => {
+				jest.clearAllMocks();
+			});
+	});
+	test("saldo bulanan handle error", (done) => {
+		jest.spyOn(Ledger, "findAll").mockRejectedValue("Error");
+
+		request(app)
+			.get("/reports/saldo")
+			.set("access_token", access_token)
+			.expect(500)
+			.then((resp) => {
+				expect(resp.body.err).toBe(undefined);
+
+				done();
+			})
+			.catch((err) => {
+				done(err);
+			})
+			.finally(() => {
+				jest.clearAllMocks();
 			});
 	});
 });
