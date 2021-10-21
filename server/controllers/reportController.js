@@ -18,6 +18,10 @@ class ReportController {
 		const startDate = today.getDate();
 
 		try {
+			const result = await Product.findAll({
+				where: { UserId },
+			});
+
 			//Cari saldo penjualan
 			// let sevenDaysAgo = dayjs(new Date()).subtract(7, 'day').format('DD')
 			// console.log(sevenDaysAgo, 'test')
@@ -65,6 +69,10 @@ class ReportController {
 		const currentMonth = today.getMonth() + 1;
 
 		try {
+			const result = await Product.findAll({
+				where: { UserId },
+			});
+
 			console.log(today, currentMonth);
 			const penjualan = await sequelize.query(
 				`SELECT Sum(amount) AS "penjualan", DATE("createdAt") FROM "Ledgers"
