@@ -74,7 +74,7 @@ const Addnewproduct = ({ navigation }) => {
           p="4"
           my={-5}
           style={{
-            marginTop: -65,
+            marginTop: -30,
           }}
         >
           <FormControl>

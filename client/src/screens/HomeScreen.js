@@ -6,8 +6,14 @@ import {
   FinancialStatementBox,
   InformationBox,
 } from "../components";
+import { useDispatch } from "react-redux";
+import {
+  fetchReportsWeeklyAsync,
+  fetchReportsMonthlyAsync,
+} from "../store/actions/statistikAction";
 
 export default function HomeScreen() {
+  const dispatch = useDispatch();
   const [userLogin, setUserLogin] = useState("");
 
   const getData = async () => {
@@ -20,9 +26,19 @@ export default function HomeScreen() {
       console.log(error);
     }
   };
+  async function getToken() {
+    try {
+      const token = await AsyncStorage.getItem("access_token");
+      dispatch(fetchReportsWeeklyAsync(token));
+      dispatch(fetchReportsMonthlyAsync(token));
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   useEffect(() => {
     getData();
+    getToken();
   }, []);
   return (
     <View bg="muted.100" h="100%">
