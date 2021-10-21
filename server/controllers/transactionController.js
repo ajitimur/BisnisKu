@@ -18,7 +18,7 @@ class TransactionController{
           UserId,
           isPaid: false
         },
-        include: [{model: Customer}]
+        include: [{model: Customer}, {model: Product}]
       })
 
       res.status(200).json(result)
@@ -35,7 +35,7 @@ class TransactionController{
           UserId,
           isPaid: true
         },
-        include: [{model: Customer}]
+        include: [{model: Customer},  {model: Product}]
       })
 
       res.status(200).json(result)
