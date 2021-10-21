@@ -1,9 +1,15 @@
 const { verify } = require(`../helpers/jwt`);
 const { User } = require(`../models`);
 const adminAuthentication = async (req, res, next) => {
+	// console.log(
+	// 	"🚀 ~ file: authentication.js ~ line 4 ~ adminAuthentication ~ req",
+	// 	req
+	// );
 	const token = req.headers.access_token;
+
 	try {
 		const payload = verify(token);
+
 		const checkUser = await User.findOne({
 			where: { id: payload.id, username: payload.username },
 		});
