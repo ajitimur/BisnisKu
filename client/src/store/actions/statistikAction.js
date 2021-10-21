@@ -4,15 +4,15 @@ import API from "../../apis/API";
 export function setReportsWeekly(payload) {
   return {
     type: FETCH_REPORTS_WEEKLY,
-    payload: payload
-  }
+    payload: payload,
+  };
 }
 
 export function setReportsMonthly(payload) {
   return {
     type: FETCH_REPORTS_MONTHLY,
-    payload: payload
-  }
+    payload: payload,
+  };
 }
 
 export function fetchReportsWeeklyAsync(token) {
@@ -22,15 +22,15 @@ export function fetchReportsWeeklyAsync(token) {
         method: "GET",
         url: "/reports/labarugi",
         headers: {
-          access_token: token
-        }
-      })
+          access_token: token,
+        },
+      });
 
-      dispatch(setReportsWeekly(financialReports.data))
+      dispatch(setReportsWeekly(financialReports.data));
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 }
 
 export function fetchReportsMonthlyAsync(token) {
@@ -40,13 +40,13 @@ export function fetchReportsMonthlyAsync(token) {
         method: "GET",
         url: "/reports/labarugiBulanan",
         headers: {
-          access_token: token
-        }
-      })
+          access_token: token,
+        },
+      });
 
-      dispatch(setReportsMonthly(financialReports.data))
+      dispatch(setReportsMonthly(financialReports.data));
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 }
